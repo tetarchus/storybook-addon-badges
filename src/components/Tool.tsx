@@ -1,10 +1,13 @@
-import React, { memo, useCallback, useEffect } from "react";
-import { useGlobals, type API } from "storybook/internal/manager-api";
-import { IconButton } from "storybook/internal/components";
-import { ADDON_ID, KEY, TOOL_ID } from "../constants";
-import { LightningIcon } from "@storybook/icons";
+import { memo, useCallback, useEffect } from 'react';
+import { LightningIcon } from '@storybook/icons';
+import { IconButton } from 'storybook/internal/components';
+import { useGlobals } from 'storybook/internal/manager-api';
 
-export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
+import { ADDON_ID, KEY, TOOL_ID } from '../constants';
+
+import type { API } from 'storybook/internal/manager-api';
+
+const AddonBadges = ({ api }: { api: API }) => {
   const [globals, updateGlobals, storyGlobals] = useGlobals();
 
   const isLocked = KEY in storyGlobals;
@@ -18,9 +21,9 @@ export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
 
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
-      label: "Toggle Measure [O]",
-      defaultShortcut: ["O"],
-      actionName: "outline",
+      label: 'Toggle Measure [O]',
+      defaultShortcut: ['O'],
+      actionName: 'outline',
       showInMenu: false,
       action: toggle,
     });
@@ -31,10 +34,14 @@ export const Tool = memo(function MyAddonSelector({ api }: { api: API }) {
       key={TOOL_ID}
       active={isActive}
       disabled={isLocked}
-      title="Enable my addon"
+      title='Enable my addon'
       onClick={toggle}
     >
       <LightningIcon />
     </IconButton>
   );
-});
+};
+
+const Tool = memo(AddonBadges);
+
+export { Tool };
