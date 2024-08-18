@@ -55,6 +55,7 @@
     "@storybook/react": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
+    "@storybook/theming": "0.0.0-pr-26654-sha-49d01553",
     "@types/node": "^18.15.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

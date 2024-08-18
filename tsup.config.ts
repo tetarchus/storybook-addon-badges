@@ -1,15 +1,11 @@
-import { defineConfig, type Options } from "tsup";
-import { readFile } from "node:fs/promises";
-import { globalPackages as globalManagerPackages } from "storybook/internal/manager/globals";
-import { globalPackages as globalPreviewPackages } from "storybook/internal/preview/globals";
+import { defineConfig, type Options } from 'tsup';
+import { readFile } from 'node:fs/promises';
+import { globalPackages as globalManagerPackages } from 'storybook/internal/manager/globals';
+import { globalPackages as globalPreviewPackages } from 'storybook/internal/preview/globals';
 
 // The current browsers supported by Storybook v7
-const BROWSER_TARGET: Options["target"] = [
-  "chrome100",
-  "safari15",
-  "firefox91",
-];
-const NODE_TARGET: Options["target"] = ["node18"];
+const BROWSER_TARGET: Options['target'] = ['chrome100', 'safari15', 'firefox91'];
+const NODE_TARGET: Options['target'] = ['node18'];
 
 type BundlerConfig = {
   bundler?: {
@@ -20,7 +16,7 @@ type BundlerConfig = {
   };
 };
 
-export default defineConfig(async (options) => {
+export default defineConfig(async options => {
   // reading the three types of entries from package.json, which has the following structure:
   // {
   //  ...
@@ -31,9 +27,7 @@ export default defineConfig(async (options) => {
   //     "nodeEntries": ["./src/preset.ts"]
   //   }
   // }
-  const packageJson = (await readFile("./package.json", "utf8").then(
-    JSON.parse,
-  )) as BundlerConfig;
+  const packageJson = (await readFile('./package.json', 'utf8').then(JSON.parse)) as BundlerConfig;
   const {
     bundler: {
       exportEntries = [],
@@ -63,9 +57,9 @@ export default defineConfig(async (options) => {
       dts: {
         resolve: true,
       },
-      format: ["esm", "cjs"],
+      format: ['esm', 'cjs'],
       target: [...BROWSER_TARGET, ...NODE_TARGET],
-      platform: "neutral",
+      platform: 'neutral',
       external: [...globalManagerPackages, ...globalPreviewPackages],
     });
   }
@@ -77,9 +71,9 @@ export default defineConfig(async (options) => {
     configs.push({
       ...commonConfig,
       entry: managerEntries,
-      format: ["esm"],
+      format: ['esm'],
       target: BROWSER_TARGET,
-      platform: "browser",
+      platform: 'browser',
       external: globalManagerPackages,
     });
   }
@@ -94,9 +88,9 @@ export default defineConfig(async (options) => {
       dts: {
         resolve: true,
       },
-      format: ["esm", "cjs"],
+      format: ['esm', 'cjs'],
       target: BROWSER_TARGET,
-      platform: "browser",
+      platform: 'browser',
       external: globalPreviewPackages,
     });
   }
@@ -108,9 +102,9 @@ export default defineConfig(async (options) => {
     configs.push({
       ...commonConfig,
       entry: nodeEntries,
-      format: ["cjs"],
+      format: ['cjs'],
       target: NODE_TARGET,
-      platform: "node",
+      platform: 'node',
     });
   }
 

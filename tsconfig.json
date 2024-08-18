@@ -8,11 +8,16 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["es2020", "dom"],
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "noImplicitAny": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "rootDir": "./src",
     "skipLibCheck": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "verbatimModuleSyntax": true
   },
   "include": ["src/**/*"]
 }
