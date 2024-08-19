@@ -56,7 +56,7 @@
     "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/theming": "0.0.0-pr-26654-sha-49d01553",
-    "@types/node": "18.18.8",
+    "@types/node": "18.19.45",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.2.1",
