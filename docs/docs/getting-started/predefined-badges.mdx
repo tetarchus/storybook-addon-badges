@@ -1,0 +1,32 @@
+---
+sidebar_position: 3
+title: Pre-defined Badges
+---
+
+import { Badge, BADGE } from '../../src/components/Badge';
+
+# Pre-defined Badges
+
+There are a number of pre-defined badges that come with `storybook-addon-badges`.
+
+- default <Badge badge={BADGE.DEFAULT} />
+- beta <Badge badge={BADGE.BETA} />
+- stable <Badge badge={BADGE.STABLE} />
+- needs revision <Badge badge={BADGE.NEEDS_REVISION} />
+- obsolete <Badge badge={BADGE.OBSOLETE} />
+- experimental <Badge badge={BADGE.EXPERIMENTAL} />
+- deprecated <Badge badge={BADGE.DEPRECATED} />
+
+:::tip
+`storybook-addon-badges` exports a `BADGE` utility mapping that contains the names of all pre-defined badges and allows for autocomplete with typescript.
+
+```ts
+import { BADGE } from 'storybook-addon-badges';
+
+const Default: Story = {
+  parameters: {
+    badges: [BADGE.BETA]
+  }
+}
+```
+:::

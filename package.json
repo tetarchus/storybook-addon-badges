@@ -41,7 +41,7 @@
     "release": "npm run build && auto shipit",
     "start": "run-p build:watch \"storybook --quiet\"",
     "storybook": "storybook dev -p 6006",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "dependencies": {
     "@storybook/icons": "^1.2.10"
@@ -74,6 +74,8 @@
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "vite": "^5.4.1",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.0.5",
     "zx": "^7.2.3"
   },
   "peerDependencies": {
@@ -106,6 +108,6 @@
       "preact",
       "react-native"
     ],
-    "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
+    "icon": "https://raw.githubusercontent.com/tetarchus/storybook-addon-badges/main/.github/images/icon.svg"
   }
 }

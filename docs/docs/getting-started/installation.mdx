@@ -1,0 +1,31 @@
+---
+sidebar_position: 1
+title: Installation
+---
+
+# Installation
+
+You can get up and running with **Badges** with a few simple steps:
+
+## Install the addon
+
+```bash npm2yarn
+  npm i -D storybook-addon-badges
+```
+
+## Add to your storybook config
+
+```js title=".storybook/main.ts"
+// Replace [your-framework] with the framework you are using (e.g., react-webpack5, vue3-vite)
+import type { StorybookConfig } from '@storybook/[your-framework]';
+
+const config: StorybookConfig = {
+  // ...rest of config
+  addons: [
+    '@storybook/addon-essentials'
+    'storybook-addon-badges', // 👈 register the addon here
+  ],
+};
+
+export default config;
+```

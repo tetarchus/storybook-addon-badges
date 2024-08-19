@@ -1,0 +1,82 @@
+---
+sidebar_position: 2
+title: Adding Styles
+---
+
+By default, most badges appear mostly grey, however you can use the `styles` configuration to enhance your badges and add a different visual style for each one.
+
+:::warning
+You can override the default style for any of the [pre-defined-badges](../getting-started/predefined-badges.mdx), however this will overwrite the whole definition. If you would like to only overwrite _some_ of the properties, you can import their original config as `defaultBadgesConfig` and use spreading to only overwrite certain properties.
+
+<details>
+  <summary>Example</summary>
+
+  ```ts title=".storybook/preview.ts"
+  import { BADGE, defaultBadgesConfig } from 'storybook-addon-badges';
+
+  import type { Preview } from '@storybook/[your-framework]';
+
+  const preview: Preview = {
+    //...other preview config
+    parameters: {
+      //...other parameters
+      badgesConfig: {
+        [BADGE.BETA]: {
+          ...defaultBadgesConfig[BADGE.BETA],
+          styles: {
+            ...defaultBadgesConfig[BADGE.BETA].styles,
+            backgroundColor: "#00C7AC",
+          }
+        }
+      }
+    }
+  }
+
+  export default preview;
+  ```
+
+</details>
+:::
+
+```ts title=".storybook/preview.ts"
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badgesConfig: {
+      MyCustomBadge: {
+        title: 'My Custom Badge',
+        styles: {
+          backgroundColor: "#00C7AC",
+          borderColor: "red",
+          color: "#FFFFFF"
+        }
+      }
+    }
+  }
+}
+
+export default preview;
+```
+
+## Available Style Properties
+
+Theming is limited to a subset of CSS properties, if there are any you need simply raise a [feature request](https://github.com/tetarchus/storybook-addon-badges/issues).
+
+| Property        | Default Value |
+| --------------- | ------------- |
+| backgroundColor | #EDEFF5       |
+| borderColor     | #474D66       | 
+| borderRadius    | 3px           |
+| borderStyle     | solid         |
+| borderWidth     | 1px           |
+| color           | #474D66       |
+| fontFamily      | inherit       |
+| fontSize        | 0.625rem      |
+| fontWeight      | bold          |
+| lineHeight      | 1             |
+| paddingBlock    | 2px           |
+| paddingInline   | 5px           |
+| textTransform   | uppercase     |
