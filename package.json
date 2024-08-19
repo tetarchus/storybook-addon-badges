@@ -44,10 +44,10 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@storybook/icons": "^1.2.10"
+    "@storybook/icons": "1.2.10"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.11.2",
+    "@remix-run/dev": "2.11.2",
     "@storybook/addon-essentials": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/addon-interactions": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/addon-links": "0.0.0-pr-26654-sha-49d01553",
@@ -56,27 +56,27 @@
     "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
     "@storybook/theming": "0.0.0-pr-26654-sha-49d01553",
-    "@types/node": "^18.15.0",
+    "@types/node": "18.18.8",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "auto": "^11.1.1",
-    "boxen": "^7.1.1",
-    "dedent": "^1.5.1",
+    "@vitejs/plugin-react": "4.2.1",
+    "auto": "11.1.1",
+    "boxen": "7.1.1",
+    "dedent": "1.5.3",
     "npm-run-all2": "5.0.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-packagejson": "^2.5.1",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "prompts": "^2.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "prettier": "3.3.3",
+    "prettier-plugin-packagejson": "2.5.1",
+    "prettier-plugin-tailwindcss": "0.6.6",
+    "prompts": "2.4.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "storybook": "0.0.0-pr-26654-sha-49d01553",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.1",
-    "vite-tsconfig-paths": "^5.0.1",
-    "vitest": "^2.0.5",
-    "zx": "^7.2.3"
+    "tsup": "8.2.4",
+    "typescript": "5.5.4",
+    "vite": "5.4.1",
+    "vite-tsconfig-paths": "5.0.1",
+    "vitest": "2.0.5",
+    "zx": "7.2.3"
   },
   "peerDependencies": {
     "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553"
