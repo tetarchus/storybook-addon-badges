@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tetarchus/storybook-addon-badges"
+    "url": "git+https://github.com/tetarchus/storybook-addon-badges.git"
   },
   "license": "MIT",
   "author": "tetarchus <contact@tetbot.app>",
@@ -83,7 +83,6 @@
     "zx": "8.1.4"
   },
   "peerDependencies": {
-    "@storybook/theming": "^8.0.0",
     "storybook": "^8.0.0"
   },
   "publishConfig": {

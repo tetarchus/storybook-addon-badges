@@ -1,11 +1,12 @@
 {
   "baseBranch": "main",
+  "prereleaseBranches": [],
   "plugins": [
     "released",
     [
       "npm",
       {
-        "canaryScope": "@auto-canary",
+        "commitNextVersion": false,
         "exact": true
       }
     ],
@@ -39,6 +40,10 @@
     {
       "name": "skip-ci",
       "releaseType": "skip"
+    },
+    {
+      "name": "documentation",
+      "releaseType": "none"
     }
   ]
 }
