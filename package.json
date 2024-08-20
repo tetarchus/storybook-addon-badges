@@ -41,7 +41,8 @@
     "release": "npm run build && auto shipit",
     "start": "run-p build:watch \"storybook --quiet\"",
     "storybook": "storybook dev -p 6006",
-    "test": "vitest"
+    "test": "vitest",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@storybook/icons": "1.2.10"
