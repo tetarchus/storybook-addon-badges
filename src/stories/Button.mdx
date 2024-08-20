@@ -1,0 +1,12 @@
+import {Canvas, Meta} from '@storybook/blocks';
+import * as ButtonStories from "./Button.stories";
+import {BADGE} from "../constants";
+
+
+<Meta of={ButtonStories} parameters={{badges: [BADGE.BETA]}}/>
+
+# Button
+
+This is an example of a button story
+
+<Canvas of={ButtonStories.Primary}/>

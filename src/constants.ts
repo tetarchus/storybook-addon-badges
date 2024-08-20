@@ -1,9 +1,9 @@
 const ADDON_ID = 'storybook-addon-badges';
 const TOOL_ID = ADDON_ID;
-const ADDON_TITLE = 'Badges';
+const ADDON_TITLE = 'Storybook Addon Badges';
 
-const CONFIG_KEY = 'badgesConfig';
-const BADGES_KEY = 'badges';
+const PARAM_CONFIG_KEY = 'badgesConfig';
+const PARAM_BADGES_KEY = 'badges';
 
 const BADGE = {
   DEFAULT: 'default',
@@ -15,4 +15,4 @@ const BADGE = {
   DEPRECATED: 'deprecated',
 };
 
-export { ADDON_ID, ADDON_TITLE, BADGE, BADGES_KEY, CONFIG_KEY, TOOL_ID };
+export { ADDON_ID, ADDON_TITLE, BADGE, PARAM_BADGES_KEY, PARAM_CONFIG_KEY, TOOL_ID };

@@ -10,6 +10,7 @@
     "lib": ["es2020", "dom"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "noEmit": true,
     "noImplicitAny": true,
     "paths": {
       "@/*": ["./src/*"]

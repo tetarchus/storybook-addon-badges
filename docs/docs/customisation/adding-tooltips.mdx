@@ -1,0 +1,69 @@
+---
+sidebar_position: 3
+title: Adding Tooltips
+---
+
+You can provide more information about a badges' meaning, or anything else you wish to display on hover as a tooltip. To add a tooltip, simply add it to the `badgesConfig` for the badge under the `tooltip` key.
+
+## Simple Tooltips
+
+For basic use cases, you can simple add a string containing the value of the tooltip on hover:
+
+```ts title=".storybook/preview.ts"
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badgesConfig: {
+      MyCustomBadge: {
+        title: 'My Custom Badge',
+        tooltip: "This is a custom tooltip."
+      }
+    }
+  }
+}
+
+export default preview;
+```
+
+## Advanced Tooltips
+
+`storybook-addon-badges` tooltips use Storybook's built-in tooltips under the hood which allow for greater customisation of the content.
+
+Instead of a string, you can pass in an object containing some or all of the following properties:
+
+- `title` - Displays as a heading to the tooltip. Accepts `ReactNode` which can be a plain string, a React component, or an array of both.
+- `desc` -  Displays as the main content of the tooltip. Accepts `ReactNode` which can be a plain string, a React component, or an array of both.
+- `links` - An array of clickable links. This is an array of objects with the following properties:
+  - `title` - The text to display
+  - `href` - The URL to link to on click
+  - `onClick` - A function that is called when the link is clicked.
+
+
+```ts title=".storybook/preview.ts"
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badgesConfig: {
+      MyCustomBadge: {
+        title: 'My Custom Badge',
+        tooltip: {
+          title: "This tooltip has a title and links!",
+          desc: "You can customise the content of the tooltip, and even pass in a custom React component",
+          links: [
+            { title: 'Read more', href: 'http://path/to/your/docs' },
+            { title: 'Leave feedback', onClick: () => alert('thanks for the feedback') },
+          ]
+        }
+      }
+    }
+  }
+}
+
+export default preview;
+```

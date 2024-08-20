@@ -1,6 +1,9 @@
 import type { ComponentProps, CSSProperties } from 'react';
 import type { TooltipMessage } from 'storybook/internal/components';
 
+type TooltipMessageProps = Omit<ComponentProps<typeof TooltipMessage>, 'children'>;
+type TooltipConfig = TooltipMessageProps | string;
+
 type BadgeStyles = {
   backgroundColor?: CSSProperties['backgroundColor'];
   borderColor?: CSSProperties['borderColor'];
@@ -23,11 +26,20 @@ type BadgeConfig = {
   tooltip?: TooltipConfig;
 };
 
-type BadgesConfig = {
-  autobadges?: () => string[];
-  badges: Record<string, BadgeConfig>;
+type BadgesMap = Record<string, BadgeConfig>;
+type NewBadgesConfig = {
+  // autobadges?: () => string[];
+  badges: BadgesMap;
 };
 
-type TooltipConfig = Omit<ComponentProps<typeof TooltipMessage>, 'children'> | string;
+type BadgesConfig = BadgesMap | NewBadgesConfig;
 
-export type { BadgeConfig, BadgesConfig, BadgeStyles, TooltipConfig };
+export type {
+  BadgeConfig,
+  BadgesMap,
+  BadgesConfig,
+  BadgeStyles,
+  NewBadgesConfig,
+  TooltipConfig,
+  TooltipMessageProps,
+};

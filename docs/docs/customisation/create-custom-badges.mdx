@@ -1,0 +1,70 @@
+---
+sidebar_position: 1
+title: Create Custom Badges
+---
+
+# Create Custom Badges
+
+While any string that you pass in to the `badges` parameter will be turned into a badge, this will use the default badge style and therefore if adding many custom badges these will all look the same.
+
+To add custom badges, you can use the `badgesConfig` parameter to define text to display. Simply pass in the key which you will use to identify the badge to the `badgesConfig` key of `parameters`. You will also need to provide a `title` which is the text that will be displayed in the custom badge.
+
+You can also add custom [`styles`](./adding-styles.mdx) and a custom [`tooltip`](./adding-tooltips.mdx) for each badge for full customisation.
+
+```ts title=".storybook/preview.ts"
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badgesConfig: {
+      MyCustomBadge: {
+        title: 'My Custom Badge',
+      }
+    }
+  }
+}
+
+export default preview;
+```
+
+:::tip Using Typescript?
+You can get type completion using the `BadgesConfig` type:
+
+```ts title=".storybook/preview.ts"
+import type { Preview } from '@storybook/[your-framework]';
+import type { BadgesConfig } from 'storybook-addon-badges';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badgesConfig: {
+      MyCustomBadge: {
+        title: 'My Custom Badge',
+      }
+    } satisfies BadgesConfig;
+  }
+}
+
+export default preview;
+```
+:::
+
+## Using the `BADGE` map
+
+`storybook-addon-badges` provides a `BADGE` export that allows using a pre-defined map of the badge names to ensure only defined badges are used, and provide completion with typescript.
+
+To allow extending the default `BADGE`, as well as usage within `js` files this is just a simple object mapping a key to a string.
+
+To provide your own map, you can either create your own object, or extend the existing one to make use of the pre-defined badges.
+
+```ts
+import { BADGE } from 'storybook-addon-badges';
+
+const BADGES = {
+  ...BADGE,
+  MY_CUSTOM_BADGE: 'MyCustomBadge'
+}
+```

@@ -1,0 +1,44 @@
+{
+  "baseBranch": "main",
+  "plugins": [
+    "released",
+    [
+      "npm",
+      {
+        "canaryScope": "@auto-canary",
+        "exact": true
+      }
+    ],
+    [
+      "all-contributors",
+      {
+        "exclude": [
+          "dependabot",
+          "renovate"
+        ],
+        "types": {
+          "code": [
+            "**/docs/**/*",
+            "**/src/**/*",
+            "**/package.json",
+            "**/tsconfig.json"
+          ],
+          "plugin": "**/plugin/**/*"
+        }
+      }
+    ],
+    [
+      "conventional-commits",
+      {
+        "preset": "angular"
+      }
+    ],
+    "first-time-contributor"
+  ],
+  "labels": [
+    {
+      "name": "skip-ci",
+      "releaseType": "skip"
+    }
+  ]
+}

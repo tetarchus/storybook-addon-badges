@@ -1,0 +1,87 @@
+---
+sidebar_position: 2
+title: Add Badges
+---
+
+# Add Badges
+
+Adding badges is done using the [`parameters`](https://storybook.js.org/docs/api/parameters) feature of Storybook.
+
+You can add badges to all stories globally, to a component's stories, or to an individual story.
+{/* TODO: Uncomment once functionality is added. */}
+{/* You can add badges to all stories globally, to a component's stories, to an individual story, or a mix of all 3. */}
+
+The `badges` parameter accepts an array of strings relating to badge names. The may be any of the [pre-defined badges](./predefined-badges.mdx), [custom badges](../customisation/create-custom-badges.mdx), or any string which will inherit the [default styles](../customisation/adding-styles.mdx#available-style-properties) if not defined.
+
+
+{/* TODO: Remove once functionality is added */}
+:::danger
+`storybook-addon-badges` can currently only read from a single set of parameters, As such, when you set badges on an individual story level, it'll override any other badges defined.
+:::
+
+## Adding Badges Globally
+
+To add badges to all stories that don't have their own badges applied, add the `badges` parameter to your `preview` file (this may be called `preview.js`, `preview.jsx`, `preview.ts` or `preview.tsx`).
+
+```ts title=".storybook/preview.ts"
+// Replace `[your-framework]` with the name of your framework
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badges: ['beta']
+  }
+}
+
+export default preview;
+```
+
+:::tip
+You can pass an empty array into the parameters for individual stories to prevent global badges from showing.
+:::
+
+## Adding Badges to a Component
+
+To add badges to all of a component's stories, add the `badges` paramter to the `meta` default export of a story file:
+
+```ts title="MyComponent.stories.ts"
+// Replace your-framework with the name of your framework
+import type { Meta } from '@storybook/your-framework';
+ 
+import { MyComponent } from './MyComponent';
+ 
+const meta = {
+  title: 'Path/To/MyComponent',
+  component: MyComponent,
+  parameters: { 
+    badges: ['beta'],
+    //...other parameters
+  },
+} satisfies Meta<typeof MyComponent>;
+
+type Story = StoryObj<typeof meta>;
+ 
+export default meta;
+```
+
+
+## Adding Badges to an individual story
+
+To add badges just for an individual story, add the `badges` parameter to that story's `parameters`:
+
+```ts title="MyComponent.stories.ts"
+//...meta from above snippet
+
+const Default: Story = {
+  args: {
+    //...component props
+  },
+  parameters: {
+    badges: ['beta']
+  }
+}
+
+export { Default };
+```

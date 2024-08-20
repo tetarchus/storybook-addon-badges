@@ -1,23 +1,26 @@
-name: Release
+name: Release Storybook Addon
 
 on: [push]
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
+    if:
+      '!contains(github.event.head_commit.message, "ci skip") &&
+      !contains(github.event.head_commit.message, "skip ci")'
+      # TODO: Check labels?
     steps:
       - uses: actions/checkout@v4
 
       - name: Prepare repository
         run: git fetch --unshallow --tags
 
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          cache: npm
+          node-version-file: .nvmrc
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install --ignore-scripts
 
       - name: Create Release

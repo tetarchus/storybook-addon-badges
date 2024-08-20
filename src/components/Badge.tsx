@@ -2,11 +2,12 @@ import { styled } from '@storybook/theming';
 import { useStorybookApi } from 'storybook/internal/manager-api';
 
 import { defaultBadgeConfig, defaultBadgesConfig, defaultBadgeStyle } from '@/config';
-import { CONFIG_KEY } from '@/constants';
+import { PARAM_CONFIG_KEY } from '@/constants';
+import { isNewBadgesConfig } from '@/utils';
 
 import { BadgeTooltipWrapper } from './BadgeTooltipWrapper';
 
-import type { BadgeConfig, BadgesConfig } from '@/types';
+import type { BadgeConfig, BadgesConfig, NewBadgesConfig } from '@/types';
 import type { FC } from 'react';
 
 type StyledBadgeProps = {
@@ -36,11 +37,13 @@ const StyledBadge = styled.div<StyledBadgeProps>(({ config: { styles } }) => ({
 
 const Badge: FC<BadgeProps> = ({ badge }: BadgeProps) => {
   const api = useStorybookApi();
-  const customBadgesConfig = api.getCurrentParameter<BadgesConfig>(CONFIG_KEY) || {};
+  const customBadgesConfig = api.getCurrentParameter<BadgesConfig>(PARAM_CONFIG_KEY) || {};
 
-  const badgesConfig: BadgesConfig = {
-    ...defaultBadgesConfig,
-    ...customBadgesConfig,
+  const badgesConfig: NewBadgesConfig = {
+    badges: {
+      ...defaultBadgesConfig,
+      ...(isNewBadgesConfig(customBadgesConfig) ? customBadgesConfig.badges : customBadgesConfig),
+    },
   };
 
   const config = badgesConfig.badges[badge] ?? defaultBadgeConfig;

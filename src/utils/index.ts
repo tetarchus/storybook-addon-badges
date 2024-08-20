@@ -1,0 +1,1 @@
+export { isNewBadgesConfig } from './isNewBadgesConfig';

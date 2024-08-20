@@ -41,43 +41,50 @@
     "release": "npm run build && auto shipit",
     "start": "run-p build:watch \"storybook --quiet\"",
     "storybook": "storybook dev -p 6006",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "tsc": "tsc"
   },
   "dependencies": {
-    "@storybook/icons": "^1.2.10"
+    "@storybook/icons": "1.2.10"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.11.2",
-    "@storybook/addon-essentials": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-interactions": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-links": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/blocks": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/theming": "0.0.0-pr-26654-sha-49d01553",
-    "@types/node": "^18.15.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "auto": "^11.1.1",
-    "boxen": "^7.1.1",
-    "dedent": "^1.5.1",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.3.3",
-    "prettier-plugin-packagejson": "^2.5.1",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "prompts": "^2.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "storybook": "0.0.0-pr-26654-sha-49d01553",
-    "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.1",
-    "zx": "^7.2.3"
+    "@auto-it/all-contributors": "11.2.0",
+    "@auto-it/conventional-commits": "11.2.0",
+    "@auto-it/first-time-contributor": "11.2.0",
+    "@remix-run/dev": "2.11.2",
+    "@storybook/addon-essentials": "8.2.9",
+    "@storybook/addon-interactions": "8.2.9",
+    "@storybook/addon-links": "8.2.9",
+    "@storybook/blocks": "8.2.9",
+    "@storybook/react": "8.2.9",
+    "@storybook/react-vite": "8.2.9",
+    "@storybook/test": "8.2.9",
+    "@storybook/theming": "8.2.9",
+    "@types/node": "20.16.1",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "4.3.1",
+    "auto": "11.2.0",
+    "boxen": "8.0.1",
+    "dedent": "1.5.3",
+    "npm-run-all2": "6.2.2",
+    "prettier": "3.3.3",
+    "prettier-plugin-packagejson": "2.5.1",
+    "prettier-plugin-tailwindcss": "0.6.6",
+    "prompts": "2.4.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "storybook": "8.2.9",
+    "tsup": "8.2.4",
+    "typescript": "5.5.4",
+    "vite": "5.4.1",
+    "vite-tsconfig-paths": "5.0.1",
+    "vitest": "2.0.5",
+    "zx": "8.1.4"
   },
   "peerDependencies": {
-    "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553"
+    "@storybook/theming": "^8.0.0",
+    "storybook": "^8.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -89,9 +96,6 @@
     "managerEntries": [
       "src/manager.tsx"
     ]
-  },
-  "overrides": {
-    "storybook": "0.0.0-pr-26654-sha-49d01553"
   },
   "storybook": {
     "displayName": "Badges",
@@ -106,6 +110,6 @@
       "preact",
       "react-native"
     ],
-    "icon": "https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png"
+    "icon": "https://raw.githubusercontent.com/tetarchus/storybook-addon-badges/main/.github/images/icon.svg"
   }
 }
