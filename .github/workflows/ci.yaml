@@ -7,7 +7,7 @@ on:
 
 jobs:
   test-deploy:
-    name: Test Deployment
+    name: Test Deployments
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
         run: npm run test
 
       - name: Build Addon
-        run: npm build
+        run: npm run build
 
       - name: Build Docs
-        run: npm build -w docs
+        run: npm run build -w docs
