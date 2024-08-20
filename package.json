@@ -48,14 +48,14 @@
   },
   "devDependencies": {
     "@remix-run/dev": "2.11.2",
-    "@storybook/addon-essentials": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-interactions": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-links": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/blocks": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/theming": "0.0.0-pr-26654-sha-49d01553",
+    "@storybook/addon-essentials": "8.2.9",
+    "@storybook/addon-interactions": "8.2.9",
+    "@storybook/addon-links": "8.2.9",
+    "@storybook/blocks": "8.2.9",
+    "@storybook/react": "8.2.9",
+    "@storybook/react-vite": "8.2.9",
+    "@storybook/test": "8.2.9",
+    "@storybook/theming": "8.2.9",
     "@types/node": "20.16.1",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
@@ -70,7 +70,7 @@
     "prompts": "2.4.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "storybook": "0.0.0-pr-26654-sha-49d01553",
+    "storybook": "8.2.9",
     "tsup": "8.2.4",
     "typescript": "5.5.4",
     "vite": "5.4.1",
@@ -79,7 +79,7 @@
     "zx": "8.1.4"
   },
   "peerDependencies": {
-    "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553"
+    "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553 || 8.2"
   },
   "publishConfig": {
     "access": "public"
@@ -93,7 +93,7 @@
     ]
   },
   "overrides": {
-    "storybook": "0.0.0-pr-26654-sha-49d01553"
+    "storybook": "8.2.9"
   },
   "storybook": {
     "displayName": "Badges",
