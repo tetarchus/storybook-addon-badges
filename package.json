@@ -83,7 +83,6 @@
     "zx": "8.1.4"
   },
   "peerDependencies": {
-    "@storybook/theming": "^8.0.0",
     "storybook": "^8.0.0"
   },
   "publishConfig": {
