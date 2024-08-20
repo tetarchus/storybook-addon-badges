@@ -10,7 +10,6 @@ type BadgeProps = {
 
 const Badge: FC<BadgeProps> = ({ badge }: BadgeProps) => {
   const badgeConfig: BadgeConfig = defaultBadgesConfig.badges[badge];
-  console.log(badgeConfig);
 
   return (
     <div
