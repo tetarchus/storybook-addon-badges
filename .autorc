@@ -13,6 +13,7 @@
       "all-contributors",
       {
         "exclude": [
+          "dependabot",
           "renovate"
         ],
         "types": {
