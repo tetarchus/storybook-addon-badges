@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-badges",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "description": "Add badges to your stories",
   "keywords": [
     "storybook-addons",
