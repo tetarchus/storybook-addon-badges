@@ -61,11 +61,11 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: '/docs/getting-started',
+              to: '/getting-started',
             },
             {
               label: 'Customising Badges',
-              to: '/docs/customisation',
+              to: '/customisation',
             },
           ],
         },
