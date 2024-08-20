@@ -1,6 +1,8 @@
 name: Release Storybook Addon
 
-on: [push]
+on:
+  push:
+    branches: main
 
 jobs:
   release:
