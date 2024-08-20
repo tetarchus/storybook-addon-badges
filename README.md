@@ -4,6 +4,16 @@
 
 [![npm version](https://badge.fury.io/js/tetarchus%2Fstorybook-addon-badges.svg)](https://www.npmjs.com/package/tetarchus/storybook-addon-badges)
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+> [!TIP]
+>
+> For more detailed documentation please see the
+> [Docs](https://tetarchus.github.io/storybook-addon-badges).
 
 ## Installation
 
@@ -32,6 +42,76 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-## Configuration
+You can add badges globally, to a single component, or to an individual story. Simply add an array
+of strings containing the badge text as a parameter to the preview file (for global badges):
 
-`storybook-addon-badges` comes with several pre-configured badge styles that can either be extended from or overwritten.
+```ts
+// .storybook/preview.ts
+// Replace `[your-framework]` with the name of your framework
+import type { Preview } from '@storybook/[your-framework]';
+
+const preview: Preview = {
+  //...other preview config
+  parameters: {
+    //...other parameters
+    badges: ['beta'],
+  },
+};
+
+export default preview;
+```
+
+Or at the component/story level:
+
+```ts
+// MyComponent.stories.ts
+// Replace your-framework with the name of your framework
+import type { Meta } from '@storybook/your-framework';
+
+import { MyComponent } from './MyComponent';
+
+const meta = {
+  title: 'Path/To/MyComponent',
+  component: MyComponent,
+  parameters: {
+    badges: ['beta'], // <= Add component badges here
+    //...other parameters
+  },
+} satisfies Meta<typeof MyComponent>;
+
+type Story = StoryObj<typeof meta>;
+
+const Default: Story = {
+  args: {
+    //...component props
+  },
+  parameters: {
+    badges: ['beta'], // <= Add story badges here
+  },
+};
+
+export default meta;
+export { Default };
+```
+
+> [!WARNING]
+>
+> Badges can currently only be read from a single set of `parameters`, so story badges overwrite
+> global and component level badges, and component badges overwrite global badges.
+
+For information about adding custom badge styles, tooltips and more, please see the
+[full documentation](https://tetarchus.github.io/storybook-addon-badges)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors)
+specification. Contributions of any kind welcome!

@@ -47,6 +47,9 @@
     "@storybook/icons": "1.2.10"
   },
   "devDependencies": {
+    "@auto-it/all-contributors": "11.2.0",
+    "@auto-it/conventional-commits": "11.2.0",
+    "@auto-it/first-time-contributor": "11.2.0",
     "@remix-run/dev": "2.11.2",
     "@storybook/addon-essentials": "8.2.9",
     "@storybook/addon-interactions": "8.2.9",
@@ -79,7 +82,8 @@
     "zx": "8.1.4"
   },
   "peerDependencies": {
-    "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553 || 8.2"
+    "@storybook/theming": "^8.0.0",
+    "storybook": "^8.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -91,9 +95,6 @@
     "managerEntries": [
       "src/manager.tsx"
     ]
-  },
-  "overrides": {
-    "storybook": "8.2.9"
   },
   "storybook": {
     "displayName": "Badges",
