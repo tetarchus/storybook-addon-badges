@@ -80,6 +80,10 @@ const config: Config = {
               label: 'Github',
               href: 'https://github.com/tetarchus/storybook-addon-badges',
             },
+            {
+              label: 'Storybook Addons',
+              href: 'https://storybook.js.org/addons/storybook-addon-badges',
+            },
           ],
         },
       ],

@@ -2,7 +2,7 @@
 
 > Add badges to your stories
 
-[![npm version](https://badge.fury.io/js/tetarchus%2Fstorybook-addon-badges.svg)](https://www.npmjs.com/package/tetarchus/storybook-addon-badges)
+[![npm version](https://badge.fury.io/js/storybook-addon-badges.svg)](https://www.npmjs.com/package/storybook-addon-badges)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
