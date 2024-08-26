@@ -16,7 +16,9 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/8436118?v=4",
       "profile": "https://github.com/tetarchus",
       "contributions": [
-        "infra"
+        "infra",
+        "code",
+        "doc"
       ]
     }
   ],
