@@ -41,12 +41,13 @@ const Badge: FC<BadgeProps> = ({ badge }: BadgeProps) => {
 
   const badgesConfig: NewBadgesConfig = {
     badges: {
-      ...defaultBadgesConfig,
+      ...defaultBadgesConfig.badges,
       ...(isNewBadgesConfig(customBadgesConfig) ? customBadgesConfig.badges : customBadgesConfig),
     },
   };
 
   const config = badgesConfig.badges[badge] ?? defaultBadgeConfig;
+  console.log('badge', badge, config, badgesConfig);
 
   const Component = () => <StyledBadge config={config}>{config.title}</StyledBadge>;
 
