@@ -50,7 +50,7 @@
   "devDependencies": {
     "@auto-it/all-contributors": "11.2.0",
     "@auto-it/conventional-commits": "11.2.0",
-    "@auto-it/first-time-contributor": "11.2.0",
+    "@auto-it/first-time-contributor": "11.2.1",
     "@remix-run/dev": "2.11.2",
     "@storybook/addon-essentials": "8.2.9",
     "@storybook/addon-interactions": "8.2.9",
