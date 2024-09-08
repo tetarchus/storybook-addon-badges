@@ -39,7 +39,7 @@
     "build:watch": "npm run build -- --watch",
     "prerelease": "zx scripts/prepublish-checks.js",
     "release": "npm run build && auto shipit",
-    "start": "run-p build:watch \"storybook --quiet\"",
+    "start": "run-p build:watch \"storybook --quiet --no-open\"",
     "storybook": "storybook dev -p 6006",
     "test": "vitest",
     "tsc": "tsc"
@@ -48,9 +48,9 @@
     "@storybook/icons": "1.2.10"
   },
   "devDependencies": {
-    "@auto-it/all-contributors": "11.2.0",
-    "@auto-it/conventional-commits": "11.2.0",
-    "@auto-it/first-time-contributor": "11.2.0",
+    "@auto-it/all-contributors": "11.2.1",
+    "@auto-it/conventional-commits": "11.2.1",
+    "@auto-it/first-time-contributor": "11.2.1",
     "@remix-run/dev": "2.11.2",
     "@storybook/addon-essentials": "8.2.9",
     "@storybook/addon-interactions": "8.2.9",
@@ -60,11 +60,11 @@
     "@storybook/react-vite": "8.2.9",
     "@storybook/test": "8.2.9",
     "@storybook/theming": "8.2.9",
-    "@types/node": "20.16.1",
-    "@types/react": "18.3.4",
+    "@types/node": "20.16.5",
+    "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.3.1",
-    "auto": "11.2.0",
+    "auto": "11.2.1",
     "boxen": "8.0.1",
     "dedent": "1.5.3",
     "npm-run-all2": "6.2.2",
@@ -77,10 +77,10 @@
     "storybook": "8.2.9",
     "tsup": "8.2.4",
     "typescript": "5.5.4",
-    "vite": "5.4.2",
+    "vite": "5.4.3",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.0.5",
-    "zx": "8.1.4"
+    "zx": "8.1.5"
   },
   "peerDependencies": {
     "storybook": "^8.0.0"

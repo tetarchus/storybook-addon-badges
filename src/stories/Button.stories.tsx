@@ -1,20 +1,25 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from "./Button";
-import {BADGE} from "../constants";
+import { Button } from './Button';
+import { BADGE } from '../constants';
 
-const meta: Meta<typeof Button> = {
-  title: "Example/Button",
+const meta = {
+  title: 'Example/Button',
   component: Button,
   parameters: {
-    badges: [BADGE.BETA]
+    badges: [BADGE.BETA],
   },
-};
+  tags: ['autodocs'],
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const AllBadges: Story = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
   parameters: {
     badges: [
       BADGE.DEFAULT,
@@ -24,37 +29,28 @@ export const AllBadges: Story = {
       BADGE.OBSOLETE,
       BADGE.EXPERIMENTAL,
       BADGE.DEPRECATED,
-    ]
+    ],
   },
+};
+
+export const JustCustom: Story = {
   args: {
     primary: true,
-    label: "Button",
+    label: 'Button',
   },
+  parameters: { badges: ['MyCustomBadge'] },
 };
 
-export const Primary: Story = {
+export const Deprecated: Story = {
   args: {
-    primary: true,
-    label: "Button",
+    label: 'Button',
   },
+  parameters: { badges: [BADGE.DEPRECATED] },
 };
 
-export const Secondary: Story = {
+export const Fallback: Story = {
   args: {
-    label: "Button",
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: "large",
-    label: "Button",
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: "small",
-    label: "Button",
+    size: 'large',
+    label: 'Button',
   },
 };
