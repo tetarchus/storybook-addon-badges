@@ -79,7 +79,7 @@
     "vite": "5.4.8",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.1.1",
-    "zx": "8.1.6"
+    "zx": "8.1.8"
   },
   "peerDependencies": {
     "storybook": "^8.0.0"
