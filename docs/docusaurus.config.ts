@@ -1,4 +1,5 @@
 import { themes as prismThemes } from 'prism-react-renderer';
+import npm2yarn from '@docusaurus/remark-plugin-npm2yarn';
 
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
@@ -27,7 +28,7 @@ const config: Config = {
       {
         blog: false,
         docs: {
-          remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
+          remarkPlugins: [[npm2yarn, { sync: true }]],
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
         },
