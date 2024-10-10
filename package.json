@@ -37,12 +37,14 @@
     "build": "tsup",
     "build-storybook": "storybook build",
     "build:watch": "npm run build -- --watch",
+    "lint": "eslint --flag unstable_ts_config .",
     "prerelease": "zx scripts/prepublish-checks.js",
     "release": "npm run build && auto shipit",
-    "start": "run-p build:watch \"storybook --quiet --no-open\"",
+    "start": "run-p build:watch \"storybook -- --quiet --no-open\"",
     "storybook": "storybook dev -p 6006",
     "test": "vitest",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "validate": "run-p tsc lint"
   },
   "dependencies": {
     "@storybook/icons": "1.2.12"
@@ -51,6 +53,7 @@
     "@auto-it/all-contributors": "11.2.1",
     "@auto-it/conventional-commits": "11.2.1",
     "@auto-it/first-time-contributor": "11.2.1",
+    "@eslint/js": "9.12.0",
     "@storybook/addon-essentials": "8.3.5",
     "@storybook/addon-interactions": "8.3.5",
     "@storybook/addon-links": "8.3.5",
@@ -59,6 +62,8 @@
     "@storybook/react-vite": "8.3.5",
     "@storybook/test": "8.3.5",
     "@storybook/theming": "8.3.5",
+    "@storybook/types": "8.3.5",
+    "@types/eslint__js": "8.42.3",
     "@types/node": "20.16.11",
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.0",
@@ -66,6 +71,10 @@
     "auto": "11.2.1",
     "boxen": "8.0.1",
     "dedent": "1.5.3",
+    "eslint": "9.12.0",
+    "eslint-plugin-react": "7.37.1",
+    "eslint-plugin-react-hooks": "5.1.0-rc-d5bba18b-20241009",
+    "globals": "15.11.0",
     "npm-run-all2": "6.2.3",
     "prettier": "3.3.3",
     "prettier-plugin-packagejson": "2.5.3",
@@ -75,7 +84,9 @@
     "react-dom": "18.3.1",
     "storybook": "8.3.5",
     "tsup": "8.3.0",
+    "type-fest": "4.26.1",
     "typescript": "5.6.3",
+    "typescript-eslint": "8.8.1",
     "vite": "5.4.8",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.1.2",
@@ -92,8 +103,11 @@
       "src/index.ts"
     ],
     "managerEntries": [
-      "src/manager.tsx"
+      "src/manager.ts"
     ]
+  },
+  "overrides": {
+    "eslint": "$eslint"
   },
   "storybook": {
     "displayName": "Badges",

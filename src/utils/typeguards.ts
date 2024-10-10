@@ -1,21 +1,22 @@
-import type { BadgeConfig, BadgesConfig, NewBadgesConfig, TooltipConfig } from '@/types';
+import { defaultBadgeStyle } from '@/config';
 
-const styleKeys = [
-  'backgroundColor',
-  'borderColor',
-  'borderRadius',
-  'borderStyle',
-  'borderWidth',
-  'color',
-  'fontFamily',
-  'fontSize',
-  'fontWeight',
-  'lineHeight',
-  'paddingBlock',
-  'paddingInline',
-  'textTransform',
-];
+import type {
+  BadgeConfig,
+  BadgesConfig,
+  BadgeStyle,
+  NewBadgesConfig,
+  TooltipConfig,
+} from '@/types';
+import type { RequiredDeep } from 'type-fest';
 
+const styleKeys = Object.keys(defaultBadgeStyle);
+
+/**
+ * Typeguard to check whether an item is a {@link TooltipConfig}.
+ * @param config The expected tooltip configuration.
+ * @returns A boolean indicating whether the passed argument is a
+ * {@link TooltipConfig}
+ */
 const isTooltipDefinition = (config: unknown): config is TooltipConfig => {
   if (typeof config === 'string') return true;
   if (typeof config === 'object' && config != null) {
@@ -29,7 +30,13 @@ const isTooltipDefinition = (config: unknown): config is TooltipConfig => {
   return false;
 };
 
-const isValidStyles = (obj: unknown): boolean => {
+/**
+ * Typeguard to check if an object contains badge styles.
+ * @param obj The object to check.
+ * @returns A boolean indicating whether the given `config` contains badge
+ * styles.
+ */
+const isValidStyles = (obj: unknown): obj is RequiredDeep<BadgeStyle> => {
   if (typeof obj === 'object' && obj != null) {
     if (Object.keys(obj).length > 0) return true;
 
@@ -46,6 +53,12 @@ const isValidStyles = (obj: unknown): boolean => {
   return false;
 };
 
+/**
+ * Typeguard to check whether an object contains a badge configuration.
+ * @param config The object to check.
+ * @returns A boolean indicating whether the given `config` contains a badge
+ * configuration.
+ */
 const isBadgeConfig = (config: unknown): config is BadgeConfig => {
   if (typeof config !== 'object' || config == null) {
     return false;
@@ -58,6 +71,11 @@ const isBadgeConfig = (config: unknown): config is BadgeConfig => {
   return !hasKeys || hasValidStyles || hasValidTitle || hasValidTooltip;
 };
 
+/**
+ * Typeguard to check whether a configuration uses the new style config.
+ * @param config The configuration object.
+ * @returns A boolean indicating whether the configuration is in the new style.
+ */
 const isNewBadgesConfig = (config: BadgesConfig): config is NewBadgesConfig =>
   config.badges != null && !isBadgeConfig(config.badges);
 

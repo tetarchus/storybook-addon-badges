@@ -9,7 +9,7 @@ const meta = {
   parameters: {
     badges: [BADGE.BETA],
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'custom-tag'],
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -38,7 +38,7 @@ export const JustCustom: Story = {
     primary: true,
     label: 'Button',
   },
-  parameters: { badges: ['MyCustomBadge'] },
+  parameters: { badges: ['MyCustomBadge', 'Token'] },
 };
 
 export const Deprecated: Story = {

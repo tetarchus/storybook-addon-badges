@@ -1,1 +1,3 @@
-export { Tool } from './Tool';
+export { Toolbar } from './Toolbar';
+export { ToolbarExtra } from './ToolbarExtra';
+export { sidebar } from './Sidebar';

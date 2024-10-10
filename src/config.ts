@@ -1,8 +1,9 @@
-import { BADGE } from '@/constants';
+import { BADGE, BADGE_LOCATION } from '@/constants';
 
-import type { BadgeConfig, BadgesConfig, BadgeStyles } from '@/types';
+import type { BadgeConfig, BadgeStyle, NewBadgesConfig } from '@/types';
 
-const defaultBadgeStyle: Required<BadgeStyles> = {
+/** The default base style for badges. */
+const defaultBadgeStyle: Required<BadgeStyle> = {
   backgroundColor: '#EDEFF5',
   borderColor: '#474D66',
   borderRadius: '3px',
@@ -18,6 +19,19 @@ const defaultBadgeStyle: Required<BadgeStyles> = {
   textTransform: 'uppercase',
 };
 
+/** Base style for badges similar to github labels. */
+const githubBadgeStyle: Required<BadgeStyle> = {
+  ...defaultBadgeStyle,
+  borderRadius: '10px',
+  fontSize: '0.75rem',
+  paddingInline: '8px',
+  textTransform: 'lowercase',
+};
+
+/**
+ * The default addon configuration containing fallback values for missing keys
+ * in a user-defined config.
+ */
 const defaultBadgesConfig = {
   badges: {
     [BADGE.DEFAULT]: {
@@ -72,8 +86,13 @@ const defaultBadgesConfig = {
       },
     },
   },
-} satisfies BadgesConfig;
+  baseStyle: 'default',
+  excludeTags: ['autodocs', 'dev', 'test'],
+  locations: [BADGE_LOCATION.TOOLBAR],
+  useTags: false,
+} satisfies Required<NewBadgesConfig>;
 
-const defaultBadgeConfig: BadgeConfig = defaultBadgesConfig.badges[BADGE.DEFAULT];
+/** The default config to use for badges without a config. */
+const defaultBadgeConfig = defaultBadgesConfig.badges[BADGE.DEFAULT] satisfies BadgeConfig;
 
-export { defaultBadgeConfig, defaultBadgesConfig, defaultBadgeStyle };
+export { defaultBadgeConfig, defaultBadgesConfig, defaultBadgeStyle, githubBadgeStyle };
