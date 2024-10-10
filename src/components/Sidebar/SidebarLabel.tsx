@@ -1,8 +1,8 @@
 import { useStorybookApi } from '@storybook/manager-api';
 import { memo } from 'react';
 
-import { PARAM_BADGES_KEY } from '@/constants';
-import { useBadgesConfig } from '@/hooks';
+import { PARAM_BADGES_KEY, PARAM_CONFIG_KEY } from '@/constants';
+import { getBadgesConfig } from '@/utils';
 
 import { Badges } from '../Badges';
 
@@ -16,16 +16,15 @@ import type { FC } from 'react';
  */
 const AddonSidebarLabel: FC<SidebarProps> = ({ item }) => {
   const api = useStorybookApi();
-  // TODO: This doesn't get the parameters for the story if it's not active...
-  // Look into a better method
-  const params = api.getParameters(item.id);
-  const badgesConfig = useBadgesConfig();
+  const params = api?.getParameters(item.id);
+  const data = api?.getData(item.id);
 
-  if (!params || !params[PARAM_BADGES_KEY]) {
+  const badgesConfig = getBadgesConfig(params?.[PARAM_CONFIG_KEY]);
+  const storyBadges = [...(params?.[PARAM_BADGES_KEY] ?? []), ...(data?.tags ?? [])];
+
+  if (!params || !params[PARAM_BADGES_KEY] || !params[PARAM_CONFIG_KEY]) {
     return item.name;
   }
-
-  const storyBadges: Array<string> = params[PARAM_BADGES_KEY];
 
   const badges = storyBadges
     .map(badge => badgesConfig.getBadgeConfig(badge))

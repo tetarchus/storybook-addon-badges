@@ -76,7 +76,7 @@ const isBadgeConfig = (config: unknown): config is BadgeConfig => {
  * @param config The configuration object.
  * @returns A boolean indicating whether the configuration is in the new style.
  */
-const isNewBadgesConfig = (config: BadgesConfig): config is NewBadgesConfig =>
-  config.badges != null && !isBadgeConfig(config.badges);
+const isNewBadgesConfig = (config?: BadgesConfig): config is NewBadgesConfig =>
+  config?.badges != null && !isBadgeConfig(config.badges);
 
 export { isNewBadgesConfig };

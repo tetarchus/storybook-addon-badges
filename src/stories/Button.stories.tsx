@@ -21,6 +21,12 @@ export const AllBadges: Story = {
     label: 'Button',
   },
   parameters: {
+    badgesConfig: {
+      badges: {
+        new: { title: 'new', style: { backgroundColor: '#FF0000' } },
+      },
+      baseStyle: 'default',
+    },
     badges: [
       BADGE.DEFAULT,
       BADGE.BETA,
@@ -29,6 +35,7 @@ export const AllBadges: Story = {
       BADGE.OBSOLETE,
       BADGE.EXPERIMENTAL,
       BADGE.DEPRECATED,
+      'new',
     ],
   },
 };

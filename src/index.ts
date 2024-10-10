@@ -12,7 +12,9 @@ export {
 
 export type {
   BadgeConfig,
+  BadgeLocation,
   BadgesMap as BadgesConfig,
+  NewBadgesConfig,
   TooltipConfig,
   TooltipMessageProps,
 } from '@/types';

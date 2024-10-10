@@ -1,11 +1,9 @@
-import { useMemo } from 'react';
 import { useStorybookApi } from 'storybook/internal/manager-api';
 
 import { DOCS_URL, PARAM_CONFIG_KEY } from '@/constants';
-import { defaultBadgesConfig } from '@/config';
-import { getBadgeConfig, getBaseStyle, isNewBadgesConfig } from '@/utils';
+import { getBadgesConfig, isNewBadgesConfig } from '@/utils';
 
-import type { BadgesConfig, FullBadgeConfig, FullConfig, NewBadgesConfig } from '@/types';
+import type { BadgesConfig, FullBadgeConfig, FullConfig } from '@/types';
 
 /** Whether a warning has been displayed to the user. */
 let hasWarned = false;
@@ -19,10 +17,8 @@ const useBadgesConfig = (): FullConfig & {
   getBadgeConfig: (badge: string) => FullBadgeConfig;
 } => {
   const api = useStorybookApi();
-  const customBadgesConfig = useMemo(
-    () => api.getCurrentParameter<BadgesConfig>(PARAM_CONFIG_KEY) ?? {},
-    [api],
-  );
+  const customBadgesConfig = api.getCurrentParameter<BadgesConfig>(PARAM_CONFIG_KEY) ?? {};
+  const badgesConfig = getBadgesConfig(customBadgesConfig);
 
   if (
     !isNewBadgesConfig(customBadgesConfig) &&
@@ -35,35 +31,7 @@ const useBadgesConfig = (): FullConfig & {
     hasWarned = true;
   }
 
-  const customConfig: Partial<NewBadgesConfig> = useMemo(() => {
-    return isNewBadgesConfig(customBadgesConfig)
-      ? customBadgesConfig
-      : { badges: customBadgesConfig };
-  }, [customBadgesConfig]);
-
-  const badgesConfig: FullConfig = useMemo(
-    () => ({
-      badges: { ...defaultBadgesConfig.badges, ...customConfig.badges },
-      baseStyle: getBaseStyle(customConfig.baseStyle ?? defaultBadgesConfig.baseStyle),
-      excludeTags: customConfig.excludeTags ?? defaultBadgesConfig.excludeTags,
-      locations: [
-        ...new Set([...defaultBadgesConfig.locations, ...(customConfig.locations ?? [])]),
-      ],
-      useTags: customConfig.useTags ?? defaultBadgesConfig.useTags,
-    }),
-    [
-      customConfig.badges,
-      customConfig.baseStyle,
-      customConfig.excludeTags,
-      customConfig.locations,
-      customConfig.useTags,
-    ],
-  );
-
-  return {
-    ...badgesConfig,
-    getBadgeConfig: (badge: string) => getBadgeConfig(badge, badgesConfig),
-  };
+  return badgesConfig;
 };
 
 export { useBadgesConfig };

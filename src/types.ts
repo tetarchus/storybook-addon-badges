@@ -1,11 +1,4 @@
 import type { BADGE_LOCATION } from '@/constants';
-import type {
-  API_ComponentEntry,
-  API_DocsEntry,
-  API_GroupEntry,
-  API_RootEntry,
-  API_StoryEntry,
-} from '@storybook/types';
 import type { ComponentProps, CSSProperties } from 'react';
 import type { TooltipMessage } from 'storybook/internal/components';
 import type { RequiredDeep } from 'type-fest';
@@ -18,13 +11,6 @@ type BadgeStyleBase = 'default' | 'github';
 type TooltipMessageProps = Omit<ComponentProps<typeof TooltipMessage>, 'children'>;
 /** Badge tooltip configuration for a badge. */
 type TooltipConfig = TooltipMessageProps | string;
-/** A sidebar story entry that can be of any valid kind. */
-type StoryEntry =
-  | API_ComponentEntry
-  | API_DocsEntry
-  | API_GroupEntry
-  | API_RootEntry
-  | API_StoryEntry;
 
 /** Style options for a badge. */
 type BadgeStyle = {
@@ -76,9 +62,13 @@ type NewBadgesConfig = {
 
 /** Addon configuration using just a badge map, or the new-style configuration object. */
 type BadgesConfig = BadgesMap | NewBadgesConfig;
+
 /** Merged configuration containing all required values. */
 type FullConfig = Required<Omit<NewBadgesConfig, 'baseStyle'>> & {
+  /** Full style object to use as a base. */
   baseStyle: RequiredDeep<BadgeStyle>;
+  /** Helper function to extract the badge config for a specific badge. */
+  getBadgeConfig: (badge: string) => FullBadgeConfig;
 };
 
 export type {
@@ -90,7 +80,6 @@ export type {
   FullConfig,
   FullBadgeConfig,
   NewBadgesConfig,
-  StoryEntry,
   TooltipConfig,
   TooltipMessageProps,
 };

@@ -8,7 +8,10 @@ import type { FullBadgeConfig, FullConfig } from '@/types';
  * @param badgesConfig The addon configuration.
  * @returns The full configuration for the given badge ID.
  */
-const getBadgeConfig = (badge: string, badgesConfig: FullConfig): FullBadgeConfig => {
+const getBadgeConfig = (
+  badge: string,
+  badgesConfig: Omit<FullConfig, 'getBadgeConfig'>,
+): FullBadgeConfig => {
   const badgeConfig = badgesConfig.badges[badge];
   const baseConfig = badgeConfig ?? defaultBadgeConfig;
 
