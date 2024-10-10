@@ -40,7 +40,7 @@
     "lint": "eslint --flag unstable_ts_config .",
     "prerelease": "zx scripts/prepublish-checks.js",
     "release": "npm run build && auto shipit",
-    "start": "run-p build:watch \"storybook -- --quiet --no-open\"",
+    "start": "run-p build:watch \"storybook -- --no-open\"",
     "storybook": "storybook dev -p 6006",
     "test": "vitest",
     "tsc": "tsc",
