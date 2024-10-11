@@ -3,7 +3,7 @@ import { useStorybookApi } from 'storybook/internal/manager-api';
 import { DOCS_URL, PARAM_CONFIG_KEY } from '@/constants';
 import { getBadgesConfig, isNewBadgesConfig } from '@/utils';
 
-import type { BadgesConfig, FullBadgeConfig, FullConfig } from '@/types';
+import type { BadgesConfig, FullConfig } from '@/types';
 
 /** Whether a warning has been displayed to the user. */
 let hasWarned = false;
@@ -13,9 +13,7 @@ let hasWarned = false;
  * @returns An object containing the full addon configuration, and a function
  * for fetching a single badge's config.
  */
-const useBadgesConfig = (): FullConfig & {
-  getBadgeConfig: (badge: string) => FullBadgeConfig;
-} => {
+const useBadgesConfig = (): FullConfig => {
   const api = useStorybookApi();
   const customBadgesConfig = api.getCurrentParameter<BadgesConfig>(PARAM_CONFIG_KEY) ?? {};
   const badgesConfig = getBadgesConfig(customBadgesConfig);
