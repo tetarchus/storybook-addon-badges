@@ -41,10 +41,12 @@
     "prerelease": "zx scripts/prepublish-checks.js",
     "release": "npm run build && auto shipit",
     "start": "run-p build:watch \"storybook -- --no-open\"",
+    "start:all": "run-p start start:docs",
+    "start:docs": "npm run start -w docs",
     "storybook": "storybook dev -p 6006",
     "test": "vitest",
     "tsc": "tsc",
-    "validate": "run-p tsc lint"
+    "validate": "run-p tsc lint \"test -- --no-watch\""
   },
   "dependencies": {
     "@storybook/icons": "1.2.12"
