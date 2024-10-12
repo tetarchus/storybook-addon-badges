@@ -6,23 +6,23 @@ import type { BadgesMap, NewBadgesConfig } from '@/types';
 
 const oldConfig: BadgesMap = {
   title: { title: 'Test Badge' },
-  badges: { title: 'Test Badge' },
+  badgeMap: { title: 'Test Badge' },
 };
 
 const oldConfig2: BadgesMap = {
   title: { title: 'Test Badge' },
-  badges: { tooltip: 'Tooltip Test' },
+  badgeMap: { tooltip: 'Tooltip Test' },
 };
 
 const oldConfig3: BadgesMap = {
   title: { title: 'Test Badge' },
-  badges: { tooltip: { desc: 'Tooltip' } },
+  badgeMap: { tooltip: { desc: 'Tooltip' } },
 };
 
-const newConfig: NewBadgesConfig = {
-  badges: {
+const newConfig: Partial<NewBadgesConfig> = {
+  badgeMap: {
     // title: { title: 'Test Badge' },
-    badges: { tooltip: { desc: 'Tooltip' } },
+    badgeMap: { tooltip: { desc: 'Tooltip' } },
   },
 };
 

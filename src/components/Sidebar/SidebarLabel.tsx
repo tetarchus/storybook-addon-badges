@@ -2,7 +2,7 @@ import { useStorybookApi } from '@storybook/manager-api';
 import { memo } from 'react';
 
 import { BADGE_LOCATION, PARAM_BADGES_KEY, PARAM_CONFIG_KEY } from '@/constants';
-import { getBadgesConfig } from '@/utils';
+import { generateStoryBadges, getBadgesConfig } from '@/utils';
 
 import { Badges } from '../Badges';
 
@@ -22,7 +22,10 @@ const AddonSidebarLabel: FC<SidebarProps> = ({ item }) => {
   const data = api?.getData(item.id);
 
   const badgesConfig = getBadgesConfig(params?.[PARAM_CONFIG_KEY]);
-  const storyBadges = [...(params?.[PARAM_BADGES_KEY] ?? []), ...(data?.tags ?? [])];
+  const storyBadges = generateStoryBadges([
+    ...(params?.[PARAM_BADGES_KEY] ?? []),
+    ...(data?.tags ?? []),
+  ]);
 
   if (!params || !params[PARAM_BADGES_KEY] || !params[PARAM_CONFIG_KEY]) {
     return item.name;

@@ -1,4 +1,4 @@
-export { defaultBadgesConfig, defaultBadgeConfig } from '@/config';
+export { defaultBadgeConfig, defaultBadgesConfig } from '@/config';
 export {
   ADDON_ID,
   ADDON_TITLE,
@@ -8,13 +8,13 @@ export {
   PARAM_CONFIG_KEY,
   TOOL_ID,
   TOOL_EXTRA_ID,
-} from './constants';
+} from '@/constants';
 
 export type {
   BadgeConfig,
   BadgeLocation,
-  BadgesMap as BadgesConfig,
-  NewBadgesConfig,
+  BadgesMap,
+  NewBadgesConfig as BadgesConfig,
   TooltipConfig,
   TooltipMessageProps,
 } from '@/types';

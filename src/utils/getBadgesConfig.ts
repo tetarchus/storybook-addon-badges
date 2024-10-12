@@ -15,10 +15,10 @@ import type { BadgesConfig, FullConfig, NewBadgesConfig } from '@/types';
 const getBadgesConfig = (customBadgesConfig?: BadgesConfig): FullConfig => {
   const customConfig: Partial<NewBadgesConfig> = isNewBadgesConfig(customBadgesConfig)
     ? customBadgesConfig
-    : { badges: customBadgesConfig ?? {} };
+    : { badgeMap: customBadgesConfig ?? {} };
 
-  const badgesConfig = {
-    badges: { ...defaultBadgesConfig.badges, ...customConfig?.badges },
+  const badgesConfig: Omit<FullConfig, 'getBadgeConfig'> = {
+    badgeMap: { ...defaultBadgesConfig.badgeMap, ...customConfig?.badgeMap },
     baseStyle: getBaseStyle(customConfig?.baseStyle ?? defaultBadgesConfig.baseStyle),
     excludeTags: customConfig?.excludeTags ?? defaultBadgesConfig.excludeTags,
     locations: [...new Set([...defaultBadgesConfig.locations, ...(customConfig?.locations ?? [])])],

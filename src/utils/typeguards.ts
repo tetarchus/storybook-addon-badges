@@ -76,7 +76,16 @@ const isBadgeConfig = (config: unknown): config is BadgeConfig => {
  * @param config The configuration object.
  * @returns A boolean indicating whether the configuration is in the new style.
  */
-const isNewBadgesConfig = (config?: BadgesConfig): config is NewBadgesConfig =>
-  config?.badges != null && !isBadgeConfig(config.badges);
+const isNewBadgesConfig = (config?: BadgesConfig): config is Partial<NewBadgesConfig> => {
+  if (!config || (config?.badgeMap != null && !isBadgeConfig(config.badgeMap))) {
+    return true;
+  }
+  for (const configValue of Object.values(config)) {
+    if (isBadgeConfig(configValue)) {
+      return false;
+    }
+  }
+  return true;
+};
 
 export { isNewBadgesConfig };

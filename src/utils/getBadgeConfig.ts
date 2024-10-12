@@ -12,7 +12,7 @@ const getBadgeConfig = (
   badge: string,
   badgesConfig: Omit<FullConfig, 'getBadgeConfig'>,
 ): FullBadgeConfig => {
-  const badgeConfig = badgesConfig.badges[badge];
+  const badgeConfig = badgesConfig.badgeMap[badge];
   const baseConfig = badgeConfig ?? defaultBadgeConfig;
 
   return {

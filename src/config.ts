@@ -33,7 +33,7 @@ const githubBadgeStyle: Required<BadgeStyle> = {
  * in a user-defined config.
  */
 const defaultBadgesConfig = {
-  badges: {
+  badgeMap: {
     [BADGE.DEFAULT]: {
       title: 'Badge',
     },
@@ -87,12 +87,12 @@ const defaultBadgesConfig = {
     },
   },
   baseStyle: 'default',
-  excludeTags: ['autodocs', 'dev', 'test'],
+  excludeTags: ['autodocs', 'dev', 'test', 'unattached-mdx'],
   locations: [BADGE_LOCATION.TOOLBAR],
   useTags: false,
 } satisfies Required<NewBadgesConfig>;
 
 /** The default config to use for badges without a config. */
-const defaultBadgeConfig = defaultBadgesConfig.badges[BADGE.DEFAULT] satisfies BadgeConfig;
+const defaultBadgeConfig = defaultBadgesConfig.badgeMap[BADGE.DEFAULT] satisfies BadgeConfig;
 
 export { defaultBadgeConfig, defaultBadgesConfig, defaultBadgeStyle, githubBadgeStyle };

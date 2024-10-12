@@ -22,7 +22,7 @@ const AllBadges: Story = {
   },
   parameters: {
     badgesConfig: {
-      badges: {
+      badgeMap: {
         new: { title: 'new', styles: { backgroundColor: '#FF0000' } },
       },
       baseStyle: 'default',

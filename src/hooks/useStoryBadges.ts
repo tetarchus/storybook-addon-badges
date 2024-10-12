@@ -1,7 +1,7 @@
 import { useStorybookApi } from 'storybook/internal/manager-api';
 
 import { PARAM_BADGES_KEY } from '@/constants';
-import { getStoryTags } from '@/utils';
+import { generateStoryBadges, getStoryTags } from '@/utils';
 
 import type { FullConfig } from '@/types';
 import type { API_LeafEntry } from '@storybook/types';
@@ -18,7 +18,7 @@ const useStoryBadges = (config: FullConfig, item?: API_LeafEntry): string[] => {
   const storyBadges = api.getCurrentParameter<string[]>(PARAM_BADGES_KEY) || [];
   const storyTags = getStoryTags(currentStory, config);
 
-  return [...new Set([...storyBadges, ...storyTags])];
+  return generateStoryBadges([...storyBadges, ...storyTags]);
 };
 
 export { useStoryBadges };

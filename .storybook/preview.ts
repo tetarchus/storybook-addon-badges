@@ -3,7 +3,7 @@ import type { Preview } from '@storybook/react';
 const preview: Preview = {
   parameters: {
     badgesConfig: {
-      badges: {
+      badgeMap: {
         MyCustomBadge: {
           title: 'My Custom Badge',
           styles: {

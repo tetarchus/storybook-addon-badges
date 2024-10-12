@@ -49,7 +49,7 @@ type BadgesMap = Record<string, BadgeConfig>;
 /** Addon configuration object. */
 type NewBadgesConfig = {
   /** The defined badge styles. */
-  badges: BadgesMap;
+  badgeMap: BadgesMap;
   /** The default style to use when no value is given in `badges`. */
   baseStyle: BadgeStyleBase | (BadgeStyle & { base: BadgeStyleBase });
   /** The names of tags to exclude when generating badges from tags. */
@@ -61,7 +61,7 @@ type NewBadgesConfig = {
 };
 
 /** Addon configuration using just a badge map, or the new-style configuration object. */
-type BadgesConfig = BadgesMap | NewBadgesConfig;
+type BadgesConfig = BadgesMap | Partial<NewBadgesConfig>;
 
 /** Merged configuration containing all required values. */
 type FullConfig = Required<Omit<NewBadgesConfig, 'baseStyle'>> & {
@@ -77,6 +77,7 @@ export type {
   BadgesMap,
   BadgesConfig,
   BadgeStyle,
+  BadgeStyleBase,
   FullConfig,
   FullBadgeConfig,
   NewBadgesConfig,

@@ -1,3 +1,4 @@
+export { generateStoryBadges } from './generateStoryBadges';
 export { getBadgeConfig } from './getBadgeConfig';
 export { getBadgesConfig } from './getBadgesConfig';
 export { getBaseStyle } from './getBaseStyle';
