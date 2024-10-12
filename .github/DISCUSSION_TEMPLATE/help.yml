@@ -1,0 +1,37 @@
+body:
+  - type: markdown
+    id: intro
+    attributes:
+      value: |
+        Thanks for taking the time to start a new discussion!
+
+        ### Before you post
+        Check if someone has already asked/answered your question in a previous discussion.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: How can we help?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: |
+        Share Your addon configuration, addon version, and any error messages. These help us get a clearer understanding of what might be going wrong.
+
+        P.S. Please [share code as text](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks) rather than as a screenshot! It makes debugging much easier and faster.
+    validations:
+      required: false
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Create a reproduction
+      description: |
+        If you have a public repo that has the issue, adding the link could help add context for the request.
+    validations:
+      required: false
