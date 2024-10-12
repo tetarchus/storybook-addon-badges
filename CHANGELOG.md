@@ -1,3 +1,47 @@
+# v2.0.0 (Sat Oct 12 2024)
+
+#### 💥 Breaking Change
+
+- Merge changes for V2 [#72](https://github.com/tetarchus/storybook-addon-badges/pull/72) ([@renovate[bot]](https://github.com/renovate[bot]) [@tetarchus](https://github.com/tetarchus))
+
+#### 🔩 Dependency Updates
+
+- deps: Update dependency eslint-plugin-react-hooks to v5.1.0-rc-fb9a90fa48-20240614 [#73](https://github.com/tetarchus/storybook-addon-badges/pull/73) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update react monorepo [#71](https://github.com/tetarchus/storybook-addon-badges/pull/71) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency zx to v8.1.9 [#67](https://github.com/tetarchus/storybook-addon-badges/pull/67) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @types/node to v20.16.11 [#68](https://github.com/tetarchus/storybook-addon-badges/pull/68) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency prettier-plugin-packagejson to v2.5.3 - autoclosed [#69](https://github.com/tetarchus/storybook-addon-badges/pull/69) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency typescript to v5.6.3 [#70](https://github.com/tetarchus/storybook-addon-badges/pull/70) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update storybook monorepo to v8.3.5 [#66](https://github.com/tetarchus/storybook-addon-badges/pull/66) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency node to v20.18.0 [#65](https://github.com/tetarchus/storybook-addon-badges/pull/65) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @types/react to v18.3.11 [#63](https://github.com/tetarchus/storybook-addon-badges/pull/63) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency vitest to v2.1.2 [#64](https://github.com/tetarchus/storybook-addon-badges/pull/64) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @types/node to v20.16.10 [#58](https://github.com/tetarchus/storybook-addon-badges/pull/58) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @vitejs/plugin-react to v4.3.2 [#62](https://github.com/tetarchus/storybook-addon-badges/pull/62) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency prettier-plugin-tailwindcss to v0.6.8 [#59](https://github.com/tetarchus/storybook-addon-badges/pull/59) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @types/react to v18.3.10 [#57](https://github.com/tetarchus/storybook-addon-badges/pull/57) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update storybook monorepo to v8.3.4 [#56](https://github.com/tetarchus/storybook-addon-badges/pull/56) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @storybook/icons to v1.2.12 [#55](https://github.com/tetarchus/storybook-addon-badges/pull/55) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency zx to v8.1.8 [#53](https://github.com/tetarchus/storybook-addon-badges/pull/53) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency tsup to v8.3.0 [#52](https://github.com/tetarchus/storybook-addon-badges/pull/52) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency vite to v5.4.8 [#61](https://github.com/tetarchus/storybook-addon-badges/pull/61) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update storybook monorepo to v8.3.1 [#51](https://github.com/tetarchus/storybook-addon-badges/pull/51) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency vite to v5.4.6 [#50](https://github.com/tetarchus/storybook-addon-badges/pull/50) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency @types/react to v18.3.7 [#49](https://github.com/tetarchus/storybook-addon-badges/pull/49) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency vitest to v2.1.1 [#47](https://github.com/tetarchus/storybook-addon-badges/pull/47) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency vite to v5.4.5 [#44](https://github.com/tetarchus/storybook-addon-badges/pull/44) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update storybook monorepo to v8.3.0 [#46](https://github.com/tetarchus/storybook-addon-badges/pull/46) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency zx to v8.1.6 [#45](https://github.com/tetarchus/storybook-addon-badges/pull/45) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency typescript to v5.6.2 [#43](https://github.com/tetarchus/storybook-addon-badges/pull/43) ([@renovate[bot]](https://github.com/renovate[bot]))
+- deps: Update dependency npm-run-all2 to v6.2.3 [#48](https://github.com/tetarchus/storybook-addon-badges/pull/48) ([@renovate[bot]](https://github.com/renovate[bot]))
+
+#### Authors: 2
+
+- [@renovate[bot]](https://github.com/renovate[bot])
+- [@tetarchus](https://github.com/tetarchus)
+
+---
+
 # v1.0.3 (Sun Sep 08 2024)
 
 #### 🐛 Bug Fix
