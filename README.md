@@ -5,7 +5,9 @@
 [![npm version](https://badge.fury.io/js/storybook-addon-badges.svg)](https://www.npmjs.com/package/storybook-addon-badges)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 > [!TIP]
@@ -120,3 +122,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors)
 specification. Contributions of any kind welcome!
+
+## Roadmap
+
+These are some future enhancements that I'd like to include:
+
+- Sidebar badges show even when not selected (Blocked by a potential bug in Storybook)
+- Ability to search for stories based on badge name (Also blocked by the same above bug)
+
+If there's a feature that you'd like to see, please raise a
+[feature request](https://github.com/tetarchus/storybook-addon-badges/issues/new)

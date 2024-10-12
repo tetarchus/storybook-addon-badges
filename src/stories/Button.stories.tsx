@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import { BADGE } from '@/constants';
 
 import { Button } from './Button';
-import { BADGE } from '../constants';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Example/Button',
@@ -9,18 +10,23 @@ const meta = {
   parameters: {
     badges: [BADGE.BETA],
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'custom-tag'],
 } satisfies Meta<typeof Button>;
 
-export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const AllBadges: Story = {
+const AllBadges: Story = {
   args: {
     primary: true,
     label: 'Button',
   },
   parameters: {
+    badgesConfig: {
+      badgeMap: {
+        new: { title: 'new', styles: { backgroundColor: '#FF0000' } },
+      },
+      baseStyle: 'default',
+    },
     badges: [
       BADGE.DEFAULT,
       BADGE.BETA,
@@ -29,28 +35,34 @@ export const AllBadges: Story = {
       BADGE.OBSOLETE,
       BADGE.EXPERIMENTAL,
       BADGE.DEPRECATED,
+      'new',
     ],
   },
 };
 
-export const JustCustom: Story = {
+const JustCustom: Story = {
   args: {
     primary: true,
     label: 'Button',
   },
-  parameters: { badges: ['MyCustomBadge'] },
+  parameters: { badges: ['MyCustomBadge', 'Token'] },
+  tags: ['extra-custom-tag'],
 };
 
-export const Deprecated: Story = {
+const Deprecated: Story = {
   args: {
     label: 'Button',
   },
   parameters: { badges: [BADGE.DEPRECATED] },
+  tags: ['deprecated-tag'],
 };
 
-export const Fallback: Story = {
+const Fallback: Story = {
   args: {
     size: 'large',
     label: 'Button',
   },
 };
+
+export default meta;
+export { AllBadges, Deprecated, Fallback, JustCustom };
