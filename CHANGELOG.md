@@ -1,3 +1,16 @@
+# v2.0.1 (Sat Oct 12 2024)
+
+#### 🐛 Bug Fix
+
+- Patch security advisories and add issue templates [#75](https://github.com/tetarchus/storybook-addon-badges/pull/75) ([@dependabot[bot]](https://github.com/dependabot[bot]) [@tetarchus](https://github.com/tetarchus))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- [@tetarchus](https://github.com/tetarchus)
+
+---
+
 # v2.0.0 (Sat Oct 12 2024)
 
 #### 💥 Breaking Change
