@@ -2,8 +2,13 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["../src/*"]
-    }
+    },
+    "strict": true,
+    "target": "ES2020",
+    "verbatimModuleSyntax": true
   }
 }

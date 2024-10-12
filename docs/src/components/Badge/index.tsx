@@ -1,6 +1,6 @@
 import { getBadgeConfig, getBadgesConfig } from '@/utils';
 
-import { BadgeProps } from './prop.types';
+import type { BadgeProps } from './prop.types';
 import type { FC } from 'react';
 
 /** Displays an example badge in the documentation. */

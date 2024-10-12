@@ -1,4 +1,4 @@
-import { BadgeStyleBase } from '@/types';
+import type { BadgeStyleBase } from '@/types';
 
 /** Props for the docs Badge component. */
 type BadgeProps = {
