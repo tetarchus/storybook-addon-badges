@@ -1,56 +1,42 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: Create Custom Badges
 ---
 
-# Create Custom Badges
+Any string that is passed to the `badges` parameter will display as a badge, and will use the [`baseStyle`](./adding-styles.mdx). To prevent all badges looking the same, you can define your own custom badges, each with their own look.
 
-While any string that you pass in to the `badges` parameter will be turned into a badge, this will use the default badge style and therefore if adding many custom badges these will all look the same.
+To add a custom badge, it needs to be defined under the `badgesConfig.badgeMap` parameter. This parameter expects an object with a key of the badge ID, and a configuration object with the following keys:
 
-To add custom badges, you can use the `badgesConfig` parameter to define text to display. Simply pass in the key which you will use to identify the badge to the `badgesConfig` key of `parameters`. You will also need to provide a `title` which is the text that will be displayed in the custom badge.
+| Key        | Type              | Description                                                                            |
+| ---------- | ----------------- | -------------------------------------------------------------------------------------- | 
+| `location` | `BadgeLocation[]` | An array of badge [locations](./badge-locations.mdx) that the badge should appear.     |
+| `styles`   | `BadgeStyle`      | An object containing the [style](./adding-styles.mdx) for the badge.                   |
+| `title`    | `string`          | The text to display on the badge.                                                      |
+| `tooltip`  | `TooltipConfig`   | Configuration for a [tooltip](./adding-tooltips.mdx) to display on hover of the badge. |
 
-You can also add custom [`styles`](./adding-styles.mdx) and a custom [`tooltip`](./adding-tooltips.mdx) for each badge for full customisation.
+:::tip
+Be aware that while `badgesConfig` can be defined at global, component, or story level, the badges defined under `badgesMap` will only apply to the `badges` defined 'below' that level. It is recommended to define the `badgesConfig` parameter at the global level for all badges to ensure consistency.
+:::
 
-```ts title=".storybook/preview.ts"
-import type { Preview } from '@storybook/[your-framework]';
+## Example Config
 
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badgesConfig: {
+To define a badge, simply add it under the `badgesConfig.badgeMap` key of your [parameters](https://storybook.js.org/docs/writing-stories/parameters). For the badge below, you can then display it in any story by passing `'MyCustomBadge'` to the `badges` parameter.
+
+```ts
+parameters: {
+  //...other parameters
+  badgesConfig: {
+    badgeMap: {
       MyCustomBadge: {
         title: 'My Custom Badge',
+        styles: {
+          backgroundColor: "#FFCC00",
+        }
       }
     }
   }
 }
-
-export default preview;
 ```
-
-:::tip Using Typescript?
-You can get type completion using the `BadgesConfig` type:
-
-```ts title=".storybook/preview.ts"
-import type { Preview } from '@storybook/[your-framework]';
-import type { BadgesConfig } from 'storybook-addon-badges';
-
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badgesConfig: {
-      MyCustomBadge: {
-        title: 'My Custom Badge',
-      }
-    } satisfies BadgesConfig;
-  }
-}
-
-export default preview;
-```
-:::
 
 ## Using the `BADGE` map
 

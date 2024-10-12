@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 5
 title: Adding Tooltips
 ---
 
@@ -17,9 +17,11 @@ const preview: Preview = {
   parameters: {
     //...other parameters
     badgesConfig: {
-      MyCustomBadge: {
-        title: 'My Custom Badge',
-        tooltip: "This is a custom tooltip."
+      badgeMap: {
+        MyCustomBadge: {
+          title: 'My Custom Badge',
+          tooltip: "This is a custom tooltip."
+        }
       }
     }
   }
@@ -50,15 +52,17 @@ const preview: Preview = {
   parameters: {
     //...other parameters
     badgesConfig: {
-      MyCustomBadge: {
-        title: 'My Custom Badge',
-        tooltip: {
-          title: "This tooltip has a title and links!",
-          desc: "You can customise the content of the tooltip, and even pass in a custom React component",
-          links: [
-            { title: 'Read more', href: 'http://path/to/your/docs' },
-            { title: 'Leave feedback', onClick: () => alert('thanks for the feedback') },
-          ]
+      badgeMap: {
+        MyCustomBadge: {
+          title: 'My Custom Badge',
+          tooltip: {
+            title: "This tooltip has a title and links!",
+            desc: "You can customise the content of the tooltip, and even pass in a custom React component",
+            links: [
+              { title: 'Read more', href: 'http://path/to/your/docs' },
+              { title: 'Leave feedback', onClick: () => alert('thanks for the feedback') },
+            ]
+          }
         }
       }
     }

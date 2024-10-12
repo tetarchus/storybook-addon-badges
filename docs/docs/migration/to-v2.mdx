@@ -1,26 +1,20 @@
 ---
 sidebar_position: 1
-title: V1 to V2
+title: Migrate to V2
 ---
 
 Version 2 came with some additional configuration options which necessitated new configuration options.
 
 While the old style of adding a custom map of badges under the `badgesConfig` key is still valid, this may be removed in a future major version.
-This should now be nested under `badgesConfig.badges`, to allow other options to also be passed in alongside this map.
+This should now be nested under `badgesConfig.badgeMap`, to allow other options to also be passed in alongside this map.
 
 ## New Addon Config options
 
-| Option | Type | Description |
-| -- | -- | -- |
-| `baseStyle`   | `BadgeStyle` \| `default` \| `github` | Allows you to define a fallback style to use. This can be one of the built-in style names (`default` or `github`), or a custom style object which extends one of these. |
-| `locations`   | `BadgeLocation[]` | The default [badge locations](@todo) to use for badges that don't define their own. |
-| `useTags`     | `boolean`  | Storybook has a [`tags`](https://storybook.js.org/docs/writing-stories/tags) feature built-in which can now be used to generate badges. This is disabled by default to maintain legacy functionality, this option allows you to enable it. | 
-| `excludeTags` | `string[]` | Allows you to exclude certain tags, such as the [built-in tags](https://storybook.js.org/docs/writing-stories/tags#built-in-tags) (which are excluded by default). |
+Version 2 adds some new configuration options to `badgesConfig`. Please see the [configuration](../customisation/configuration.mdx) for more details.
 
 ## New Badge Config Options
-| Option | Type | Description |
-| -- | -- | -- |
-| `locations`   | `BadgeLocation[]` | The [badge locations](@todo) that the badge should appear. |
+
+You can now define [locations](../customisation/badge-locations.mdx) for badge to appear.
 
 ## Old configuration:
 
@@ -47,7 +41,7 @@ export default preview;
 
 ## New Configuration
 
-In the new configuration, the badge definitions are now placed under `parameters.badgesConfig.badges`, allowing for other configuration values to be passed under `parameters.badgesConfig`.
+In the new configuration, the badge definitions are now placed under `parameters.badgesConfig.badgeMap`, allowing for other configuration values to be passed under `parameters.badgesConfig`.
 
 ```ts title=".storybook/preview.ts"
 import type { Preview } from '@storybook/[your-framework]';
@@ -58,7 +52,7 @@ const preview: Preview = {
   parameters: {
     //...other parameters
     badgesConfig: {
-      badges: {       // 👈 `MyCustomBadge` is now nested under `badges`
+      badgeMap: {       // 👈 `MyCustomBadge` is now nested under `badgeMap`
         MyCustomBadge: {
           title: 'My Custom Badge',
         }

@@ -4,8 +4,8 @@ import { BadgeProps } from './prop.types';
 import type { FC } from 'react';
 
 /** Displays an example badge in the documentation. */
-const Badge: FC<BadgeProps> = ({ badge }: BadgeProps) => {
-  const badgeConfig = getBadgeConfig(badge, getBadgesConfig());
+const Badge: FC<BadgeProps> = ({ badge, baseStyle = 'default' }: BadgeProps) => {
+  const badgeConfig = getBadgeConfig(badge, getBadgesConfig({ baseStyle }));
 
   return (
     <div

@@ -7,14 +7,10 @@ title: Add Badges
 
 Adding badges is done using the [`parameters`](https://storybook.js.org/docs/api/parameters) feature of Storybook.
 
-You can add badges to all stories globally, to a component's stories, or to an individual story.
-{/* TODO: Uncomment once functionality is added. */}
-{/* You can add badges to all stories globally, to a component's stories, to an individual story, or a mix of all 3. */}
+You can add badges to all stories globally, to a component, or to an individual story.
 
 The `badges` parameter accepts an array of strings relating to badge names. The may be any of the [pre-defined badges](./predefined-badges.mdx), [custom badges](../customisation/create-custom-badges.mdx), or any string which will inherit the [default styles](../customisation/adding-styles.mdx#available-style-properties) if not defined.
 
-
-{/* TODO: Remove once functionality is added */}
 :::danger
 `storybook-addon-badges` can currently only read from a single set of parameters, As such, when you set badges on an individual story level, it'll override any other badges defined.
 :::
@@ -44,7 +40,7 @@ You can pass an empty array into the parameters for individual stories to preven
 
 ## Adding Badges to a Component
 
-To add badges to all of a component's stories, add the `badges` paramter to the `meta` default export of a story file:
+To add badges to all of a component's stories, add the `badges` parameter to the `meta` default export of a story file:
 
 ```ts title="MyComponent.stories.ts"
 // Replace your-framework with the name of your framework

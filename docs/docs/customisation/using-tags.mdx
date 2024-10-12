@@ -1,0 +1,23 @@
+---
+sidebar_position: 6
+title: Using Tags
+---
+
+Storybook has the a ['tags'](https://storybook.js.org/docs/writing-stories/tags) feature that allows assigning tags to stories that allows for filtering a component/story for visibility, auto-documentation, and testing by default. They also allow adding custom tags, which have better visibility/inheritance than parameters can offer.
+
+`storybook-addon-badges` can use these tags as instead/as well as the `badges` defined on a story, to generate badges that can be used elsewhere. [Custom badges](./create-custom-badges.mdx) can still be applied to tags, providing the same string passed to `tags` is used as the badge's ID/key in the `badgesConfig.badgeMap`.
+
+To allow for backwards compatibility and prevent showing unexpected badges on upgrade, v2 has a configuration option to enable the use of tags. To opt-in to this, simply set `badgesConfig.useTags` to `true`.
+
+Storybook applies several tags by default to all stories:
+
+- `autodocs` - Applied manually when `autodocs` is enabled, and you want a story to generate documentation automatically.
+- `dev` - Applied by default and allows the story to be shown in the sidebar. Removing this tag will hide the story from the sidebar.
+- `test` - Applied by default and used for filtering tests run with Storybook's [test runner](https://storybook.js.org/docs/writing-tests/test-runner#run-tests-for-a-subset-of-stories).
+- `unattached-mdx` - Applied automatically to `docs` pages that do not have an attached story.
+
+As it's unlikely that these tags would make useful badges, the above tags are excluded by default from having badges generated, but _any other tag will create a badge_ (if `badgesConfig.useTags` is `true`). To set your own exclusions, you can set the `badgesConfig.excludeTags` parameter to an array of tag names to exclude. 
+
+:::tip
+Bear in mind that if you _do_ set your own exclusions, you will need to add the above tags if you do not want them to generate badges as a custom `excludeTags` will override the default one.
+:::
