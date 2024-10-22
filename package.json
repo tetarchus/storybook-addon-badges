@@ -78,7 +78,7 @@
     "eslint-plugin-react-hooks": "5.1.0-rc-fb9a90fa48-20240614",
     "globals": "15.11.0",
     "jiti": "2.3.3",
-    "npm-run-all2": "6.2.4",
+    "npm-run-all2": "6.2.6",
     "prettier": "3.3.3",
     "prettier-plugin-packagejson": "2.5.3",
     "prettier-plugin-tailwindcss": "0.6.8",
