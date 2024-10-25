@@ -52,7 +52,7 @@
     "@storybook/icons": "1.2.12"
   },
   "devDependencies": {
-    "@auto-it/all-contributors": "11.2.1",
+    "@auto-it/all-contributors": "11.3.0",
     "@auto-it/conventional-commits": "11.2.1",
     "@auto-it/first-time-contributor": "11.2.1",
     "@eslint/js": "9.13.0",
