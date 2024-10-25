@@ -54,7 +54,7 @@
   "devDependencies": {
     "@auto-it/all-contributors": "11.2.1",
     "@auto-it/conventional-commits": "11.2.1",
-    "@auto-it/first-time-contributor": "11.2.1",
+    "@auto-it/first-time-contributor": "11.3.0",
     "@eslint/js": "9.13.0",
     "@storybook/addon-essentials": "8.3.6",
     "@storybook/addon-interactions": "8.3.6",
