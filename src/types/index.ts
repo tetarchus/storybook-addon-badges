@@ -16,6 +16,14 @@ export type {
   ShouldDisplayBadgeParameters,
 } from './location.types';
 export type { A11yState, AddonState, IndexerResult, StoryState, TestState } from './state.types';
-export type { BadgeStyle, StyleProp } from './style.types';
+export type {
+  BadgeStyle,
+  BadgeStyleFn,
+  BaseBadgeStyle,
+  BaseBadgeStyleOrFn,
+  FullBadgeStyle,
+  FullBadgeStyleFn,
+  StyleProp,
+} from './style.types';
 export type { TestResult } from './test.types';
 export type { RenderLabelFn, TooltipConfig } from './tooltip.types';

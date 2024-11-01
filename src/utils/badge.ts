@@ -1,8 +1,4 @@
-import { defaultBadgeConfig } from '@/config';
-
-import { normalizeLocations } from './locations';
-
-import type { BadgeFnParameters, BadgeParts, FullBadgeConfig, FullConfig } from '@/types';
+import type { BadgeParts } from '@/types';
 
 /**
  * Internal function for splitting the badge into parts.
@@ -14,7 +10,7 @@ const getBadgePartsInternal = (badgeText: string, delimiter: string): BadgeParts
   const [prefix, ...rest] = badgeText.split(delimiter);
 
   return {
-    badgeId: prefix ?? '',
+    badgeId: prefix,
     content: rest.join(delimiter),
   };
 };
@@ -70,32 +66,11 @@ const getBadgeId =
   (badgeText: string, delimiter: string = defaultDelimiter): string =>
     getBadgeIdInternal(badgeText, delimiter);
 
-/**
- * Creates a {@link FullBadgeConfig} for a given badge ID. Uses partial configs
- * from the `badgeMap` and the addon config.
- * @param badgeName The name of the badge to generate the config for.
- * @param config The addon configuration to use when assigning defaults.
- * @returns The fully resolved Badge config.
- */
-const getBadgeConfig = (badgeName: string, config: FullConfig): FullBadgeConfig => {
-  const badgeConfig = config.badgeMap[badgeName];
-  const baseConfig = badgeConfig ?? defaultBadgeConfig;
-
-  const baseStyle = baseConfig.styles ?? baseConfig.style;
-
-  const style = (params: BadgeFnParameters) => {
-    const baseStyleResolved = typeof baseStyle === 'function' ? baseStyle(params) : baseStyle;
-    return { ...config.baseStyle, ...baseStyleResolved };
-  };
-
-  return {
-    displayContentOnly: baseConfig.displayContentOnly ?? config.displayContentOnly,
-    locations: normalizeLocations(baseConfig.location, config.locations, config.locations),
-    priority: baseConfig.priority ?? 99,
-    style,
-    title: badgeConfig?.title ?? (({ content }) => content),
-    tooltip: baseConfig.tooltip,
-  };
+export {
+  getBadgeContent,
+  getBadgeContentInternal,
+  getBadgeId,
+  getBadgeIdInternal,
+  getBadgeParts,
+  getBadgePartsInternal,
 };
-
-export { getBadgeConfig, getBadgeContent, getBadgeParts, getBadgeId, getBadgePartsInternal };

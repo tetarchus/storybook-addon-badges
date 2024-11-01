@@ -527,10 +527,11 @@ class BadgesAddon {
   //== Static Methods
   //===================================
   /**
-   * Generates the full config for a badge.
-   * @param badgeId The ID of the badge.
-   * @param config The addon configuration being used.
-   * @returns The full config for the badge.
+   * Creates a {@link FullBadgeConfig} for a given badge ID. Uses partial configs
+   * from the `badgeMap` and the addon config.
+   * @param badgeName The name of the badge to generate the config for.
+   * @param config The addon configuration to use when assigning defaults.
+   * @returns The fully resolved Badge config.
    */
   static #getBadgeConfig(badgeId: string, config: FullConfig): FullBadgeConfig {
     const badgeConfig = config.badgeMap[badgeId];
@@ -539,7 +540,9 @@ class BadgesAddon {
 
     const style = (params: BadgeFnParameters) => {
       const baseStyleResolved = typeof baseStyle === 'function' ? baseStyle(params) : baseStyle;
-      return { ...config.baseStyle, ...baseStyleResolved };
+      const configBaseStyle =
+        typeof config.baseStyle === 'function' ? config.baseStyle(params) : config.baseStyle;
+      return { ...configBaseStyle, ...baseStyleResolved };
     };
 
     return {

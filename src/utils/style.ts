@@ -1,14 +1,20 @@
 import { defaultBadgeStyle, githubBadgeStyle } from '@/config';
 
-import type { BadgeStyle, BadgesConfig, StyleProp } from '@/types';
+import type {
+  BaseBadgeStyle,
+  BaseBadgeStyleOrFn,
+  FullBadgeStyle,
+  FullBadgeStyleFn,
+  StyleProp,
+} from '@/types';
 import type { CSSProperties } from 'react';
 
 /**
- * Converts a `baseStyle` value into a full style object.
- * @param base The value of the `baseStyle` parameter from the addon config.
+ * Converts a `baseStyle` into a full style object.
+ * @param base The base style string/object value.
  * @returns The full style object based on the `baseStyle`.
  */
-const getBaseStyle = (base: BadgesConfig['baseStyle']): Required<BadgeStyle> => {
+const getBaseStyleObject = (base: BaseBadgeStyle): FullBadgeStyle => {
   if (typeof base === 'string') {
     if (base === 'default') {
       return defaultBadgeStyle;
@@ -17,19 +23,32 @@ const getBaseStyle = (base: BadgesConfig['baseStyle']): Required<BadgeStyle> => 
     }
   }
 
-  if (typeof base === 'object') {
-    if ('base' in base) {
-      const { base: baseName, ...customStyle } = base;
-      const baseStyle = baseName === 'default' ? defaultBadgeStyle : githubBadgeStyle;
-      return {
-        ...baseStyle,
-        ...customStyle,
-      };
-    }
-    return base;
+  if ('base' in base) {
+    const { base: baseName, ...customStyle } = base;
+    const baseStyle = baseName === 'default' ? defaultBadgeStyle : githubBadgeStyle;
+    return {
+      ...baseStyle,
+      ...customStyle,
+    };
+  }
+  return base;
+};
+
+/**
+ * Converts a `baseStyle` value into a full style object.
+ * @param base The value of the `baseStyle` parameter from the addon config.
+ * @returns The full style object or function from the base.
+ */
+const getBaseStyle = (base: BaseBadgeStyleOrFn): FullBadgeStyle | FullBadgeStyleFn => {
+  if (typeof base === 'function') {
+    const badgeStyleFn: FullBadgeStyleFn = params => {
+      const baseStyleFn = base(params);
+      return getBaseStyleObject(baseStyleFn);
+    };
+    return badgeStyleFn;
   }
 
-  return defaultBadgeStyle;
+  return getBaseStyleObject(base);
 };
 
 /**

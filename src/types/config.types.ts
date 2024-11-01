@@ -1,13 +1,7 @@
-import type { Badge, BadgeFnParameters } from './badge.types';
+import type { Badge } from './badge.types';
 import type { BadgeLocation, BadgeLocations, LocationMap } from './location.types';
 import type { Matcher } from './matcher.types';
-import type {
-  BadgeStyle,
-  BadgeStyleBase,
-  BadgeStyleFn,
-  FullBadgeStyle,
-  FullBadgeStyleFn,
-} from './style.types';
+import type { BaseBadgeStyleOrFn, FullBadgeStyle, FullBadgeStyleFn } from './style.types';
 import type { HashEntry } from 'storybook/internal/manager-api';
 
 // TODO: Implement a11y-pass/fail and test-pass/fail autobadges.
@@ -44,13 +38,8 @@ type BadgesConfig = {
    * - A full style
    * - A style function that returns any of the above.
    */
-  baseStyle:
-    | BadgeStyleBase
-    | ((params: BadgeFnParameters) => BadgeStyleBase)
-    | (BadgeStyle & { base: BadgeStyleBase })
-    | BadgeStyleFn<{ base: BadgeStyleBase }>
-    | FullBadgeStyle
-    | FullBadgeStyleFn;
+  baseStyle: BaseBadgeStyleOrFn;
+
   /** The standard delimiter for badges - used to separate the badge ID from content. */
   delimiter: string;
   // TODO: Check how this is working...
@@ -102,7 +91,7 @@ type BadgesConfig = {
 /** The fully resolved Addon configuration, including fallback values. */
 type FullConfig = Required<Omit<BadgesConfig, 'baseStyle' | 'locations'>> & {
   /** The base style as a fully-resolved style. */
-  baseStyle: FullBadgeStyle;
+  baseStyle: FullBadgeStyle | FullBadgeStyleFn;
   // TODO: Do the same with separators?
   /** Normalized location map, so we only have to deal with a single definition type. */
   locations: Required<LocationMap<true>>;

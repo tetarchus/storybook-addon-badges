@@ -44,13 +44,27 @@ type BadgeStyleFn<T = unknown> = (params: BadgeFnParameters) => BadgeStyle & T;
 /** A function to dynamically create a {@link FullBadgeStyle}. */
 type FullBadgeStyleFn = (params: BadgeFnParameters) => FullBadgeStyle;
 /** Alias to allow for an inline, or function style. */
-type BadgeStyleOrFn = BadgeStyle | BadgeStyleFn;
+type BadgeStyleOrFn<T = unknown> = BadgeStyle | BadgeStyleFn<T>;
+
+/** All static options for defining a fallback base style. */
+type BaseBadgeStyle = BadgeStyleBase | (BadgeStyle & { base: BadgeStyleBase }) | FullBadgeStyle;
+
+/** All function options for defining a fallback base style. */
+type BaseBadgeStyleFn =
+  | ((params: BadgeFnParameters) => BadgeStyleBase)
+  | BadgeStyleFn<{ base: BadgeStyleBase }>
+  | FullBadgeStyleFn;
+
+/** All options for defining a fallback base style. */
+type BaseBadgeStyleOrFn = BaseBadgeStyle | BaseBadgeStyleFn;
 
 export type {
   BadgeStyle,
   BadgeStyleBase,
   BadgeStyleFn,
   BadgeStyleOrFn,
+  BaseBadgeStyle,
+  BaseBadgeStyleOrFn,
   FullBadgeStyle,
   FullBadgeStyleFn,
   StyleProp,
