@@ -1,3 +1,7 @@
+/**
+ * Keys in the PreparedStory data that are non-serializable and should be
+ * ignored when hashing.
+ */
 const excludedHashKeys = [
   'applyBeforeEach',
   'applyLoaders',
@@ -13,6 +17,9 @@ const excludedHashKeys = [
   'undecoratedStoryFn',
 ];
 
+/**
+ * Options to pass in to ohash to ensure consistent hashes are returned.
+ */
 const hashOptions = {
   unorderedArrays: true,
   unorderedObjects: true,
@@ -20,7 +27,5 @@ const hashOptions = {
   respectType: false,
   excludeKeys: (key: string) => excludedHashKeys.includes(key),
 };
-
-// TODO: Add "attached-mdx" to excluded tags default
 
 export { hashOptions };

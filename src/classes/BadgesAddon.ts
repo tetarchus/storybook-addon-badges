@@ -4,10 +4,10 @@ import { addons } from 'storybook/internal/manager-api';
 
 import { defaultAddonState, hashOptions } from '@/config';
 import {
-  ADDON_LS_KEY,
   BADGE,
   DEFAULT_STORYBOOK_ID,
   EVENTS,
+  LOCAL_STORAGE_KEY,
   PARAM_BADGES_KEY,
   PARAM_CONFIG_KEY,
   PARAM_STORYBOOK_ID,
@@ -322,7 +322,7 @@ class BadgesAddon {
       return defaultAddonState;
     }
 
-    const storage = window.localStorage.getItem(ADDON_LS_KEY);
+    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storage) {
       try {
         const parsed = JSON.parse(storage);
@@ -460,7 +460,7 @@ class BadgesAddon {
       return;
     }
 
-    const storage = window.localStorage.getItem(ADDON_LS_KEY);
+    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
     let newStorage = {
       [this.#storybookId]: this.#savedState,
     };
@@ -473,8 +473,8 @@ class BadgesAddon {
       }
     }
 
-    window.localStorage.setItem(ADDON_LS_KEY, JSON.stringify(newStorage));
-    // console.log('Saved State...', window.localStorage.getItem(ADDON_LS_KEY));
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newStorage));
+    // console.log('Saved State...', window.localStorage.getItem(LOCAL_STORAGE_KEY));
   }
 }
 

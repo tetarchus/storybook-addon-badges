@@ -47,11 +47,6 @@ addons.register(ADDON_ID, api => {
     ),
     type: types.TOOL,
     title: ADDON_TITLE,
-    // match: matchOptions => {
-    //   console.log('Match tabID', matchOptions);
-    //   return true;
-    // },
-    // route: options => '',
   });
   addons.add(ADDON_ID, {
     id: TOOL_EXTRA_ID,

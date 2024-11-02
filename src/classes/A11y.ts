@@ -51,7 +51,6 @@ class A11y {
 
   /** Sets the current state of the a11y plugin and processes the queue. */
   public set active(active: boolean) {
-    console.log('Activating A11y');
     this.#active = active;
     this.#registerEventHandlers();
     this.#processQueue();

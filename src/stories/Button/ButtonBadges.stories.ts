@@ -49,12 +49,5 @@ const Small: Story = {
   },
 };
 
-// const XSmall: Story = {
-//   args: {
-//     size: 'small',
-//     label: 'Button',
-//   },
-// };
-
 export default meta;
 export { Primary, Secondary, Large, Small };
