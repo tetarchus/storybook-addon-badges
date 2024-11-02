@@ -1,21 +1,17 @@
-import type { BadgeMap, FullConfig } from '@/types';
-import { fullStyle } from './style';
+import { defaultConfig } from '@/config';
+import { testingBadgeMap } from './badgeMap';
 import { fullLocationMap } from './location';
-import { basicBadgeConfig, secondaryBadgeConfig } from './badge';
+import { fullStyle } from './style';
+
+import type { FullConfig } from '@/types';
 
 /** The badge delimiter for use in tests. */
 const DELIMITER = ':';
 
-/** Example basic badge map for use in tests. */
-const badgeMap: BadgeMap = {
-  default: basicBadgeConfig,
-  example: secondaryBadgeConfig,
-};
-
 /** Example full addon config for use in tests. */
 const fullConfig: FullConfig = {
   autobadges: ['new'], // TODO: Another with the function
-  badgeMap,
+  badgeMap: testingBadgeMap,
   baseStyle: fullStyle,
   delimiter: DELIMITER,
   displayContentOnly: false,
@@ -25,8 +21,8 @@ const fullConfig: FullConfig = {
   replaceDefaultBadgeMap: false,
   // TODO: Allow array (to allow for after/before and between combo?)
   separators: {
-    'sidebar': 'none',
-    'toolbar': 'wrap',
+    sidebar: 'none',
+    toolbar: 'wrap',
     'toolbar-end': 'before',
   },
   showClearButton: false,
@@ -36,4 +32,22 @@ const fullConfig: FullConfig = {
   warnOnLegacy: false,
 };
 
-export { DELIMITER, badgeMap, fullConfig };
+/** Expected resolved value for the defaultConfig. */
+const resolvedDefaultConfig: FullConfig = {
+  ...fullConfig,
+  ...defaultConfig,
+  baseStyle: fullStyle,
+  locations: {
+    sidebar: [],
+    toolbar: ['docs', 'story'],
+    'toolbar-end': [],
+  },
+};
+
+/** Full config with a style function. */
+const fullConfigStyleFn: FullConfig = {
+  ...fullConfig,
+  baseStyle: () => fullStyle,
+};
+
+export { DELIMITER, fullConfig, fullConfigStyleFn, resolvedDefaultConfig };

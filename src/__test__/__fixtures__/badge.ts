@@ -1,7 +1,10 @@
+import { getBadgeContent, getBadgeId, getBadgeParts } from '@/utils';
+import { DELIMITER } from './config';
 import { fullLocationMap } from './location';
+import { storyEntry } from './storybook';
 import { fullStyle } from './style';
 
-import type { Badge, FullBadgeConfig } from '@/types';
+import type { Badge, BadgeFnParameters, FullBadgeConfig } from '@/types';
 
 /** Example full badge config for use in tests. */
 const fullBadgeConfig: FullBadgeConfig = {
@@ -9,7 +12,7 @@ const fullBadgeConfig: FullBadgeConfig = {
   locations: fullLocationMap,
   priority: 1,
   style: () => fullStyle,
-  title: 'ExampleBadge',
+  title: ({ content }) => content,
   tooltip: 'Basic Tooltip',
 };
 
@@ -25,4 +28,14 @@ const secondaryBadgeConfig: Badge = {
   title: ({ content, getBadgeContent }) => `custom${getBadgeContent(content)}`,
 };
 
-export { basicBadgeConfig, secondaryBadgeConfig, fullBadgeConfig };
+/** Example badge function parameters to pass into tested badge functions. */
+const badgeFnParameters: BadgeFnParameters = {
+  badgeId: 'Example',
+  content: 'Example Badge',
+  entry: storyEntry,
+  getBadgeContent: getBadgeContent(DELIMITER),
+  getBadgeId: getBadgeId(DELIMITER),
+  getBadgeParts: getBadgeParts(DELIMITER),
+};
+
+export { badgeFnParameters, basicBadgeConfig, secondaryBadgeConfig, fullBadgeConfig };
