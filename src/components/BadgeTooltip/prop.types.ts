@@ -5,6 +5,8 @@ import type { ReactNode } from 'react';
 type BadgeTooltipProps = {
   /** The contents of the badge. */
   children: ReactNode;
+  /** ID to use for tests. */
+  'data-testid'?: string | undefined;
   /** Props to pass to Storybook's TooltipMessage component. */
   tooltip: TooltipConfig;
 };
