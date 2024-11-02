@@ -29,7 +29,12 @@ const eslintConfig = [
     },
   },
   {
+    name: 'overrides',
     rules: {
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        { allowInterfaces: 'with-single-extends' },
+      ],
       'capitalized-comments': [
         'warn',
         'always',

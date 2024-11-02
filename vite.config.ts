@@ -39,6 +39,7 @@ const viteConfig = defineConfig({
     globals: false,
     include: ['src/**/*.test.{js,jsx,ts,tsx}'],
     reporters: ['default'],
+    setupFiles: './test/testSetup.ts',
   },
 });
 

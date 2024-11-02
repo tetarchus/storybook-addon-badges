@@ -17,11 +17,11 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "rootDir": "./src",
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
     "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*"]
+  "include": ["src", "test"]
 }
