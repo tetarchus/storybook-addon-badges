@@ -3,7 +3,7 @@ import { Badge } from '.';
 import { DELIMITER, storyEntry } from '@/__test__/__fixtures__';
 import { defaultConfig } from '@/config';
 import { BADGE } from '@/constants';
-import { MockDecorator } from '@/decorators/MockDecorator';
+import { StorybookManagerMock } from '@/decorators/StorybookManagerMock';
 import { getFullBadgeConfig, getFullConfig } from '@/utils';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -41,7 +41,7 @@ const meta = {
     },
   },
   component: BadgeWrapper,
-  decorators: [MockDecorator],
+  decorators: [StorybookManagerMock],
   tags: ['autodocs', 'meta'],
 } satisfies Meta<typeof BadgeWrapper>;
 

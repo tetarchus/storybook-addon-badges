@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { mockApi, resolvedDefaultConfig } from '@/__test__/__fixtures__';
+import { mockedApi, resolvedDefaultConfig } from '@/__test__/__fixtures__';
 import { BadgesAddon } from '@/classes';
 import { BadgesAddonProvider } from '@/contexts';
 import { useAddon, useAddonConfig } from '@/hooks';
@@ -12,7 +12,7 @@ describe('Hooks', () => {
       expect.assertions(1);
       const { result } = renderHook(useAddon, {
         wrapper: ({ children }) => (
-          <BadgesAddonProvider state={new BadgesAddon(mockApi)}>{children}</BadgesAddonProvider>
+          <BadgesAddonProvider state={new BadgesAddon(mockedApi)}>{children}</BadgesAddonProvider>
         ),
       });
       expect(result.current).toBeInstanceOf(BadgesAddon);
@@ -31,7 +31,7 @@ describe('Hooks', () => {
       expect.assertions(1);
       const { result } = renderHook(useAddonConfig, {
         wrapper: ({ children }) => (
-          <BadgesAddonProvider state={new BadgesAddon(mockApi)}>{children}</BadgesAddonProvider>
+          <BadgesAddonProvider state={new BadgesAddon(mockedApi)}>{children}</BadgesAddonProvider>
         ),
       });
       expect(result.current).toMatchObject(resolvedDefaultConfig);

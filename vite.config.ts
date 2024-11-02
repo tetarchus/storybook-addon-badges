@@ -21,6 +21,8 @@ const viteConfig = defineConfig({
         'preset.js',
         'preview.js',
         'scripts',
+        '**/*.types.ts',
+        '**/types/*.ts',
       ],
       include: ['**'],
       reporter: ['html', 'text', 'json', 'json-summary'],
