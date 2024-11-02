@@ -1,17 +1,32 @@
-import { useChannel, useEffect } from 'storybook/internal/preview-api';
+import { addons, useCallback, useEffect, useState } from 'storybook/internal/preview-api';
 
 import { EVENTS } from '@/constants';
 
-import type {
-  PreparedStory,
-  Renderer,
-  StoryContext,
-  PartialStoryFn as StoryFunction,
-} from 'storybook/internal/types';
+import type { DecoratorFunction, PreparedStory, Renderer } from 'storybook/internal/types';
 
-const PreviewInterface = (StoryFn: StoryFunction<Renderer>, context: StoryContext<Renderer>) => {
-  console.log('Preview Context', context);
-  const emit = useChannel({});
+const PreviewInterface: DecoratorFunction<Renderer> = (StoryFn, context) => {
+  // console.log('Preview Context', context);
+  const channel = addons.getChannel();
+  const [indexRequired, setIndexRequired] = useState(false);
+
+  const onResponse = useCallback((required: boolean) => {
+    setIndexRequired(required);
+  }, []);
+
+  useEffect(() => {
+    if (context.viewMode === 'story') {
+      channel.on(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
+      return (): void => void channel.off(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
+    }
+
+    return;
+  }, [channel, context.viewMode, onResponse]);
+
+  useEffect(() => {
+    if (context.viewMode === 'story') {
+      channel.emit(EVENTS.CHECK_INDEX_REQUIRED);
+    }
+  }, [channel, context.viewMode]);
 
   useEffect(() => {
     const initialiseStories = async () => {
@@ -33,7 +48,7 @@ const PreviewInterface = (StoryFn: StoryFunction<Renderer>, context: StoryContex
       }
       const stories = await Promise.all(indexPromises);
 
-      emit(EVENTS.INDEXED, {
+      channel.emit(EVENTS.INDEXED, {
         index: indexEntries,
         stories,
         // TODO: Send actual data if possible
@@ -41,8 +56,10 @@ const PreviewInterface = (StoryFn: StoryFunction<Renderer>, context: StoryContex
       });
     };
 
-    void initialiseStories();
-  }, [emit]);
+    if (indexRequired) {
+      void initialiseStories();
+    }
+  }, [channel, indexRequired]);
 
   return StoryFn();
 };

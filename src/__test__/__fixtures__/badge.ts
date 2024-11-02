@@ -1,6 +1,7 @@
 import { getBadgeContent, getBadgeId, getBadgeParts } from '@/utils';
-import { DELIMITER } from './config';
+
 import { fullLocationMap } from './location';
+import { DELIMITER } from './shared';
 import { storyEntry } from './storybook';
 import { fullStyle } from './style';
 
@@ -38,4 +39,4 @@ const badgeFnParameters: BadgeFnParameters = {
   getBadgeParts: getBadgeParts(DELIMITER),
 };
 
-export { badgeFnParameters, basicBadgeConfig, secondaryBadgeConfig, fullBadgeConfig };
+export { badgeFnParameters, basicBadgeConfig, fullBadgeConfig, secondaryBadgeConfig };

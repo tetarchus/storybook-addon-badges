@@ -1,9 +1,15 @@
+/** External addons that we may interface with to display autobadges. */
 const EXTERNAL_ADDONS = {
+  // TODO: May not be needed with the testing plugin
+  /** Accessibility testing - allows for showing pass/fail badges. */
   A11Y: 'storybook/a11y',
+  /** The legacy jest addon for displaying test results. */
   JEST: 'storybookjs/test',
+  /** The new testing plugin for vitest. Currently experimental. */
   VITEST: 'storybook/test',
 };
 
+/** Map of external addons to various IDs they use, but don't export. */
 const EXTERNAL = {
   A11Y: {
     ADDON_ID: EXTERNAL_ADDONS.A11Y,

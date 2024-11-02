@@ -1,4 +1,5 @@
 import { defaultBadgeMap } from '@/config';
+
 import { basicBadgeConfig, secondaryBadgeConfig } from './badge';
 
 import type { BadgeMap } from '@/types';

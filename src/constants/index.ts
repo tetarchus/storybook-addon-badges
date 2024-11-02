@@ -11,6 +11,5 @@ export {
   TOOL_EXTRA_ID,
   TOOL_ID,
 } from './addon';
-export { EVENTS, INITIALISE_NOTIFICATION, LOCAL_STORAGE_KEY, PERSIST } from './events';
+export { EVENTS, LOCAL_STORAGE_KEY } from './events';
 export { EXTERNAL } from './external';
-export { ADDON_LS_KEY } from './legacy';

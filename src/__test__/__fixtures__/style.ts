@@ -1,4 +1,4 @@
-import type { FullBadgeStyle, StyleProp } from '@/types/style.types';
+import type { FullBadgeStyle, StyleProp } from '@/types';
 
 /** Example full style for use in tests. */
 const fullStyle: FullBadgeStyle = {

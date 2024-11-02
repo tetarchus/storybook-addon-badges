@@ -1,12 +1,11 @@
 import { defaultConfig } from '@/config';
+
 import { testingBadgeMap } from './badgeMap';
 import { fullLocationMap } from './location';
+import { DELIMITER } from './shared';
 import { fullStyle } from './style';
 
 import type { FullConfig } from '@/types';
-
-/** The badge delimiter for use in tests. */
-const DELIMITER = ':';
 
 /** Example full addon config for use in tests. */
 const fullConfig: FullConfig = {
@@ -50,4 +49,4 @@ const fullConfigStyleFn: FullConfig = {
   baseStyle: () => fullStyle,
 };
 
-export { DELIMITER, fullConfig, fullConfigStyleFn, resolvedDefaultConfig };
+export { fullConfig, fullConfigStyleFn, resolvedDefaultConfig };

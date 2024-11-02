@@ -41,6 +41,8 @@ class BadgesAddon {
   //===================================
   //== Private Properties
   //===================================
+  /** Whether we should index for autobadges. */
+  #autobadges: boolean = false;
   /** The a11y addon interface instance. */
   #a11yAddon: A11y;
   /** The ID currently active story. */
@@ -75,6 +77,7 @@ class BadgesAddon {
     this.#a11yAddon = new A11y(api, this);
     this.#testingAddon = new Testing(api, this);
     this.#baseConfig = this.addonConfig;
+    this.#autobadges = this.#shouldUseAutobadges();
     this.#registerEventHandlers();
   }
 
@@ -104,7 +107,10 @@ class BadgesAddon {
   /** Get the fully resolved config for the addon. */
   public get addonConfig(): FullConfig {
     const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | undefined>(PARAM_CONFIG_KEY);
-    return legacyConfig ? getFullConfig(legacyConfig) : (this.#baseConfig ?? getFullConfig());
+    const addonConfig = this.#addonsConfig[PARAM_CONFIG_KEY] ?? {};
+    return legacyConfig
+      ? getFullConfig(legacyConfig, addonConfig)
+      : (this.#baseConfig ?? getFullConfig(addonConfig));
   }
 
   //===================================
@@ -116,7 +122,7 @@ class BadgesAddon {
    * @param state The {@link A11yState} to add to the story.
    */
   public addA11yState(storyId: string, state: A11yState): void {
-    if (!this.a11yActive) return;
+    if (!this.a11yActive || !this.#autobadges) return;
 
     const savedStoryData = this.#storedState.storyStates.find(story => story.id === storyId);
     if (!savedStoryData) {
@@ -150,13 +156,13 @@ class BadgesAddon {
     const storyTags = this.#getTags(storyData);
     const { type } = storyData;
 
-    console.log('Badges - in GetBadges', {
-      id: entry.id,
-      globalBadges,
-      autobadges,
-      parameterBadges,
-      storyTags,
-    });
+    // console.log('Badges - in GetBadges', {
+    //   id: entry.id,
+    //   globalBadges,
+    //   autobadges,
+    //   parameterBadges,
+    //   storyTags,
+    // });
 
     const filteredBadges = this.#filterBadges(
       [...globalBadges, ...autobadges, ...parameterBadges, ...storyTags],
@@ -171,12 +177,14 @@ class BadgesAddon {
   //== Private Getters/Setters
   //===================================
   // TODO: Do we need this? Could access localStorage directly rather than proxying...
+  // TODO: Add autobadge check if so
   /** Retrieves the state that was stored in localStorage. */
   get #storedState(): AddonState {
     return this.#savedState;
   }
 
   // TODO: Do we need this? Could access localStorage directly rather than proxying...
+  // TODO: Add autobadge check if so
   /** Updates the values saved in localStorage. */
   set #storedState(state: Partial<AddonState>) {
     console.log('Setting stored state');
@@ -263,7 +271,7 @@ class BadgesAddon {
    */
   #getAutoBadges(entry: HashEntry): string[] {
     const { autobadges } = this.addonConfig;
-    if (autobadges === false) return [];
+    if (!this.#autobadges || autobadges === false) return [];
 
     if (Array.isArray(autobadges)) {
       const auto: string[] = [];
@@ -305,7 +313,7 @@ class BadgesAddon {
    * @returns The state stored in localStorage, or a default if none is found.
    */
   #getStateFromLocalStorage(): AddonState {
-    if (this.addonConfig.autobadges === false) {
+    if (!this.#autobadges) {
       return defaultAddonState;
     }
 
@@ -339,8 +347,7 @@ class BadgesAddon {
    * the saved state was updated.
    */
   #isNew(entry: HashEntry | undefined): boolean {
-    // TODO: Only if auto
-    if (!entry) return false;
+    if (!entry || !this.#autobadges) return false;
 
     const current = this.#currentState.storyStates.find(story => story.id === entry.id);
     const stored = this.#savedState.storyStates.find(story => story.id === entry.id);
@@ -354,7 +361,7 @@ class BadgesAddon {
    * was last viewed.
    */
   #isUpdated(entry: HashEntry | undefined): boolean {
-    if (!entry) return false;
+    if (!entry || !this.#autobadges) return false;
 
     const current = this.#currentState.storyStates.find(story => story.id === entry.id);
     const stored = this.#savedState.storyStates.find(story => story.id === entry.id);
@@ -368,6 +375,7 @@ class BadgesAddon {
    * allowing us to generate hashes for stories including their args/parameters.
    */
   #onIndex({ index, stories }: IndexerResult): void {
+    if (!this.#autobadges) return;
     console.log('OnIndex');
     const state: StoryState[] = [];
 
@@ -396,7 +404,7 @@ class BadgesAddon {
    * using autobadges.
    */
   #onRequest(): void {
-    this.#addonChannel.emit(EVENTS.RESPONSE, this.addonConfig.autobadges);
+    this.#addonChannel.emit(EVENTS.CHECK_INDEX_RESPONSE, this.#autobadges);
   }
 
   /**
@@ -407,6 +415,9 @@ class BadgesAddon {
   #onStoryRender(storyId: string): void {
     console.log('Story Rendered', storyId);
     this.#activeStoryId = storyId;
+
+    if (!this.#autobadges) return;
+
     this.#a11yAddon.runForStory(storyId);
     // TODO: Update as viewed to update the state
   }
@@ -417,16 +428,31 @@ class BadgesAddon {
   #registerEventHandlers(): void {
     // Addon Events
     this.#addonChannel.on(EVENTS.INDEXED, this.#onIndex.bind(this));
-    this.#addonChannel.on(EVENTS.REQUEST, this.#onRequest.bind(this));
+    this.#addonChannel.on(EVENTS.CHECK_INDEX_REQUIRED, this.#onRequest.bind(this));
 
     // Storybook Events
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
   }
 
   /**
+   * Checks whether we need to index based on the autobadges config value.
+   * @returns A boolean indicating whether autobadge indexing should be used.
+   */
+  #shouldUseAutobadges(): boolean {
+    const config = this.addonConfig;
+    if (Array.isArray(config.autobadges) && config.autobadges.length === 0) {
+      return false;
+    }
+    if (config.autobadges === false) return false;
+    return true;
+  }
+
+  /**
    * Updates the state saved in localStorage.
    */
   #updateSavedState(): void {
+    if (!this.#autobadges) return;
+
     console.log('Updating localStorage');
     // TODO: Only do this if using state? - Get from config.
     if (typeof window === 'undefined') {
@@ -448,7 +474,7 @@ class BadgesAddon {
     }
 
     window.localStorage.setItem(ADDON_LS_KEY, JSON.stringify(newStorage));
-    console.log('Saved State...', window.localStorage.getItem(ADDON_LS_KEY));
+    // console.log('Saved State...', window.localStorage.getItem(ADDON_LS_KEY));
   }
 }
 
