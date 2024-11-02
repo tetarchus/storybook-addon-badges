@@ -42,8 +42,7 @@ class BadgesAddon {
   //== Private Properties
   //===================================
   /** Whether we should index for autobadges. */
-  #autobadges: boolean = false;
-  /** The a11y addon interface instance. */
+  #autobadges: boolean = false; /** The a11y addon interface instance. */
   #a11yAddon: A11y;
   /** The ID currently active story. */
   #activeStoryId: string | null = null;
@@ -57,8 +56,6 @@ class BadgesAddon {
   #baseConfig: FullConfig;
   /** The latest parsed state of the stories. */
   #currentState: AddonState;
-  /** The saved state of the stories from local storage. */
-  #savedState: AddonState;
   /** ID for referencing this storybook instance. */
   #storybookId: string;
   /** The testing addon interface instance. */
@@ -72,8 +69,7 @@ class BadgesAddon {
     this.#addonsConfig = addons.getConfig();
     this.#api = api;
     this.#storybookId = this.#assignStorybookId();
-    this.#savedState = this.#getStateFromLocalStorage();
-    this.#currentState = { ...this.#savedState };
+    this.#currentState = this.#savedState;
     this.#a11yAddon = new A11y(api, this);
     this.#testingAddon = new Testing(api, this);
     this.#baseConfig = this.addonConfig;
@@ -124,7 +120,8 @@ class BadgesAddon {
   public addA11yState(storyId: string, state: A11yState): void {
     if (!this.a11yActive || !this.#autobadges) return;
 
-    const savedStoryData = this.#storedState.storyStates.find(story => story.id === storyId);
+    const existingData = this.#savedState.storyStates;
+    const savedStoryData = existingData.find(story => story.id === storyId);
     if (!savedStoryData) {
       logger.warn('Could not find saved data for', storyId);
       return;
@@ -132,7 +129,7 @@ class BadgesAddon {
     // Only update if changes to prevent updating localStorage unnecessarily
     if (JSON.stringify(state) !== JSON.stringify(savedStoryData.a11y)) {
       savedStoryData.a11y = state;
-      this.#updateSavedState();
+      this.#savedState = { storyStates: existingData };
     }
   }
 
@@ -176,25 +173,58 @@ class BadgesAddon {
   //===================================
   //== Private Getters/Setters
   //===================================
-  // TODO: Do we need this? Could access localStorage directly rather than proxying...
-  // TODO: Add autobadge check if so
-  /** Retrieves the state that was stored in localStorage. */
-  get #storedState(): AddonState {
-    return this.#savedState;
+  get #savedState(): AddonState {
+    if (!this.#autobadges) {
+      return defaultAddonState;
+    }
+
+    if (typeof window === 'undefined') {
+      logger.warn('Unable to fetch localStorage - window is undefined');
+      return defaultAddonState;
+    }
+
+    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storage) {
+      try {
+        const parsed = JSON.parse(storage);
+        const current = parsed[this.#storybookId];
+        if (current) {
+          return current;
+        } else {
+          logger.info('No state found - initializing');
+        }
+      } catch (err) {
+        logger.error(err);
+      }
+    }
+
+    return defaultAddonState;
   }
 
-  // TODO: Do we need this? Could access localStorage directly rather than proxying...
-  // TODO: Add autobadge check if so
-  /** Updates the values saved in localStorage. */
-  set #storedState(state: Partial<AddonState>) {
-    console.log('Setting stored state');
-    if (state.storyStates) {
-      this.#savedState.storyStates = state.storyStates;
+  set #savedState(newState: Partial<AddonState>) {
+    if (!this.#autobadges) return;
+
+    if (typeof window === 'undefined') {
+      logger.warn('Unable to set localStorage - window is undefined');
+      return;
     }
-    if (state.legacyWarningShown) {
-      this.#savedState.legacyWarningShown = state.legacyWarningShown;
+
+    const existingData = { ...this.#savedState };
+
+    if (
+      newState.legacyWarningShown != null &&
+      newState.legacyWarningShown !== existingData.legacyWarningShown
+    ) {
+      existingData.legacyWarningShown = newState.legacyWarningShown;
     }
-    this.#updateSavedState();
+
+    if (newState.storyStates) {
+      // TODO: Merge?
+      existingData.storyStates = newState.storyStates;
+    }
+
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(existingData));
+    this.#currentState = this.#savedState;
   }
 
   //===================================
@@ -309,38 +339,6 @@ class BadgesAddon {
   }
 
   /**
-   * Obtains the addon state from localStorage if it exists.
-   * @returns The state stored in localStorage, or a default if none is found.
-   */
-  #getStateFromLocalStorage(): AddonState {
-    if (!this.#autobadges) {
-      return defaultAddonState;
-    }
-
-    if (typeof window === 'undefined') {
-      logger.warn('Unable to get stored state - window is undefined');
-      return defaultAddonState;
-    }
-
-    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storage) {
-      try {
-        const parsed = JSON.parse(storage);
-        const current = parsed[this.#storybookId];
-        if (current) {
-          return current;
-        } else {
-          logger.info('No state found - initializing');
-        }
-      } catch (err) {
-        logger.error(err);
-      }
-    }
-
-    return defaultAddonState;
-  }
-
-  /**
    * Checks whether an entry is new and has never been viewed.
    * @param entry The entry to check.
    * @returns A boolean indicating whether the entry is new since the last time
@@ -391,11 +389,10 @@ class BadgesAddon {
     }
 
     this.#currentState.storyStates = state;
-    console.log(this.#storedState.storyStates.length);
-    if (this.#storedState.storyStates.length === 0) {
-      this.#storedState = { storyStates: state };
+    if (this.#savedState.storyStates.length === 0) {
+      this.#savedState = { storyStates: state };
     }
-    console.log('OnIndex Complete', this.#storedState, this.#currentState);
+    console.log('OnIndex Complete', this.#savedState, this.#currentState);
   }
 
   /**
@@ -413,7 +410,6 @@ class BadgesAddon {
    * @param storyId The ID of the story that has been rendered.
    */
   #onStoryRender(storyId: string): void {
-    console.log('Story Rendered', storyId);
     this.#activeStoryId = storyId;
 
     if (!this.#autobadges) return;
@@ -445,36 +441,6 @@ class BadgesAddon {
     }
     if (config.autobadges === false) return false;
     return true;
-  }
-
-  /**
-   * Updates the state saved in localStorage.
-   */
-  #updateSavedState(): void {
-    if (!this.#autobadges) return;
-
-    console.log('Updating localStorage');
-    // TODO: Only do this if using state? - Get from config.
-    if (typeof window === 'undefined') {
-      logger.warn('Unable to set stored state - window is undefined');
-      return;
-    }
-
-    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-    let newStorage = {
-      [this.#storybookId]: this.#savedState,
-    };
-    if (storage) {
-      try {
-        const parsed = JSON.parse(storage);
-        newStorage = { ...parsed, ...newStorage };
-      } catch (err) {
-        logger.error(err);
-      }
-    }
-
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newStorage));
-    // console.log('Saved State...', window.localStorage.getItem(LOCAL_STORAGE_KEY));
   }
 }
 
