@@ -21,8 +21,8 @@ describe('Location Utils', () => {
       expect(Object.keys(locations)).toHaveLength(3);
       expect(Object.keys(locations)).toStrictEqual(['sidebar', 'toolbar', 'toolbar-end']);
       expect(locations).toStrictEqual({
-        'sidebar': ['component', 'docs', 'group', 'story'],
-        'toolbar': [],
+        sidebar: ['component', 'docs', 'group', 'story'],
+        toolbar: [],
         'toolbar-end': [],
       });
     });
@@ -33,8 +33,8 @@ describe('Location Utils', () => {
       expect(Object.keys(locations)).toHaveLength(3);
       expect(Object.keys(locations)).toStrictEqual(['sidebar', 'toolbar', 'toolbar-end']);
       expect(locations).toStrictEqual({
-        'sidebar': ['component', 'story'],
-        'toolbar': ['story'],
+        sidebar: ['component', 'story'],
+        toolbar: ['story'],
         'toolbar-end': ['docs'],
       });
     });
@@ -49,8 +49,8 @@ describe('Location Utils', () => {
       expect(Object.keys(locations)).toHaveLength(3);
       expect(Object.keys(locations)).toStrictEqual(['sidebar', 'toolbar', 'toolbar-end']);
       expect(locations).toStrictEqual({
-        'sidebar': ['component', 'story'],
-        'toolbar': ['story'],
+        sidebar: ['component', 'story'],
+        toolbar: ['story'],
         'toolbar-end': ['docs'],
       });
     });

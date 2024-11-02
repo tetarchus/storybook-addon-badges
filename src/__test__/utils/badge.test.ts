@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { DELIMITER } from '@/__test__/__fixtures__';
+import {
+  DELIMITER,
+  badgeFnParameters,
+  fullConfig,
+  fullConfigStyleFn,
+  fullStyle,
+} from '@/__test__/__fixtures__';
+import { BADGE } from '@/constants';
 import {
   getBadgeContent,
   getBadgeContentInternal,
@@ -8,7 +15,10 @@ import {
   getBadgeIdInternal,
   getBadgeParts,
   getBadgePartsInternal,
+  getFullBadgeConfig,
 } from '@/utils/badge';
+
+import type { BadgeTitleFn } from '@/types';
 
 // Fixtures
 const defaultName = 'version:1.0.0';
@@ -16,6 +26,17 @@ const expectedId = 'version';
 const expectedContent = '1.0.0';
 const empty = '';
 const expectedFullId = 'version-1.0.0';
+
+const basicBadgeConfig = {
+  displayContentOnly: false,
+  locations: {
+    sidebar: ['component', 'story'],
+    toolbar: ['story'],
+    'toolbar-end': ['docs'],
+  },
+  priority: 99,
+  tooltip: undefined,
+};
 
 describe('Badge Utils', () => {
   describe('getBadgePartsInternal', () => {
@@ -116,6 +137,40 @@ describe('Badge Utils', () => {
       const fn = getBadgeContent('123');
       const content = fn('version1231.0.0');
       expect(content).toBe(expectedContent);
+    });
+  });
+
+  describe('getFullBadgeConfig', () => {
+    it('returns the expected value - existing badge', () => {
+      expect.assertions(1);
+      const fullBadgeConfig = getFullBadgeConfig(BADGE.BETA, fullConfig);
+      expect(fullBadgeConfig).toMatchObject({ ...basicBadgeConfig, title: 'Beta' });
+    });
+
+    it('returns the expected value - non-existant badge', () => {
+      expect.assertions(1);
+      const fullBadgeConfig = getFullBadgeConfig('testingBadge', fullConfig);
+      expect(fullBadgeConfig).toMatchObject(basicBadgeConfig);
+    });
+
+    it('style function works as expected', () => {
+      expect.assertions(1);
+      const fullBadgeConfig = getFullBadgeConfig('testingBadge', fullConfig);
+      expect(fullBadgeConfig.style(badgeFnParameters)).toStrictEqual(fullStyle);
+    });
+
+    it('handles missing title property', () => {
+      expect.assertions(4);
+      const fullBadgeConfig = getFullBadgeConfig('no-title', fullConfigStyleFn);
+      expect(fullBadgeConfig).toMatchObject(basicBadgeConfig);
+      expect(fullBadgeConfig.style(badgeFnParameters)).toStrictEqual({
+        ...fullStyle,
+        backgroundColor: 'purple',
+      });
+      expect(typeof fullBadgeConfig.title).toBe('function');
+      expect((fullBadgeConfig.title as BadgeTitleFn)(badgeFnParameters)).toStrictEqual(
+        'Example Badge',
+      );
     });
   });
 });

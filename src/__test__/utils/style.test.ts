@@ -1,20 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { DELIMITER, fullStyle, storyEntry, styleProp } from '@/__test__/__fixtures__';
+import { badgeFnParameters, fullStyle, styleProp } from '@/__test__/__fixtures__';
 import { defaultBadgeStyle, githubBadgeStyle } from '@/config';
-import { getBadgeContent, getBadgeId, getBadgeParts } from '@/utils';
 import { getBaseStyle, getThemeValue } from '@/utils/style';
 
-import type { BadgeFnParameters, BadgeStyleFn } from '@/types';
-
-const badgeStyleFnArgs: BadgeFnParameters = {
-  badgeId: 'Example',
-  content: 'Example Badge',
-  entry: storyEntry,
-  getBadgeContent: getBadgeContent(DELIMITER),
-  getBadgeId: getBadgeId(DELIMITER),
-  getBadgeParts: getBadgeParts(DELIMITER),
-};
+import type { BadgeStyleFn } from '@/types';
 
 describe('Style Utils', () => {
   describe('getBaseStyle', () => {
@@ -47,8 +37,8 @@ describe('Style Utils', () => {
 
       expect(typeof defaultStyle).toBe('function');
       expect(typeof githubStyle).toBe('function');
-      expect((defaultStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual(defaultBadgeStyle);
-      expect((githubStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual(githubBadgeStyle);
+      expect((defaultStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual(defaultBadgeStyle);
+      expect((githubStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual(githubBadgeStyle);
     });
 
     it('returns the expected style function - with object base function', () => {
@@ -58,11 +48,11 @@ describe('Style Utils', () => {
 
       expect(typeof defaultStyle).toBe('function');
       expect(typeof githubStyle).toBe('function');
-      expect((defaultStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual({
+      expect((defaultStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual({
         ...defaultBadgeStyle,
         backgroundColor: 'red',
       });
-      expect((githubStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual({
+      expect((githubStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual({
         ...githubBadgeStyle,
         backgroundColor: 'purple',
       });
@@ -73,7 +63,7 @@ describe('Style Utils', () => {
       const customFullStyle = getBaseStyle(() => fullStyle);
 
       expect(typeof customFullStyle).toBe('function');
-      expect((customFullStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual(fullStyle);
+      expect((customFullStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual(fullStyle);
     });
 
     it('returns the expected style function - with computed properties', () => {
@@ -84,7 +74,7 @@ describe('Style Utils', () => {
       }));
 
       expect(typeof customFullStyle).toBe('function');
-      expect((customFullStyle as BadgeStyleFn)(badgeStyleFnArgs)).toStrictEqual({
+      expect((customFullStyle as BadgeStyleFn)(badgeFnParameters)).toStrictEqual({
         ...fullStyle,
         backgroundColor: 'teal',
       });
