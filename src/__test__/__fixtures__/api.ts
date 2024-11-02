@@ -1,9 +1,15 @@
+import { convert, themes } from '@storybook/theming';
 import * as managerApi from 'storybook/internal/manager-api';
 
 import { defaultConfig } from '@/config';
 import { PARAM_BADGES_KEY, PARAM_CONFIG_KEY } from '@/constants';
 
 import type { API } from 'storybook/internal/manager-api';
+
+/** Theme vars to pass into mock manager state. */
+const mockedThemeVars = themes.dark;
+/** Mocked theme to use in mock theme provider. */
+const mockedTheme = convert();
 
 /** Mock values return from getCurrentParameters. */
 const mockInitialValues: Record<string, unknown> = {
@@ -38,4 +44,4 @@ const api: API = {
   getParameters: getParametersMock,
 };
 
-export { api };
+export { api, mockedTheme, mockedThemeVars };

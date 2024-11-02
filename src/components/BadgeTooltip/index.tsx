@@ -15,7 +15,17 @@ const BadgeTooltip: FC<BadgeTooltipProps> = ({ children, tooltip }: BadgeTooltip
     return <TooltipMessage {...tooltipMessageProps} />;
   }, [tooltip]);
 
-  return <WithTooltip tooltip={tooltipMessage}>{children}</WithTooltip>;
+  return (
+    <WithTooltip
+      closeOnTriggerHidden
+      delayHide={100}
+      interactive
+      tooltip={tooltipMessage}
+      trigger={['click', 'hover']}
+    >
+      {children}
+    </WithTooltip>
+  );
 };
 
 export { BadgeTooltip };
