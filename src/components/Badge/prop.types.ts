@@ -17,6 +17,8 @@ type BadgeProps = {
   badgeId: string;
   /** The resolved configuration object for the badge. */
   config: FullBadgeConfig;
+  /** ID to use in testing. */
+  'data-testid'?: string | undefined;
   /** The text to display. */
   content: string;
   /** Delimiter used to split the ID from the content. */

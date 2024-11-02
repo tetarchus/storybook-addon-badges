@@ -15,7 +15,14 @@ import type { FC } from 'react';
 /**
  * A single badge component to convey simple information at a glance.
  */
-const Badge: FC<BadgeProps> = ({ badgeId, config, content, delimiter, entry }: BadgeProps) => {
+const Badge: FC<BadgeProps> = ({
+  badgeId,
+  config,
+  content,
+  'data-testid': dataTestId,
+  delimiter,
+  entry,
+}: BadgeProps) => {
   const uiTheme = useTheme();
   const [{ theme }] = useGlobals();
 
@@ -53,13 +60,14 @@ const Badge: FC<BadgeProps> = ({ badgeId, config, content, delimiter, entry }: B
     () => (
       <StyledBadge
         badgeStyle={badgeStyle}
+        data-testid={dataTestId}
         hasTooltip={config.tooltip != null}
         uiTheme={theme || uiTheme['base']}
       >
         {badgeText}
       </StyledBadge>
     ),
-    [badgeStyle, badgeText, config.tooltip, theme, uiTheme],
+    [badgeStyle, badgeText, config.tooltip, dataTestId, theme, uiTheme],
   );
 
   return config.tooltip ? (

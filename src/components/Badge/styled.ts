@@ -10,7 +10,9 @@ const baseStyle: CSSObject = {
   alignItems: 'center',
   display: 'flex',
   flexShrink: 0,
+  lineHeight: 'normal',
   justifyContent: 'center',
+  width: 'fit-content',
 };
 
 /** The main badge container. */
