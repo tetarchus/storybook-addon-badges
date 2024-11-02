@@ -5,14 +5,14 @@ import { axe } from 'vitest-axe';
 
 import * as Stories from './Badge.stories';
 
-const BaseButtonStories = composeStories(Stories);
-const { Beta } = BaseButtonStories;
+const BadgeStories = composeStories(Stories);
+const { Beta } = BadgeStories;
 
 const testId = 'badge';
 
 describe('Badge Component', () => {
   describe('Accessibility', () => {
-    it.each(Object.entries(BaseButtonStories))(
+    it.each(Object.entries(BadgeStories))(
       'passes accessibility tests - %s',
       async (_name, Story) => {
         expect.assertions(1);
