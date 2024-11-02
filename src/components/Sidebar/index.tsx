@@ -13,14 +13,18 @@ const location = BADGE_LOCATION.SIDEBAR;
 /**
  * Display component for rendering labels in the Sidebar alongside badges.
  */
-const AddonSidebar: FC<SidebarProps> = ({ api, item, renderLabel }) => {
+const AddonSidebar: FC<SidebarProps> = ({ api, 'data-testid': dataTestId, item, renderLabel }) => {
   /** The text portion of the label - allowing for custom renderLabel from the user. */
   const label = useMemo(() => renderLabel?.(item, api) ?? item.name, [api, item, renderLabel]);
 
   return (
-    <Label>
+    <Label data-testid={dataTestId}>
       {label}
-      <Badges entry={item} location={location} />
+      <Badges
+        data-testid={dataTestId ? `${dataTestId}-badges` : undefined}
+        entry={item}
+        location={location}
+      />
     </Label>
   );
 };

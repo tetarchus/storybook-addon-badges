@@ -3,18 +3,16 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
-import { BADGE } from '@/constants';
+import * as Stories from './Sidebar.stories';
 
-import * as Stories from './Badges.stories';
+const SidebarStories = composeStories(Stories);
+const { Base } = SidebarStories;
 
-const BadgesStories = composeStories(Stories);
-const { Base } = BadgesStories;
+const testId = 'sidebar';
 
-const testId = 'badge';
-
-describe('Badges Component', () => {
+describe('Sidebar Component', () => {
   describe('Accessibility', () => {
-    it.each(Object.entries(BadgesStories))(
+    it.each(Object.entries(SidebarStories))(
       'passes accessibility tests - %s',
       async (_name, Story) => {
         expect.assertions(1);
@@ -27,11 +25,14 @@ describe('Badges Component', () => {
 
   describe('Display', () => {
     it('displays the correct elements', () => {
-      expect.assertions(2);
+      expect.assertions(4);
 
       render(<Base data-testid={testId} />);
-      expect(screen.getByTestId(testId)).toBeInTheDocument();
-      expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(Object.keys(BADGE).length);
+      const sidebar = screen.getByTestId(testId);
+      expect(sidebar).toBeInTheDocument();
+      expect(sidebar).toHaveTextContent('ExampleStory');
+      expect(screen.getByTestId(`${testId}-badges`)).toBeInTheDocument();
+      expect(screen.getAllByTestId(`${testId}-badges-badge`)).toHaveLength(2);
     });
   });
 });

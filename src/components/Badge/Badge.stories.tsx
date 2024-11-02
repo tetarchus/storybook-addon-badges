@@ -6,8 +6,8 @@ import { BADGE } from '@/constants';
 import { StorybookManagerMock } from '@/decorators/StorybookManagerMock';
 import { getFullBadgeConfig, getFullConfig } from '@/utils';
 
-import type { Meta, StoryObj } from '@storybook/react';
 import type { BadgeStyleBase } from '@/types/style.types';
+import type { Meta, StoryObj } from '@storybook/react';
 
 /** Props for the proxy wrapper. */
 type BadgeWrapperProps = {

@@ -1,9 +1,10 @@
+import { expect, userEvent, waitFor, within } from '@storybook/test';
+
 import { BadgeTooltip } from '.';
 
 import { StorybookManagerMock } from '@/decorators/StorybookManagerMock';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 const meta = {
   title: 'Addon/BadgeTooltip',

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { TooltipMessage, WithTooltip } from 'storybook/internal/components';
 
-import type { FC } from 'react';
 import type { BadgeTooltipProps } from './prop.types';
+import type { FC } from 'react';
 
 /**
  * Convenience wrapper around Storybook's Tooltip components. Allows

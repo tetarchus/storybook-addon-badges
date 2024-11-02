@@ -3,18 +3,16 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
-import { BADGE } from '@/constants';
+import * as Stories from './Toolbar.stories';
 
-import * as Stories from './Badges.stories';
+const ToolbarStories = composeStories(Stories);
+const { Base } = ToolbarStories;
 
-const BadgesStories = composeStories(Stories);
-const { Base } = BadgesStories;
+const testId = 'toolbar';
 
-const testId = 'badge';
-
-describe('Badges Component', () => {
+describe('Toolbar Component', () => {
   describe('Accessibility', () => {
-    it.each(Object.entries(BadgesStories))(
+    it.each(Object.entries(ToolbarStories))(
       'passes accessibility tests - %s',
       async (_name, Story) => {
         expect.assertions(1);
@@ -30,8 +28,9 @@ describe('Badges Component', () => {
       expect.assertions(2);
 
       render(<Base data-testid={testId} />);
-      expect(screen.getByTestId(testId)).toBeInTheDocument();
-      expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(Object.keys(BADGE).length);
+      const sidebar = screen.getByTestId(testId);
+      expect(sidebar).toBeInTheDocument();
+      expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(9);
     });
   });
 });

@@ -51,6 +51,7 @@ const api: API = {
   getCurrentParameter: getCurrentParameterMock,
   getParameters: getParametersMock,
   getData: () => storyEntry,
+  getCurrentStoryData: () => storyEntry,
 };
 
 export { api, mockedTheme, mockedThemeVars, mockInitialValues };

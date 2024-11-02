@@ -9,7 +9,13 @@ import { Badges } from '../Badges';
 import type { ToolbarProps } from './prop.types';
 import type { FC } from 'react';
 
-const AddonToolbar: FC<ToolbarProps> = ({ end = false }: ToolbarProps) => {
+/**
+ * Component for displaying badges in one of two locations in the Storybook toolbar.
+ */
+const AddonToolbar: FC<ToolbarProps> = ({
+  'data-testid': dataTestId,
+  end = false,
+}: ToolbarProps) => {
   const location = end ? BADGE_LOCATION.TOOLBAR_END : BADGE_LOCATION.TOOLBAR;
 
   const api = useStorybookApi();
@@ -25,9 +31,10 @@ const AddonToolbar: FC<ToolbarProps> = ({ end = false }: ToolbarProps) => {
     }
   }, [addonState, end, sbState.addons]);
 
-  return <Badges entry={entry} location={location} />;
+  return <Badges data-testid={dataTestId} entry={entry} location={location} />;
 };
 
+/** Memoized toolbar display component. */
 const Toolbar = memo(AddonToolbar);
 
 export { Toolbar };
