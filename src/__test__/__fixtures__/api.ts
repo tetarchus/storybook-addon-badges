@@ -2,7 +2,9 @@ import { convert, themes } from '@storybook/theming';
 import * as managerApi from 'storybook/internal/manager-api';
 
 import { defaultConfig } from '@/config';
-import { PARAM_BADGES_KEY, PARAM_CONFIG_KEY } from '@/constants';
+import { BADGE, PARAM_BADGES_KEY, PARAM_CONFIG_KEY } from '@/constants';
+
+import { storyEntry } from './storybook';
 
 import type { API } from 'storybook/internal/manager-api';
 
@@ -13,7 +15,7 @@ const mockedTheme = convert();
 
 /** Mock values return from getCurrentParameters. */
 const mockInitialValues: Record<string, unknown> = {
-  [PARAM_BADGES_KEY]: [],
+  [PARAM_BADGES_KEY]: Object.values(BADGE),
   [PARAM_CONFIG_KEY]: defaultConfig,
 };
 
@@ -34,14 +36,21 @@ const getParametersMock = <S>(
   return mockInitialValues[parameterName] as S;
 };
 
+// TODO: JSDoc
+const getCurrentParameterMock = <S>(parameterName?: string) => {
+  if (!parameterName) return mockInitialValues as S;
+  return mockInitialValues[parameterName] as S;
+};
+
 /** Basic mock Storybook API for use in tests/internal stories. */
 const api: API = {
   ...(managerApi as unknown as API),
   getGlobals: mockGlobalsFn,
   getStoryGlobals: mockGlobalsFn,
   getUserGlobals: mockGlobalsFn,
-  getCurrentParameter: getParametersMock as API['getCurrentParameter'],
+  getCurrentParameter: getCurrentParameterMock,
   getParameters: getParametersMock,
+  getData: () => storyEntry,
 };
 
-export { api, mockedTheme, mockedThemeVars };
+export { api, mockedTheme, mockedThemeVars, mockInitialValues };

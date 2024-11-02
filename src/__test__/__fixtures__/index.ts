@@ -1,4 +1,4 @@
-export { api, mockedTheme, mockedThemeVars } from './api';
+export { api, mockedTheme, mockedThemeVars, mockInitialValues } from './api';
 export {
   badgeFnParameters,
   basicBadgeConfig,

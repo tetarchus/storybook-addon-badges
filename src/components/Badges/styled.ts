@@ -8,7 +8,7 @@ const BadgesWrapper = styled.div<BadgesWrapperProps>(({ location, theme }) => ({
   display: 'flex',
   flexWrap: location === 'sidebar' ? 'wrap' : 'nowrap',
   gap: theme.layoutMargin,
-  justifyContent: location === 'sidebar' ? 'flex-end' : 'space-evenly',
+  justifyContent: location === 'sidebar' ? 'flex-end' : 'flex-start',
   paddingInline: location === 'sidebar' ? '0px' : theme.layoutMargin / 2,
   rowGap: theme.layoutMargin / 3,
 }));
