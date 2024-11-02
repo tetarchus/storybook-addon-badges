@@ -1,7 +1,7 @@
 import { addons } from 'storybook/internal/manager-api';
 import { describe, expect, it } from 'vitest';
 
-import { mockedApi, mockedChannel } from '@/__test__/__fixtures__';
+import { mockedApi, mockedChannel } from '@/__test__/.mocks';
 import { BadgesAddon } from '@/classes';
 import { A11y } from '@/classes/A11y';
 import { EXTERNAL } from '@/constants';

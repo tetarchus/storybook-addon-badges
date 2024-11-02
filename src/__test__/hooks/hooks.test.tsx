@@ -1,7 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { mockedApi, resolvedDefaultConfig } from '@/__test__/__fixtures__';
+import { resolvedDefaultConfig } from '@/__test__/__fixtures__';
+import { mockedApi } from '@/__test__/.mocks';
 import { BadgesAddon } from '@/classes';
 import { BadgesAddonProvider } from '@/contexts';
 import { useAddon, useAddonConfig } from '@/hooks';

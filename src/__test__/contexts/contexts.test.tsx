@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { mockedApi } from '@/__test__/__fixtures__';
+import { mockedApi } from '@/__test__/.mocks';
 import { BadgesAddon } from '@/classes';
 import { BadgesAddonContext, BadgesAddonProvider } from '@/contexts';
 

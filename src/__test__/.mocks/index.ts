@@ -2,7 +2,7 @@ import EventEmitter from 'node:events';
 
 import { vi } from 'vitest';
 
-import { api } from './api';
+import { api } from '@/__test__/__fixtures__';
 
 /** Custom emitter. */
 const emitter = new EventEmitter();
