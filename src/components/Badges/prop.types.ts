@@ -9,6 +9,8 @@ type BadgesWrapperProps = {
 
 /** Props for the Badges component. */
 type BadgesProps = {
+  /** ID to use for tests. */
+  'data-testid'?: string | undefined;
   /** The {@link HashEntry} item from Storybook that the badges relate to. */
   entry: HashEntry;
   /** The location of the badges. */

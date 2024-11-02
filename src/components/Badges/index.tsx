@@ -12,7 +12,7 @@ import type { FC } from 'react';
 /**
  * Wrapper component for displaying multiple badges, with or without separators.
  */
-const Badges: FC<BadgesProps> = ({ entry, location }: BadgesProps) => {
+const Badges: FC<BadgesProps> = ({ 'data-testid': dataTestId, entry, location }: BadgesProps) => {
   const addon = useAddon();
   const { addonConfig } = addon;
 
@@ -30,12 +30,13 @@ const Badges: FC<BadgesProps> = ({ entry, location }: BadgesProps) => {
   return badges.length > 0 ? (
     <>
       {['all', 'before', 'wrap'].includes(separators) && <Separator />}
-      <BadgesWrapper location={location}>
+      <BadgesWrapper data-testid={dataTestId} location={location}>
         {badges.map((badge, index) => (
           <Fragment key={badge.badgeId}>
             <Badge
               badgeId={badge.badgeId}
               content={badge.content}
+              data-testid={dataTestId ? `${dataTestId}-badge` : undefined}
               config={badge.config}
               delimiter={addonConfig.delimiter}
               entry={entry}
