@@ -4,6 +4,7 @@ export type {
   BadgeDefinition,
   BadgeFnParameters,
   BadgeParts,
+  BadgeTitleFn,
   FullBadgeConfig,
 } from './badge.types';
 export type { BadgeMap, BadgesConfig, FullConfig } from './config.types';

@@ -5,7 +5,7 @@ import type { getBadgeContent, getBadgeParts, getBadgeId } from '@/utils';
 import type { HashEntry } from 'storybook/internal/manager-api';
 
 /** Function for dynamically creating the badge content. */
-type TitleFn = (params: BadgeFnParameters) => string;
+type BadgeTitleFn = (params: BadgeFnParameters) => string;
 
 /** Parts of a badge's ID string. */
 type BadgeParts = {
@@ -57,7 +57,7 @@ type Badge = {
   /** @deprecated - use `style`. */
   styles?: BadgeStyleOrFn;
   /** The text to display on the badge. */
-  title?: string | TitleFn;
+  title?: string | BadgeTitleFn;
   /** Tooltip to display on hover. */
   tooltip?: TooltipConfig;
 };
@@ -84,4 +84,11 @@ type BadgeDefinition = {
   content: string;
 };
 
-export type { Badge, BadgeDefinition, BadgeFnParameters, BadgeParts, FullBadgeConfig };
+export type {
+  Badge,
+  BadgeDefinition,
+  BadgeFnParameters,
+  BadgeParts,
+  BadgeTitleFn,
+  FullBadgeConfig,
+};

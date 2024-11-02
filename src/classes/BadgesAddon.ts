@@ -2,13 +2,7 @@ import { hash as ohash } from 'ohash';
 import { STORY_RENDERED } from 'storybook/internal/core-events';
 import { addons } from 'storybook/internal/manager-api';
 
-import {
-  defaultAddonState,
-  defaultBadgeConfig,
-  defaultConfig,
-  defaultLocations,
-  hashOptions,
-} from '@/config';
+import { defaultAddonState, hashOptions } from '@/config';
 import {
   ADDON_LS_KEY,
   BADGE,
@@ -18,26 +12,24 @@ import {
   PARAM_CONFIG_KEY,
   PARAM_STORYBOOK_ID,
 } from '@/constants';
-// TODO: Move import?
-import { A11y } from './A11y';
-import { Testing } from './Testing';
 import {
   getBadgePartsInternal,
-  getBaseStyle,
+  getFullBadgeConfig,
+  getFullConfig,
   logger,
-  normalizeLocations,
   shouldDisplayBadge,
 } from '@/utils';
+
+import { A11y } from './A11y';
+import { Testing } from './Testing';
 
 import type {
   A11yState,
   AddonState,
   BadgeDefinition,
-  BadgeFnParameters,
   BadgeLocation,
   BadgesConfig,
   EntryType,
-  FullBadgeConfig,
   FullConfig,
   IndexerResult,
   StoryState,
@@ -112,7 +104,7 @@ class BadgesAddon {
   /** Get the fully resolved config for the addon. */
   public get addonConfig(): FullConfig {
     const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | undefined>(PARAM_CONFIG_KEY);
-    return legacyConfig ? this.#resolveFullConfig(legacyConfig) : this.#baseConfig;
+    return legacyConfig ? getFullConfig(legacyConfig) : (this.#baseConfig ?? getFullConfig());
   }
 
   //===================================
@@ -242,7 +234,7 @@ class BadgesAddon {
         const { badgeId, content } = getBadgePartsInternal(badge, delimiter);
         return {
           badgeId,
-          config: BadgesAddon.#getBadgeConfig(badgeId, addonConfig),
+          config: getFullBadgeConfig(badgeId, addonConfig),
           content: displayContentOnly ? content || badgeId : badge,
         };
       })
@@ -432,70 +424,6 @@ class BadgesAddon {
   }
 
   /**
-   * Generates the full configuration for the addon.
-   * @param configs Array of additional custom config objects to use as overrides.
-   * @returns A {@link FullConfig} object with all values set to fallbacks and
-   * normalized.
-   */
-  #resolveFullConfig(
-    ...configs: Array<Partial<BadgesConfig> | FullConfig | undefined>
-  ): FullConfig {
-    const combinedConfigs = configs.reduce(
-      (config, current) => ({
-        autobadges: config?.autobadges ?? current?.autobadges,
-        badgeMap:
-          (config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap)
-            ? (config?.badgeMap ?? current?.badgeMap)
-            : { ...config?.badgeMap, ...current?.badgeMap },
-        baseStyle: config?.baseStyle ?? current?.baseStyle,
-        delimiter: config?.delimiter ?? current?.delimiter,
-        displayContentOnly: config?.displayContentOnly ?? current?.displayContentOnly,
-        excludeTags: config?.excludeTags ?? current?.excludeTags,
-        locations: config?.locations ?? current?.locations,
-        matchers: config?.matchers ?? current?.matchers,
-        replaceDefaultBadgeMap: config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap,
-        separators: config?.separators ?? current?.separators,
-        showClearButton: config?.showClearButton ?? current?.showClearButton,
-        sidebarDisplayBadges: config?.sidebarDisplayBadges ?? current?.sidebarDisplayBadges,
-        useBadgeFallback: config?.useBadgeFallback ?? current?.useBadgeFallback,
-        useTags: config?.useTags ?? current?.useTags,
-        warnOnLegacy: config?.warnOnLegacy ?? current?.warnOnLegacy,
-      }),
-      {} as { [K in keyof BadgesConfig]: BadgesConfig[K] | undefined },
-    );
-
-    const replaceDefaultBadgeMap =
-      combinedConfigs?.replaceDefaultBadgeMap ?? defaultConfig.replaceDefaultBadgeMap;
-
-    const fullConfig: FullConfig = {
-      autobadges: combinedConfigs?.autobadges ?? defaultConfig.autobadges,
-      badgeMap: replaceDefaultBadgeMap
-        ? (combinedConfigs?.badgeMap ?? defaultConfig.badgeMap)
-        : { ...defaultConfig.badgeMap, ...combinedConfigs?.badgeMap },
-      baseStyle: getBaseStyle(combinedConfigs?.baseStyle ?? defaultConfig.baseStyle),
-      delimiter: combinedConfigs?.delimiter ?? defaultConfig.delimiter,
-      displayContentOnly: combinedConfigs?.displayContentOnly ?? defaultConfig.displayContentOnly,
-      excludeTags: combinedConfigs?.excludeTags ?? defaultConfig.excludeTags,
-      locations: normalizeLocations(
-        combinedConfigs?.locations,
-        defaultConfig.locations,
-        defaultLocations,
-      ),
-      matchers: combinedConfigs?.matchers ?? defaultConfig.matchers,
-      replaceDefaultBadgeMap,
-      separators: combinedConfigs?.separators ?? defaultConfig.separators,
-      sidebarDisplayBadges:
-        combinedConfigs?.sidebarDisplayBadges ?? defaultConfig.sidebarDisplayBadges,
-      showClearButton: combinedConfigs?.showClearButton ?? defaultConfig.showClearButton,
-      useBadgeFallback: combinedConfigs?.useBadgeFallback ?? defaultConfig.useBadgeFallback,
-      useTags: combinedConfigs?.useTags ?? defaultConfig.useTags,
-      warnOnLegacy: combinedConfigs?.warnOnLegacy ?? defaultConfig.warnOnLegacy,
-    };
-
-    return fullConfig;
-  }
-
-  /**
    * Updates the state saved in localStorage.
    */
   #updateSavedState(): void {
@@ -521,38 +449,6 @@ class BadgesAddon {
 
     window.localStorage.setItem(ADDON_LS_KEY, JSON.stringify(newStorage));
     console.log('Saved State...', window.localStorage.getItem(ADDON_LS_KEY));
-  }
-
-  //===================================
-  //== Static Methods
-  //===================================
-  /**
-   * Creates a {@link FullBadgeConfig} for a given badge ID. Uses partial configs
-   * from the `badgeMap` and the addon config.
-   * @param badgeName The name of the badge to generate the config for.
-   * @param config The addon configuration to use when assigning defaults.
-   * @returns The fully resolved Badge config.
-   */
-  static #getBadgeConfig(badgeId: string, config: FullConfig): FullBadgeConfig {
-    const badgeConfig = config.badgeMap[badgeId];
-    const baseConfig = badgeConfig ?? defaultBadgeConfig;
-    const baseStyle = baseConfig.styles ?? baseConfig.style;
-
-    const style = (params: BadgeFnParameters) => {
-      const baseStyleResolved = typeof baseStyle === 'function' ? baseStyle(params) : baseStyle;
-      const configBaseStyle =
-        typeof config.baseStyle === 'function' ? config.baseStyle(params) : config.baseStyle;
-      return { ...configBaseStyle, ...baseStyleResolved };
-    };
-
-    return {
-      displayContentOnly: baseConfig.displayContentOnly ?? config.displayContentOnly,
-      locations: normalizeLocations(baseConfig.location, config.locations, config.locations),
-      priority: baseConfig.priority ?? 99,
-      style,
-      title: badgeConfig?.title ?? (({ content }) => content),
-      tooltip: baseConfig.tooltip,
-    };
   }
 }
 
