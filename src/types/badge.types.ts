@@ -46,7 +46,7 @@ type Badge = {
   /** String to use as a delimiter when matching badge name. */
   // delimiter?: string; // TODO: Needed?
   /** The locations that the badge should display. */
-  location?: BadgeLocations;
+  locations?: BadgeLocations;
   /**
    * How to order the badge. Lower numbers appear left of higher numbers.
    * @default 99

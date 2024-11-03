@@ -17,6 +17,7 @@ import {
   getFullBadgeConfig,
   getFullConfig,
   logger,
+  matchBadge,
   shouldDisplayBadge,
 } from '@/utils';
 
@@ -36,6 +37,7 @@ import type {
 } from '@/types';
 import type { API, HashEntry } from 'storybook/internal/manager-api';
 import type { Addon_Config } from 'storybook/internal/types';
+import { getMatcherBadge } from '@/utils/matcher';
 
 class BadgesAddon {
   //===================================
@@ -270,7 +272,7 @@ class BadgesAddon {
    */
   #filterBadges(badges: string[], location: BadgeLocation, type: EntryType): BadgeDefinition[] {
     const addonConfig = this.addonConfig;
-    const { delimiter, displayContentOnly, locations } = addonConfig;
+    const { delimiter, displayContentOnly, locations, matchers, useBadgeFallback } = addonConfig;
 
     return badges
       .filter((badge, idx, arr) => {
@@ -280,7 +282,31 @@ class BadgesAddon {
         return !(shouldDisable > -1 && shouldDisable > idx);
       })
       .map(badge => {
-        // TODO: Matchers
+        // Run any matchers first
+        for (const matcher of matchers) {
+          const matched = matchBadge(badge, matcher, delimiter);
+          if (matched) {
+            const { badgeId: parsedId, content } = getBadgePartsInternal(
+              badge,
+              matcher.delimiter ?? delimiter,
+            );
+            const { displayContentOnly: displayContentOverride } = matcher;
+            const { badgeId, config } = getMatcherBadge(matcher, addonConfig, parsedId);
+
+            return {
+              badgeId,
+              config,
+              content: (displayContentOverride ?? displayContentOnly) ? content || badgeId : badge,
+            };
+          }
+        }
+
+        // If we get here with no return, either there are no matchers, or none
+        // match the found badge ID - check if we should continue searching
+        if (matchers.length > 0 && !useBadgeFallback) {
+          return null;
+        }
+
         const { badgeId, content } = getBadgePartsInternal(badge, delimiter);
         return {
           badgeId,
@@ -288,6 +314,7 @@ class BadgesAddon {
           content: displayContentOnly ? content || badgeId : badge,
         };
       })
+      .filter(badge => badge != null)
       .filter(badge =>
         shouldDisplayBadge({
           badgeConfig: badge.config,

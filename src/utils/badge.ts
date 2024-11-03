@@ -1,4 +1,4 @@
-import type { BadgeFnParameters, BadgeParts, FullBadgeConfig, FullConfig } from '@/types';
+import type { Badge, BadgeFnParameters, BadgeParts, FullBadgeConfig, FullConfig } from '@/types';
 import { normalizeLocations } from './locations';
 import { defaultBadgeConfig } from '@/config';
 
@@ -71,13 +71,17 @@ const getBadgeId =
 /**
  * Creates a {@link FullBadgeConfig} for a given badge ID. Uses partial configs
  * from the `badgeMap` and the addon config.
- * @param badgeName The name of the badge to generate the config for.
+ * @param badge The name of the badge to generate the config for.
  * @param config The addon configuration to use when assigning defaults.
  * @returns The fully resolved Badge config.
  */
-const getFullBadgeConfig = (badgeName: string, config: FullConfig): FullBadgeConfig => {
-  const badgeConfig = config.badgeMap[badgeName];
-  const baseConfig = badgeConfig ?? defaultBadgeConfig;
+const getFullBadgeConfig = (
+  badge: string | Badge,
+  config: FullConfig,
+  overrides?: Badge,
+): FullBadgeConfig => {
+  const badgeConfig = typeof badge === 'string' ? config.badgeMap[badge] : badge;
+  const baseConfig = { ...(badgeConfig ?? defaultBadgeConfig), ...overrides };
 
   const baseStyle = baseConfig.styles ?? baseConfig.style;
 
@@ -90,10 +94,10 @@ const getFullBadgeConfig = (badgeName: string, config: FullConfig): FullBadgeCon
 
   return {
     displayContentOnly: baseConfig.displayContentOnly ?? config.displayContentOnly,
-    locations: normalizeLocations(baseConfig.location, config.locations, config.locations),
+    locations: normalizeLocations(baseConfig.locations, config.locations, config.locations),
     priority: baseConfig.priority ?? 99,
     style,
-    title: badgeConfig?.title ?? (({ content }) => content),
+    title: overrides?.title ?? badgeConfig?.title ?? (({ content }) => content),
     tooltip: baseConfig.tooltip,
   };
 };

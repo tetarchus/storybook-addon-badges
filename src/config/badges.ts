@@ -39,7 +39,7 @@ const defaultBadgeMap = {
     },
   },
   [BADGE.NEW]: {
-    location: ['sidebar', 'toolbar'],
+    locations: ['sidebar', 'toolbar'],
     title: 'New',
     priority: 1,
     styles: {
@@ -64,7 +64,7 @@ const defaultBadgeMap = {
     },
   },
   [BADGE.UPDATED]: {
-    location: ['sidebar', 'toolbar'],
+    locations: ['sidebar', 'toolbar'],
     priority: 2,
     title: 'Updated',
     styles: {

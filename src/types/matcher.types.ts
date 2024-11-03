@@ -1,4 +1,4 @@
-import type { Badge, BadgeFnParameters } from './badge.types';
+import type { Badge, BadgeTitleFn } from './badge.types';
 import type { BadgeLocations } from './location.types';
 
 /**
@@ -8,7 +8,7 @@ import type { BadgeLocations } from './location.types';
  */
 type Pattern = string | RegExp;
 /** Available matching options for a single match. */
-type MatchPattern = Pattern | { prefix?: Pattern; suffix?: Pattern };
+type MatchPattern = Pattern | { badgeId?: Pattern; content?: Pattern };
 /** A single pattern, or an array of patterns. */
 type MatchPatterns = MatchPattern | MatchPattern[];
 
@@ -22,7 +22,7 @@ type Matcher = {
    * - An object containing a badge ID, and a dynamic title function.
    * - An inline {@link Badge} configuration.
    */
-  badge: string | { id: string; title: (params: BadgeFnParameters) => string | Badge };
+  badge: string | { id: string; title: BadgeTitleFn } | Badge;
   /** The delimiter to use when parsing the matched content. */
   delimiter?: string;
   /** Whether to display only the content portion of a badge. */
@@ -36,4 +36,4 @@ type Matcher = {
   match: MatchPatterns;
 };
 
-export type { Matcher, MatchPatterns };
+export type { Matcher, MatchPattern, MatchPatterns };
