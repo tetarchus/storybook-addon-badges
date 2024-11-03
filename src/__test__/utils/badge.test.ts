@@ -172,5 +172,17 @@ describe('Badge Utils', () => {
         'Example Badge',
       );
     });
+
+    it('Accepts a partial Badge as the first arg', () => {
+      expect.assertions(1);
+      const fullBadgeConfig = getFullBadgeConfig({ title: 'Basic' }, fullConfig);
+      expect(fullBadgeConfig).toMatchObject({ ...basicBadgeConfig, title: 'Basic' });
+    });
+
+    it('Accepts a partial Badge as the first arg', () => {
+      expect.assertions(1);
+      const fullBadgeConfig = getFullBadgeConfig(BADGE.BETA, fullConfig, { title: 'Basic' });
+      expect(fullBadgeConfig).toMatchObject({ ...basicBadgeConfig, title: 'Basic' });
+    });
   });
 });
