@@ -24,7 +24,6 @@ class Testing {
 
   /** Sets the current state of the a11y plugin and processes the queue. */
   public set active(active: boolean) {
-    console.log('Activating Test');
     this.#active = active;
   }
 }

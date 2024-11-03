@@ -8,6 +8,6 @@ export {
 export { basicBadgeMap, testingBadgeMap } from './badgeMap';
 export { fullConfig, fullConfigStyleFn, resolvedDefaultConfig } from './config';
 export { fullLocationMap } from './location';
-export { DELIMITER } from './shared';
+export { DELIMITER, PREFIX } from './shared';
 export { storyEntry } from './storybook';
 export { fullStyle, styleProp } from './style';

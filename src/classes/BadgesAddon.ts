@@ -41,8 +41,7 @@ class BadgesAddon {
   //===================================
   //== Private Properties
   //===================================
-  /** Whether we should index for autobadges. */
-  #autobadges: boolean = false; /** The a11y addon interface instance. */
+  /** The a11y addon interface instance. */
   #a11yAddon: A11y;
   /** The ID currently active story. */
   #activeStoryId: string | null = null;
@@ -69,11 +68,10 @@ class BadgesAddon {
     this.#addonsConfig = addons.getConfig();
     this.#api = api;
     this.#storybookId = this.#assignStorybookId();
-    this.#currentState = this.#savedState;
+    this.#currentState = { ...this.#savedState };
     this.#a11yAddon = new A11y(api, this);
     this.#testingAddon = new Testing(api, this);
     this.#baseConfig = this.addonConfig;
-    this.#autobadges = this.#shouldUseAutobadges();
     this.#registerEventHandlers();
   }
 
@@ -126,6 +124,7 @@ class BadgesAddon {
       logger.warn('Could not find saved data for', storyId);
       return;
     }
+
     // Only update if changes to prevent updating localStorage unnecessarily
     if (JSON.stringify(state) !== JSON.stringify(savedStoryData.a11y)) {
       savedStoryData.a11y = state;
@@ -145,21 +144,13 @@ class BadgesAddon {
   ): BadgeDefinition[] {
     if (!entry) return [];
 
-    const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY];
+    const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];
     const storyData = this.#api.getData(entry.id) ?? entry;
 
     const autobadges = this.#getAutoBadges(storyData);
     const parameterBadges = this.#api.getCurrentParameter<string[]>(PARAM_BADGES_KEY) ?? [];
     const storyTags = this.#getTags(storyData);
     const { type } = storyData;
-
-    // console.log('Badges - in GetBadges', {
-    //   id: entry.id,
-    //   globalBadges,
-    //   autobadges,
-    //   parameterBadges,
-    //   storyTags,
-    // });
 
     const filteredBadges = this.#filterBadges(
       [...globalBadges, ...autobadges, ...parameterBadges, ...storyTags],
@@ -173,17 +164,31 @@ class BadgesAddon {
   //===================================
   //== Private Getters/Setters
   //===================================
+  /** Whether autobadges are active. Dictates whether additional functionality is active. */
+  get #autobadges(): boolean {
+    const config = this.addonConfig;
+    if (
+      config.autobadges === false ||
+      (Array.isArray(config.autobadges) && config.autobadges.length === 0)
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /** The state for the current storybook instance from localStorage. */
   get #savedState(): AddonState {
     if (!this.#autobadges) {
       return defaultAddonState;
     }
 
-    if (typeof window === 'undefined') {
-      logger.warn('Unable to fetch localStorage - window is undefined');
+    if (typeof localStorage === 'undefined') {
+      logger.warn("Unable to fetch localStorage as it's undefined");
       return defaultAddonState;
     }
 
-    const storage = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    const storage = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storage) {
       try {
         const parsed = JSON.parse(storage);
@@ -201,11 +206,12 @@ class BadgesAddon {
     return defaultAddonState;
   }
 
+  /** The state for the current storybook instance from localStorage. */
   set #savedState(newState: Partial<AddonState>) {
     if (!this.#autobadges) return;
 
-    if (typeof window === 'undefined') {
-      logger.warn('Unable to set localStorage - window is undefined');
+    if (typeof localStorage === 'undefined') {
+      logger.warn("Unable to set localStorage as it's undefined");
       return;
     }
 
@@ -223,8 +229,14 @@ class BadgesAddon {
       existingData.storyStates = newState.storyStates;
     }
 
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(existingData));
-    this.#currentState = this.#savedState;
+    try {
+      const fullStored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}');
+      const fullState = { ...fullStored, [this.#storybookId]: existingData };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fullState));
+      this.#currentState = this.#savedState;
+    } catch (err) {
+      logger.error(err);
+    }
   }
 
   //===================================
@@ -374,7 +386,6 @@ class BadgesAddon {
    */
   #onIndex({ index, stories }: IndexerResult): void {
     if (!this.#autobadges) return;
-    console.log('OnIndex');
     const state: StoryState[] = [];
 
     for (const [storyId, indexEntry] of index) {
@@ -392,7 +403,6 @@ class BadgesAddon {
     if (this.#savedState.storyStates.length === 0) {
       this.#savedState = { storyStates: state };
     }
-    console.log('OnIndex Complete', this.#savedState, this.#currentState);
   }
 
   /**
@@ -428,19 +438,6 @@ class BadgesAddon {
 
     // Storybook Events
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
-  }
-
-  /**
-   * Checks whether we need to index based on the autobadges config value.
-   * @returns A boolean indicating whether autobadge indexing should be used.
-   */
-  #shouldUseAutobadges(): boolean {
-    const config = this.addonConfig;
-    if (Array.isArray(config.autobadges) && config.autobadges.length === 0) {
-      return false;
-    }
-    if (config.autobadges === false) return false;
-    return true;
   }
 }
 

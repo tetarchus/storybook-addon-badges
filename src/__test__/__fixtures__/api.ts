@@ -22,7 +22,7 @@ const mockInitialValues: Record<string, unknown> = {
 /** Mock globals function to prevent errors. */
 const mockGlobalsFn = () => ({});
 
-/** Mock function for the API's `getCurrentParameter` and `getParameter` calls. */
+/** Mock function for the API's `getParameter` function. */
 const getParametersMock = <S>(
   _storyId:
     | string
@@ -36,7 +36,7 @@ const getParametersMock = <S>(
   return mockInitialValues[parameterName] as S;
 };
 
-// TODO: JSDoc
+/** Mock function for the API's `getCurrentParameter` function. */
 const getCurrentParameterMock = <S>(parameterName?: string) => {
   if (!parameterName) return mockInitialValues as S;
   return mockInitialValues[parameterName] as S;
