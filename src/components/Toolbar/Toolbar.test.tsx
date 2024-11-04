@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import * as Stories from './Toolbar.stories';
+import { BADGE } from '@/constants';
 
 const ToolbarStories = composeStories(Stories);
 const { Base } = ToolbarStories;
@@ -30,7 +31,7 @@ describe('Toolbar Component', () => {
       render(<Base data-testid={testId} />);
       const sidebar = screen.getByTestId(testId);
       expect(sidebar).toBeInTheDocument();
-      expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(9);
+      expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(Object.keys(BADGE).length);
     });
   });
 });

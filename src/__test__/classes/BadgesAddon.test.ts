@@ -12,7 +12,7 @@ import type { MockInstance } from 'vitest';
 // Common values
 const storyId = 'example-story--entry';
 const a11yState = { incomplete: 0, passes: 2, violations: 0 };
-const storyState = { a11y: null, hash: 'zFD8daDEKZ', id: storyId, test: null, type: 'story' };
+const storyState = { hash: 'zFD8daDEKZ', id: storyId, type: 'story' };
 const defaultSbState = {
   legacyWarningShown: false,
   storyStates: [storyState],
@@ -111,14 +111,16 @@ describe('BadgesAddon Class', () => {
   });
 
   it('sets the initial value of localstorage', () => {
-    expect.assertions(3);
+    expect.assertions(4);
     new BadgesAddon(mockedApi, true);
     expect(localStorage.getItem(LOCAL_STORAGE_KEY)).toBe(null);
-    mockChannel?.emit(EVENTS.INDEX, {
+    const mockIndex = {
       index: [[storyEntry.id, storyEntry]],
       stories: [{ storyEntry }],
-    });
-    expect(mockChannel?.emit).toHaveBeenCalledOnce();
+    };
+    mockChannel?.emit(EVENTS.INDEX, mockIndex);
+    expect(mockChannel?.emit).toHaveBeenCalledWith(EVENTS.INDEX, mockIndex);
+    expect(mockChannel?.emit).toHaveBeenLastCalledWith(EVENTS.INDEX_COMPLETE);
     expect(setItemSpy).toHaveBeenCalledWith(
       LOCAL_STORAGE_KEY,
       JSON.stringify({
