@@ -9,8 +9,6 @@ import type { Channel } from 'storybook/internal/channels';
 
 let mockChannel: Channel | null = null;
 
-const addonInstance = new BadgesAddon(mockedApi);
-
 describe('Testing Class', () => {
   beforeEach(() => {
     mockChannel = mockedChannel();
@@ -23,13 +21,13 @@ describe('Testing Class', () => {
 
   it('initializes as inactive', () => {
     expect.assertions(1);
-    const testing = new Testing(mockedApi, addonInstance);
+    const testing = new Testing(mockedApi, new BadgesAddon(mockedApi, true));
     expect(testing.active).toBe(false);
   });
 
   it('can be set to active', () => {
     expect.assertions(2);
-    const testing = new Testing(mockedApi, addonInstance);
+    const testing = new Testing(mockedApi, new BadgesAddon(mockedApi, true));
     expect(testing.active).toBe(false);
     testing.active = true;
     expect(testing.active).toBe(true);

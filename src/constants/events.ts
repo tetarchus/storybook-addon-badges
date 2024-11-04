@@ -3,6 +3,9 @@ import { ADDON_ID } from './addon';
 /** The key to store persisted state to in localStorage. */
 const LOCAL_STORAGE_KEY = `${ADDON_ID}/store`;
 
+/** Notification message ID for the legacy warning. */
+const LEGACY_NOTIFICATION_ID = `${ADDON_ID}/legacy-warning`;
+
 /** Events emitted by the addon. */
 const EVENTS = {
   /** Emitted once indexing is complete and current/saved states have been updated. */
@@ -15,4 +18,4 @@ const EVENTS = {
   CHECK_INDEX_RESPONSE: `${ADDON_ID}/check-response`,
 };
 
-export { EVENTS, LOCAL_STORAGE_KEY };
+export { EVENTS, LEGACY_NOTIFICATION_ID, LOCAL_STORAGE_KEY };

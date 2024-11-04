@@ -54,7 +54,7 @@ describe('BadgesAddon Class', () => {
 
   it('gets and sets the state of the A11y sub-class', () => {
     expect.assertions(2);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     expect(addon.a11yActive).toBe(false);
     addon.a11yActive = true;
     expect(addon.a11yActive).toBe(true);
@@ -62,7 +62,7 @@ describe('BadgesAddon Class', () => {
 
   it('gets and sets the state of the Testing sub-class', () => {
     expect.assertions(2);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     expect(addon.testActive).toBe(false);
     addon.testActive = true;
     expect(addon.testActive).toBe(true);
@@ -70,13 +70,13 @@ describe('BadgesAddon Class', () => {
 
   it('returns a resolved configuration', () => {
     expect.assertions(1);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     expect(addon.addonConfig).toMatchObject(resolvedDefaultConfig);
   });
 
   it('returns an array of badges', () => {
     expect.assertions(1);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     const badges = addon.getBadgesForStory(storyEntry, 'sidebar');
     expect(badges).toHaveLength(2);
   });
@@ -85,7 +85,7 @@ describe('BadgesAddon Class', () => {
     expect.assertions(3);
     // Initialize local storage with a value
     window.localStorage.setItem(LOCAL_STORAGE_KEY, storedValueMock);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     addon.a11yActive = true;
     addon.addA11yState(storyId, a11yState);
     expect(getItemSpy).toHaveBeenLastCalledWith(LOCAL_STORAGE_KEY);
@@ -103,7 +103,7 @@ describe('BadgesAddon Class', () => {
 
   it("displays an error if there's no existing state", () => {
     expect.assertions(2);
-    const addon = new BadgesAddon(mockedApi);
+    const addon = new BadgesAddon(mockedApi, true);
     addon.a11yActive = true;
     addon.addA11yState(storyId, a11yState);
     expect(consoleSpy).toHaveBeenCalledOnce();
@@ -112,9 +112,9 @@ describe('BadgesAddon Class', () => {
 
   it('sets the initial value of localstorage', () => {
     expect.assertions(3);
-    new BadgesAddon(mockedApi);
+    new BadgesAddon(mockedApi, true);
     expect(localStorage.getItem(LOCAL_STORAGE_KEY)).toBe(null);
-    mockChannel?.emit(EVENTS.INDEXED, {
+    mockChannel?.emit(EVENTS.INDEX, {
       index: [[storyEntry.id, storyEntry]],
       stories: [{ storyEntry }],
     });

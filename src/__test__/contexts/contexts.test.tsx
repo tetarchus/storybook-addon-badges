@@ -18,7 +18,7 @@ describe('Contexts', () => {
     it('returns the value when used inside of a provider', () => {
       expect.assertions(1);
       render(
-        <BadgesAddonProvider state={new BadgesAddon(mockedApi)}>
+        <BadgesAddonProvider state={new BadgesAddon(mockedApi, true)}>
           <ConsumerMock />
         </BadgesAddonProvider>,
       );

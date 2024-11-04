@@ -27,7 +27,7 @@ const StorybookManagerMock: Decorator = StoryFn => {
       }
     >
       <ThemeProvider theme={mockedTheme}>
-        <BadgesAddonProvider state={new BadgesAddon(api)}>{StoryFn()}</BadgesAddonProvider>
+        <BadgesAddonProvider state={new BadgesAddon(api, true)}>{StoryFn()}</BadgesAddonProvider>
       </ThemeProvider>
     </ManagerContext.Provider>
   );

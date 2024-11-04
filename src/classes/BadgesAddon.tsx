@@ -8,9 +8,12 @@ import { addons } from 'storybook/internal/manager-api';
 
 import { defaultAddonState, hashOptions } from '@/config';
 import {
+  ADDON_ID,
   BADGE,
   DEFAULT_STORYBOOK_ID,
+  DOCS_URL,
   EVENTS,
+  LEGACY_NOTIFICATION_ID,
   LOCAL_STORAGE_KEY,
   PARAM_BADGES_KEY,
   PARAM_CONFIG_KEY,
@@ -76,6 +79,8 @@ class BadgesAddon {
   #lastRequestId: string | null = null;
   /** Stores the computed values from the latest index. */
   #latestIndex: Array<IndexEntry & Partial<PreparedStory<Renderer>> & { hash: string }> = [];
+  /** If running in tests/mocks, prevent certain functionality that cannot currently be mocked. */
+  #mocked: boolean;
   /** Store of stories that need their state syncing. */
   #saveQueue: string[] = [];
   /** ID for referencing this storybook instance. */
@@ -86,7 +91,8 @@ class BadgesAddon {
   //===================================
   //== Constructor
   //===================================
-  public constructor(api: API) {
+  public constructor(api: API, mocked?: boolean) {
+    this.#mocked = mocked ?? false;
     this.#addonChannel = addons.getChannel();
     this.#addonsConfig = addons.getConfig();
     this.#api = api;
@@ -124,10 +130,17 @@ class BadgesAddon {
   /** Get the fully resolved config for the addon. */
   public get addonConfig(): FullConfig {
     const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | undefined>(PARAM_CONFIG_KEY);
+
     const addonConfig = this.#addonsConfig[PARAM_CONFIG_KEY] ?? {};
-    return legacyConfig
+    const fullConfig = legacyConfig
       ? getFullConfig(legacyConfig, addonConfig)
       : (this.#baseConfig ?? getFullConfig(addonConfig));
+
+    if (legacyConfig) {
+      this.#showLegacyConfigWarning(fullConfig);
+    }
+
+    return fullConfig;
   }
 
   //===================================
@@ -220,10 +233,6 @@ class BadgesAddon {
 
   /** The state for the current storybook instance from localStorage. */
   get #savedState(): AddonState {
-    if (!this.#autobadges) {
-      return defaultAddonState;
-    }
-
     if (typeof localStorage === 'undefined') {
       logger.warn("Unable to fetch localStorage as it's undefined");
       return defaultAddonState;
@@ -508,9 +517,10 @@ class BadgesAddon {
   #isNew(entry: HashEntry | undefined): boolean {
     if (!entry || !this.#autobadges) return false;
 
+    const current = this.#getStateForEntry(entry, 'current');
     const stored = this.#getStateForEntry(entry, 'saved');
 
-    return !stored;
+    return !!(current && !stored);
   }
 
   /**
@@ -665,6 +675,37 @@ class BadgesAddon {
     this.#addonChannel.on(STORY_CHANGED, this.#onStoryChanged.bind(this));
     this.#addonChannel.on(STORY_INDEX_INVALIDATED, this.#onStoryChanged.bind(this));
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
+  }
+
+  // TODO: JSDoc
+  #showLegacyConfigWarning(config: FullConfig): void {
+    if (!this.#mocked && config.warnOnLegacy && !this.#savedState.legacyWarningShown) {
+      this.#api.addNotification({
+        content: {
+          headline: 'Badges Legacy Config',
+          subHeadline: (
+            <span>
+              A <code>{ADDON_ID}</code> configuration was found in <code>parameters</code>. This is
+              no longer the recommended as it offers less control. Please see the{' '}
+              <a href={`${DOCS_URL}/customisation/configuration#legacy-config-warning`}>
+                documentation
+              </a>{' '}
+              for more information.
+            </span>
+          ),
+        },
+        id: LEGACY_NOTIFICATION_ID,
+        onClear: ({ dismissed }) => {
+          if (dismissed) {
+            this.#savedState = { legacyWarningShown: true };
+            this.#currentState.legacyWarningShown = true;
+          }
+        },
+        onClick: ({ onDismiss }) => {
+          onDismiss();
+        },
+      });
+    }
   }
 
   /**

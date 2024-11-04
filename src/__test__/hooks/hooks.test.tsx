@@ -13,7 +13,9 @@ describe('Hooks', () => {
       expect.assertions(1);
       const { result } = renderHook(useAddon, {
         wrapper: ({ children }) => (
-          <BadgesAddonProvider state={new BadgesAddon(mockedApi)}>{children}</BadgesAddonProvider>
+          <BadgesAddonProvider state={new BadgesAddon(mockedApi, true)}>
+            {children}
+          </BadgesAddonProvider>
         ),
       });
       expect(result.current).toBeInstanceOf(BadgesAddon);
@@ -32,7 +34,9 @@ describe('Hooks', () => {
       expect.assertions(1);
       const { result } = renderHook(useAddonConfig, {
         wrapper: ({ children }) => (
-          <BadgesAddonProvider state={new BadgesAddon(mockedApi)}>{children}</BadgesAddonProvider>
+          <BadgesAddonProvider state={new BadgesAddon(mockedApi, true)}>
+            {children}
+          </BadgesAddonProvider>
         ),
       });
       expect(result.current).toMatchObject(resolvedDefaultConfig);
