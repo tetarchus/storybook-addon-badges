@@ -79,6 +79,8 @@ class BadgesAddon {
   #lastRequestId: string | null = null;
   /** Stores the computed values from the latest index. */
   #latestIndex: Array<IndexEntry & Partial<PreparedStory<Renderer>> & { hash: string }> = [];
+  /** Whether the legacy warning is being displayed. */
+  #legacyWarningVisible: boolean = false;
   /** If running in tests/mocks, prevent certain functionality that cannot currently be mocked. */
   #mocked: boolean;
   /** Store of stories that need their state syncing. */
@@ -679,7 +681,14 @@ class BadgesAddon {
 
   // TODO: JSDoc
   #showLegacyConfigWarning(config: FullConfig): void {
-    if (!this.#mocked && config.warnOnLegacy && !this.#savedState.legacyWarningShown) {
+    if (
+      !this.#mocked &&
+      !this.#legacyWarningVisible &&
+      config.warnOnLegacy &&
+      !this.#savedState.legacyWarningShown
+    ) {
+      console.log('Showing Legacy Warning');
+      this.#legacyWarningVisible = true;
       this.#api.addNotification({
         content: {
           headline: 'Badges Legacy Config',
@@ -697,6 +706,7 @@ class BadgesAddon {
         id: LEGACY_NOTIFICATION_ID,
         onClear: ({ dismissed }) => {
           if (dismissed) {
+            this.#legacyWarningVisible = true;
             this.#savedState = { legacyWarningShown: true };
             this.#currentState.legacyWarningShown = true;
           }
