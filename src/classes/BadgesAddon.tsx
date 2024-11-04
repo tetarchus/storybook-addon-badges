@@ -132,13 +132,15 @@ class BadgesAddon {
   /** Get the fully resolved config for the addon. */
   public get addonConfig(): FullConfig {
     const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | undefined>(PARAM_CONFIG_KEY);
+    const legacyBadges =
+      this.#api.getCurrentParameter<string[] | undefined>(PARAM_BADGES_KEY) ?? [];
 
     const addonConfig = this.#addonsConfig[PARAM_CONFIG_KEY] ?? {};
     const fullConfig = legacyConfig
       ? getFullConfig(legacyConfig, addonConfig)
       : (this.#baseConfig ?? getFullConfig(addonConfig));
 
-    if (legacyConfig) {
+    if (legacyConfig || legacyBadges.length > 0) {
       this.#showLegacyConfigWarning(fullConfig);
     }
 
@@ -502,11 +504,6 @@ class BadgesAddon {
       return [];
     }
 
-    // TODO: Sort
-    if (entry && !('tags' in entry)) {
-      console.log(`${entry.type} does not have tags...`);
-    }
-
     return entry && 'tags' in entry ? entry.tags.filter(tag => !excludeTags.includes(tag)) : [];
   }
 
@@ -679,7 +676,11 @@ class BadgesAddon {
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
   }
 
-  // TODO: JSDoc
+  /**
+   * If a legacy configuration/badges has been detected, display a warning once, and
+   * inform the user that `parameters` based configs are no longer recommended.
+   * @param config The config containing the legacy configuration.
+   */
   #showLegacyConfigWarning(config: FullConfig): void {
     if (
       !this.#mocked &&
@@ -687,7 +688,6 @@ class BadgesAddon {
       config.warnOnLegacy &&
       !this.#savedState.legacyWarningShown
     ) {
-      console.log('Showing Legacy Warning');
       this.#legacyWarningVisible = true;
       this.#api.addNotification({
         content: {
