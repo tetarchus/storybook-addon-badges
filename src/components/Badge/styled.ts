@@ -25,7 +25,7 @@ const StyledBadge = styled.div<StyledBadgeProps>(({ badgeStyle, hasTooltip, uiTh
   borderWidth: getThemeValue(badgeStyle.borderWidth, uiTheme),
   boxShadow: getThemeValue(badgeStyle.boxShadow, uiTheme),
   color: getThemeValue(badgeStyle.color, uiTheme),
-  cursor: hasTooltip ? 'pointer' : 'auto',
+  cursor: hasTooltip ? 'pointer' : 'inherit',
   fontFamily: getThemeValue(badgeStyle.fontFamily, uiTheme),
   fontSize: getThemeValue(badgeStyle.fontSize, uiTheme),
   fontWeight: getThemeValue(badgeStyle.fontWeight, uiTheme),

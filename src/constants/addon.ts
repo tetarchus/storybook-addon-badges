@@ -1,3 +1,5 @@
+import { AUTOBADGES } from './autobadges';
+
 /** ID of the addon. */
 const ADDON_ID = 'storybook-addon-badges';
 /** The name of the addon. */
@@ -28,15 +30,22 @@ const BADGE_LOCATION = {
 
 /** Default badge ID's as a convenience map. */
 const BADGE = {
+  ...AUTOBADGES,
   BETA: 'beta',
   DEFAULT: 'default',
   DEPRECATED: 'deprecated',
   EXPERIMENTAL: 'experimental',
   NEEDS_REVISION: 'needs-revision',
-  NEW: 'new',
+  // NEW: 'new',
   OBSOLETE: 'obsolete',
   STABLE: 'stable',
-  UPDATED: 'updated',
+  // UPDATED: 'updated',
+  // // TODO: SORT
+  // A11Y_CHECK: 'a11y-check',
+  // A11Y_FAIL: 'a11y-fail',
+  // A11Y_PASS: 'a11y-pass',
+  // TEST_PASS: 'test-pass',
+  // TEST_FAIL: 'test-fail',
 } as const;
 
 export {

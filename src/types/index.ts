@@ -17,7 +17,14 @@ export type {
   ShouldDisplayBadgeParameters,
 } from './location.types';
 export type { Matcher, MatchPattern } from './matcher.types';
-export type { A11yState, AddonState, IndexerResult, StoryState, TestState } from './state.types';
+export type {
+  A11yState,
+  AddonState,
+  IndexerResult,
+  StateType,
+  StoryState,
+  TestState,
+} from './state.types';
 export type {
   BadgeStyle,
   BadgeStyleFn,

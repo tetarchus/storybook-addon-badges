@@ -8,5 +8,5 @@ export {
 export { getFullConfig } from './config';
 export { normalizeLocations, shouldDisplayBadge } from './locations';
 export { injectAddonPrefix, logger } from './logger';
-export { matchBadge } from './matcher';
+export { getMatcherBadge, matchBadge } from './matcher';
 export { getBaseStyle, getThemeValue } from './style';

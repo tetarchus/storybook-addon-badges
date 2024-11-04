@@ -5,31 +5,32 @@ import { EVENTS } from '@/constants';
 import type { DecoratorFunction, PreparedStory, Renderer } from 'storybook/internal/types';
 
 const PreviewInterface: DecoratorFunction<Renderer> = (StoryFn, context) => {
-  // console.log('Preview Context', context);
+  const id = context.id;
   const channel = addons.getChannel();
   const [indexRequired, setIndexRequired] = useState(false);
 
-  const onResponse = useCallback((required: boolean) => {
-    setIndexRequired(required);
-  }, []);
+  const onResponse = useCallback(
+    (required: boolean, triggeringId: string) => {
+      if (triggeringId === id) {
+        setIndexRequired(required);
+      }
+    },
+    [id],
+  );
 
   useEffect(() => {
-    if (context.viewMode === 'story') {
-      channel.on(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
-      return (): void => void channel.off(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
-    }
+    channel.on(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
 
-    return;
-  }, [channel, context.viewMode, onResponse]);
+    return (): void => void channel.off(EVENTS.CHECK_INDEX_RESPONSE, onResponse);
+  }, [channel, onResponse]);
 
   useEffect(() => {
-    if (context.viewMode === 'story') {
-      channel.emit(EVENTS.CHECK_INDEX_REQUIRED);
-    }
-  }, [channel, context.viewMode]);
+    channel.emit(EVENTS.CHECK_INDEX_REQUIRED, id);
+  }, [channel, id]);
 
   useEffect(() => {
     const initialiseStories = async () => {
+      console.log('indexing');
       const preview = window.__STORYBOOK_PREVIEW__;
       const store = preview.storyStore;
       const index = store.storyIndex;
@@ -48,11 +49,9 @@ const PreviewInterface: DecoratorFunction<Renderer> = (StoryFn, context) => {
       }
       const stories = await Promise.all(indexPromises);
 
-      channel.emit(EVENTS.INDEXED, {
+      channel.emit(EVENTS.INDEX, {
         index: indexEntries,
         stories,
-        // TODO: Send actual data if possible
-        test: [],
       });
     };
 

@@ -24,10 +24,13 @@ type A11yState = {
 /**
  * Testing suite outcome state.
  */
-// TODO: Needs work
 type TestState = {
+  /** The number of test failures. */
+  failures: number;
   /** The number of test passes. */
   passes: number;
+  /** The number of skipped tests/todos. */
+  skipped: number;
 };
 
 /**
@@ -35,13 +38,13 @@ type TestState = {
  */
 type StoryState = {
   /** The outcome of a11y checks for a story. */
-  a11y: A11yState | null;
+  a11y?: A11yState | null;
   /** Hashed data for the component, used to compare whether changes have been made. */
   hash: string;
   /** The ID of the story. */
   id: string;
   /** The outcome of testing for the component. */
-  test: TestState | null;
+  test?: TestState | null;
   /** The type of story. */
   type: EntryType;
 };
@@ -56,4 +59,7 @@ type AddonState = {
   storyStates: StoryState[];
 };
 
-export type { A11yState, AddonState, IndexerResult, StoryState, TestState };
+/** The type of the state data. */
+type StateType = 'current' | 'saved';
+
+export type { A11yState, AddonState, IndexerResult, StateType, StoryState, TestState };

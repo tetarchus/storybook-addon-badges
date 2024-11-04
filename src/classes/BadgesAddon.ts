@@ -1,5 +1,9 @@
 import { hash as ohash } from 'ohash';
-import { STORY_RENDERED } from 'storybook/internal/core-events';
+import {
+  STORY_CHANGED,
+  STORY_INDEX_INVALIDATED,
+  STORY_RENDERED,
+} from 'storybook/internal/core-events';
 import { addons } from 'storybook/internal/manager-api';
 
 import { defaultAddonState, hashOptions } from '@/config';
@@ -16,6 +20,7 @@ import {
   getBadgePartsInternal,
   getFullBadgeConfig,
   getFullConfig,
+  getMatcherBadge,
   logger,
   matchBadge,
   shouldDisplayBadge,
@@ -33,11 +38,11 @@ import type {
   EntryType,
   FullConfig,
   IndexerResult,
+  StateType,
   StoryState,
 } from '@/types';
 import type { API, HashEntry } from 'storybook/internal/manager-api';
-import type { Addon_Config } from 'storybook/internal/types';
-import { getMatcherBadge } from '@/utils/matcher';
+import type { Addon_Config, IndexEntry, PreparedStory, Renderer } from 'storybook/internal/types';
 
 class BadgesAddon {
   //===================================
@@ -57,6 +62,22 @@ class BadgesAddon {
   #baseConfig: FullConfig;
   /** The latest parsed state of the stories. */
   #currentState: AddonState;
+  /**
+   * Whether we've already received an indexing request this render-cycle.
+   * Used to prevent multiple indexing running in Docs mode.
+   */
+  #hasHadIndexRequest: boolean = false;
+  /** Whether indexing has been completed this render-cycle. */
+  #hasIndexed: boolean = false;
+  /**
+   * The ID of the last story decorator to have a successful request. Used
+   * to re-emit on index invalidation, without sending to all active decorators.
+   */
+  #lastRequestId: string | null = null;
+  /** Stores the computed values from the latest index. */
+  #latestIndex: Array<IndexEntry & Partial<PreparedStory<Renderer>> & { hash: string }> = [];
+  /** Store of stories that need their state syncing. */
+  #saveQueue: string[] = [];
   /** ID for referencing this storybook instance. */
   #storybookId: string;
   /** The testing addon interface instance. */
@@ -146,6 +167,24 @@ class BadgesAddon {
   ): BadgeDefinition[] {
     if (!entry) return [];
 
+    if (entry.type === 'component') {
+      const componentBadges: BadgeDefinition[] = [];
+      const stories = entry.children;
+      for (const story of stories) {
+        const indexEntry = this.#latestIndex.find(index => index.id === story);
+        componentBadges.push(
+          ...this.getBadgesForStory(indexEntry as unknown as HashEntry | undefined, location),
+        );
+      }
+
+      return componentBadges.reduce<BadgeDefinition[]>((acc, current) => {
+        if (acc.every(({ badgeId }) => badgeId !== current.badgeId)) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+    }
+
     const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];
     const storyData = this.#api.getData(entry.id) ?? entry;
 
@@ -218,6 +257,7 @@ class BadgesAddon {
     }
 
     const existingData = { ...this.#savedState };
+    const updatedStates: StoryState[] = [...existingData.storyStates];
 
     if (
       newState.legacyWarningShown != null &&
@@ -226,16 +266,22 @@ class BadgesAddon {
       existingData.legacyWarningShown = newState.legacyWarningShown;
     }
 
-    if (newState.storyStates) {
-      // TODO: Merge?
-      existingData.storyStates = newState.storyStates;
+    for (const storyState of newState.storyStates ?? []) {
+      const exists = updatedStates.findIndex(story => story.id === storyState.id);
+      if (exists > -1) {
+        updatedStates.splice(exists, 1, storyState);
+      } else {
+        updatedStates.push(storyState);
+      }
     }
+    existingData.storyStates = updatedStates
+      .filter(story => this.#getStateForEntry(story.id, 'current') != null)
+      .sort((a, b) => a.id.localeCompare(b.id));
 
     try {
       const fullStored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}');
       const fullState = { ...fullStored, [this.#storybookId]: existingData };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(fullState));
-      this.#currentState = this.#savedState;
     } catch (err) {
       logger.error(err);
     }
@@ -256,6 +302,46 @@ class BadgesAddon {
       return configId;
     }
     return DEFAULT_STORYBOOK_ID;
+  }
+
+  /**
+   * Checks whether an `entry` has a given `state` for a11y checks.
+   * @param state The state to check for.
+   * @param entry The {@link HashEntry} to check.
+   * @returns A boolean indicating whether the `entry` meets the criteria.
+   */
+  #checkA11yState(state: 'check' | 'fail' | 'pass', entry: HashEntry): boolean {
+    const entryState = this.#getStateForEntry(entry, 'saved');
+
+    switch (state) {
+      case 'check':
+        return (entryState?.a11y?.incomplete ?? 0) > 0;
+      case 'fail':
+        return (entryState?.a11y?.violations ?? 0) > 0;
+      case 'pass':
+        return (entryState?.a11y?.passes ?? 0) > 0;
+      // No  default -- exhaustive
+    }
+  }
+
+  /**
+   * Checks whether an `entry` has a given `state` for tests.
+   * @param state The state to check for.
+   * @param entry The {@link HashEntry} to check.
+   * @returns A boolean indicating whether the `entry` meets the criteria.
+   */
+  #checkTestState(state: 'fail' | 'pass' | 'todo', entry: HashEntry): boolean {
+    const entryState = this.#getStateForEntry(entry, 'saved');
+
+    switch (state) {
+      case 'fail':
+        return (entryState?.test?.failures ?? 0) > 0;
+      case 'pass':
+        return (entryState?.test?.passes ?? 0) > 0;
+      case 'todo':
+        return (entryState?.test?.skipped ?? 0) > 0;
+      // No  default -- exhaustive
+    }
   }
 
   /**
@@ -330,7 +416,11 @@ class BadgesAddon {
         }
         return acc;
       }, [])
-      .sort((a, b) => a.config.priority - b.config.priority);
+      .sort((a, b) => {
+        const priorityOrder = a.config.priority - b.config.priority;
+        if (priorityOrder != 0) return priorityOrder;
+        return a.badgeId.localeCompare(b.badgeId);
+      });
   }
 
   /**
@@ -342,20 +432,52 @@ class BadgesAddon {
     const { autobadges } = this.addonConfig;
     if (!this.#autobadges || autobadges === false) return [];
 
-    if (Array.isArray(autobadges)) {
+    if (Array.isArray(autobadges) || typeof autobadges === 'string') {
+      const autobadgeOptions = [autobadges].flat();
       const auto: string[] = [];
-      if (autobadges.includes(BADGE.NEW) && this.#isNew(entry)) {
+      if (autobadgeOptions.includes(BADGE.NEW) && this.#isNew(entry)) {
         auto.push(BADGE.NEW);
       }
-      if (autobadges.includes(BADGE.UPDATED) && this.#isUpdated(entry)) {
+      if (autobadgeOptions.includes(BADGE.UPDATED) && this.#isUpdated(entry)) {
         auto.push(BADGE.UPDATED);
       }
-      // TODO: A11Y/TEST Autobadges
+      if (autobadgeOptions.includes(BADGE.A11Y_CHECK) && this.#checkA11yState('check', entry)) {
+        auto.push(BADGE.A11Y_CHECK);
+      }
+      if (autobadgeOptions.includes(BADGE.A11Y_FAIL) && this.#checkA11yState('fail', entry)) {
+        auto.push(BADGE.A11Y_FAIL);
+      }
+      if (autobadgeOptions.includes(BADGE.A11Y_PASS) && this.#checkA11yState('pass', entry)) {
+        auto.push(BADGE.A11Y_PASS);
+      }
+      if (autobadgeOptions.includes(BADGE.TEST_FAIL) && this.#checkTestState('fail', entry)) {
+        auto.push(BADGE.TEST_FAIL);
+      }
+      if (autobadgeOptions.includes(BADGE.TEST_PASS) && this.#checkTestState('pass', entry)) {
+        auto.push(BADGE.TEST_PASS);
+      }
+      if (autobadgeOptions.includes(BADGE.TEST_TODO) && this.#checkTestState('todo', entry)) {
+        auto.push(BADGE.TEST_TODO);
+      }
+
       return auto;
     } else if (typeof autobadges === 'function') {
       return autobadges({ entry, isNew: this.#isNew(entry), isUpdated: this.#isUpdated(entry) });
     }
     return [];
+  }
+
+  /**
+   * Retrieves the {@link StoryState} for a given entry from current or saved state.
+   * @param entry The {@link HashEntry} or storyId to retrieve the state for.
+   * @param state The state object to check.
+   * @returns The {@link StoryState} if found, otherwise undefined.
+   */
+  #getStateForEntry(entry: HashEntry | string, state: StateType): StoryState | undefined {
+    const storyId = typeof entry === 'string' ? entry : entry.id;
+    const stateObject = state === 'current' ? this.#currentState : this.#savedState;
+
+    return stateObject.storyStates.find(story => story.id === storyId);
   }
 
   /**
@@ -386,9 +508,9 @@ class BadgesAddon {
   #isNew(entry: HashEntry | undefined): boolean {
     if (!entry || !this.#autobadges) return false;
 
-    const current = this.#currentState.storyStates.find(story => story.id === entry.id);
-    const stored = this.#savedState.storyStates.find(story => story.id === entry.id);
-    return !!(current && !stored);
+    const stored = this.#getStateForEntry(entry, 'saved');
+
+    return !stored;
   }
 
   /**
@@ -400,13 +522,25 @@ class BadgesAddon {
   #isUpdated(entry: HashEntry | undefined): boolean {
     if (!entry || !this.#autobadges) return false;
 
-    const current = this.#currentState.storyStates.find(story => story.id === entry.id);
-    const stored = this.#savedState.storyStates.find(story => story.id === entry.id);
+    const current = this.#getStateForEntry(entry, 'current');
+    const stored = this.#getStateForEntry(entry, 'saved');
+
     return !!(current && stored && current.hash !== stored.hash);
   }
 
   /**
-   * Event handler for the `INDEXED` event. Processes the index/prepared data
+   * Stores the current hash/state of a story so that any new/updated state is cleared.
+   * @param storyId The ID of the story to mark as viewed.
+   */
+  #markAsViewed(storyId: string): void {
+    this.#saveQueue.push(storyId);
+    if (this.#hasIndexed) {
+      this.#processQueue();
+    }
+  }
+
+  /**
+   * Event handler for the `INDEX` event. Processes the index/prepared data
    * into the AddonState for storage/comparison.
    * @param param0 The {@link IndexerResult} from the `PreviewInterface`
    * allowing us to generate hashes for stories including their args/parameters.
@@ -414,22 +548,44 @@ class BadgesAddon {
   #onIndex({ index, stories }: IndexerResult): void {
     if (!this.#autobadges) return;
     const state: StoryState[] = [];
+    this.#latestIndex = [];
 
     for (const [storyId, indexEntry] of index) {
       const preparedStory = stories.find(story => story.id === storyId);
-      const combinedData = { ...indexEntry, ...preparedStory };
+      const combinedData: IndexEntry & Partial<PreparedStory<Renderer>> = {
+        ...indexEntry,
+        ...preparedStory,
+      };
       const hash = ohash(combinedData, hashOptions);
-      // TODO: A11y can only run for the currently active story - need to look at either adding a PR to allow running other stories, or incorporating our own plugin that can render each story independently.
+      this.#latestIndex.push({ ...combinedData, hash });
+
+      // TODO: A11y can only run for the currently active story - need to
+      // check out the new testing addon to see if that's changed.
       if (this.#activeStoryId === storyId) {
         this.#a11yAddon.runForStory(storyId);
       }
-      state.push({ a11y: null, hash, id: storyId, test: null, type: indexEntry.type });
+      state.push({ hash, id: storyId, type: indexEntry.type });
     }
 
     this.#currentState.storyStates = state;
     if (this.#savedState.storyStates.length === 0) {
-      this.#savedState = { storyStates: state };
+      this.#savedState = { ...this.#currentState };
+    } else {
+      const savedStoryStates = this.#savedState.storyStates;
+      const prevLength = savedStoryStates.length;
+      for (const [index, storyState] of savedStoryStates.entries()) {
+        const inCurrent = this.#getStateForEntry(storyState.id, 'current');
+        if (!inCurrent) {
+          savedStoryStates.splice(index, 1);
+        }
+      }
+      if (savedStoryStates.length !== prevLength) {
+        this.#savedState = { storyStates: savedStoryStates };
+      }
     }
+
+    this.#hasIndexed = true;
+    this.#processQueue();
   }
 
   /**
@@ -437,8 +593,30 @@ class BadgesAddon {
    * autobadges to allow `PreviewInterface` to only generate an index if we're
    * using autobadges.
    */
-  #onRequest(): void {
-    this.#addonChannel.emit(EVENTS.CHECK_INDEX_RESPONSE, this.#autobadges);
+  #onRequest(id: string): void {
+    if (!this.#hasHadIndexRequest) {
+      this.#lastRequestId = id;
+      this.#hasHadIndexRequest = true;
+      this.#addonChannel.emit(EVENTS.CHECK_INDEX_RESPONSE, this.#autobadges, id);
+    }
+  }
+
+  /**
+   * Event handler for the `STORY_CHANGED` event, used to reset whether indexing
+   * is allowed.
+   */
+  #onStoryChanged(): void {
+    this.#hasHadIndexRequest = false;
+    this.#hasIndexed = false;
+  }
+
+  /**
+   * Event handler for the `STORY_INDEX_INVALIDATED` event to reset internal
+   * indexing.
+   */
+  onIndexInvalidated(): void {
+    this.#onStoryChanged();
+    this.#addonChannel.emit(EVENTS.CHECK_INDEX_RESPONSE, this.#autobadges, this.#lastRequestId);
   }
 
   /**
@@ -452,7 +630,27 @@ class BadgesAddon {
     if (!this.#autobadges) return;
 
     this.#a11yAddon.runForStory(storyId);
-    // TODO: Update as viewed to update the state
+    // TODO: This happens on all stories when selecting docs...Do we want that?
+    // TODO: Add config option
+    console.log('Should mark as viewed', storyId);
+    this.#markAsViewed(storyId);
+  }
+
+  /**
+   * Processes the state-save queue once indexing is complete.
+   */
+  #processQueue(): void {
+    // Dedupe and process
+    const queue = [...new Set(this.#saveQueue)];
+    this.#saveQueue = [];
+    while (queue.length > 0) {
+      const next = queue.shift();
+      if (next) {
+        const currentValue = this.#getStateForEntry(next, 'current');
+        this.#updateStoryState(next, 'saved', currentValue);
+      }
+    }
+    this.#addonChannel.emit(EVENTS.INDEX_COMPLETE);
   }
 
   /**
@@ -460,11 +658,50 @@ class BadgesAddon {
    */
   #registerEventHandlers(): void {
     // Addon Events
-    this.#addonChannel.on(EVENTS.INDEXED, this.#onIndex.bind(this));
+    this.#addonChannel.on(EVENTS.INDEX, this.#onIndex.bind(this));
     this.#addonChannel.on(EVENTS.CHECK_INDEX_REQUIRED, this.#onRequest.bind(this));
 
     // Storybook Events
+    this.#addonChannel.on(STORY_CHANGED, this.#onStoryChanged.bind(this));
+    this.#addonChannel.on(STORY_INDEX_INVALIDATED, this.#onStoryChanged.bind(this));
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
+  }
+
+  /**
+   * Updates a single story's state with new data.
+   * @param entry The entry to update.
+   * @param state The state location to update the story in.
+   * @param data The new data to update the story with.
+   */
+  #updateStoryState(
+    entry: HashEntry | string,
+    state: StateType,
+    data: Partial<StoryState> | undefined,
+  ): void {
+    if (!data) return;
+    const storyId = typeof entry === 'string' ? entry : entry.id;
+    const existingState = state === 'current' ? this.#currentState : this.#savedState;
+    const existingIndex = existingState.storyStates.findIndex(story => story.id === storyId);
+    const existingStoryData = this.#getStateForEntry(entry, state);
+    if (!existingStoryData) {
+      // Create from scratch and push (if enough info)
+      const { hash, id, type } = data;
+      if (hash && id && type) {
+        existingState.storyStates.push({ ...data, hash, id, type });
+      }
+    } else {
+      const newData = { ...existingStoryData };
+      data.a11y && (newData.a11y = data.a11y);
+      data.hash && (newData.hash = data.hash);
+      data.test && (newData.test = data.test);
+      existingState.storyStates.splice(existingIndex, 1, newData);
+    }
+
+    if (state === 'current') {
+      this.#currentState = existingState;
+    } else {
+      this.#savedState = existingState;
+    }
   }
 }
 

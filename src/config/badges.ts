@@ -1,8 +1,33 @@
 import { BADGE } from '@/constants';
+
 import type { Badge, BadgeMap } from '@/types';
 
 /** The default badge configs that are used/extended. */
 const defaultBadgeMap = {
+  [BADGE.A11Y_CHECK]: {
+    title: '⚠︎ A11y',
+    styles: {
+      backgroundColor: '#FFEFD2',
+      borderColor: '#66460D',
+      color: '#66460D',
+    },
+  },
+  [BADGE.A11Y_FAIL]: {
+    title: '✖︎ A11y',
+    styles: {
+      backgroundColor: '#F9DADA',
+      borderColor: '#7D2828',
+      color: '#7D2828',
+    },
+  },
+  [BADGE.A11Y_PASS]: {
+    title: '✔︎ A11y',
+    styles: {
+      backgroundColor: '#DCF2EA',
+      borderColor: '#317159',
+      color: '#317159',
+    },
+  },
   [BADGE.BETA]: {
     title: 'Beta',
     styles: {
@@ -61,6 +86,30 @@ const defaultBadgeMap = {
       backgroundColor: '#DCF2EA',
       borderColor: '#317159',
       color: '#317159',
+    },
+  },
+  [BADGE.TEST_FAIL]: {
+    title: '✖︎ Tests',
+    styles: {
+      backgroundColor: '#F9DADA',
+      borderColor: '#7D2828',
+      color: '#7D2828',
+    },
+  },
+  [BADGE.TEST_PASS]: {
+    title: '✔︎ Tests',
+    styles: {
+      backgroundColor: '#DCF2EA',
+      borderColor: '#317159',
+      color: '#317159',
+    },
+  },
+  [BADGE.TEST_TODO]: {
+    title: 'Skipped Tests',
+    styles: {
+      backgroundColor: '#FFEFD2',
+      borderColor: '#66460D',
+      color: '#66460D',
     },
   },
   [BADGE.UPDATED]: {

@@ -11,5 +11,6 @@ export {
   TOOL_EXTRA_ID,
   TOOL_ID,
 } from './addon';
+export { AUTOBADGES } from './autobadges';
 export { EVENTS, LOCAL_STORAGE_KEY } from './events';
 export { EXTERNAL } from './external';

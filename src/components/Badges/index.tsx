@@ -1,6 +1,8 @@
-import { Fragment, useMemo } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { Separator } from 'storybook/internal/components';
+import { addons } from 'storybook/internal/manager-api';
 
+import { EVENTS } from '@/constants';
 import { useAddon } from '@/hooks';
 
 import { Badge } from '../Badge';
@@ -13,10 +15,26 @@ import type { FC } from 'react';
  * Wrapper component for displaying multiple badges, with or without separators.
  */
 const Badges: FC<BadgesProps> = ({ 'data-testid': dataTestId, entry, location }: BadgesProps) => {
+  const [shouldRerender, setShouldRerender] = useState(false);
   const addon = useAddon();
   const { addonConfig } = addon;
 
-  const badges = useMemo(() => addon.getBadgesForStory(entry, location), [addon, entry, location]);
+  const channel = addons.getChannel();
+
+  const handleIndexed = useCallback(() => {
+    setShouldRerender(true);
+  }, []);
+
+  useEffect(() => {
+    channel.on(EVENTS.INDEX_COMPLETE, handleIndexed);
+  }, [channel, handleIndexed]);
+
+  const badges = useMemo(() => {
+    if (shouldRerender) {
+      setShouldRerender(false);
+    }
+    return addon.getBadgesForStory(entry, location);
+  }, [addon, entry, location, shouldRerender]);
 
   /** Configuration value for how to display separators. */
   const separators = useMemo(

@@ -1,13 +1,12 @@
+import type { AUTOBADGES } from '@/constants';
 import type { Badge } from './badge.types';
 import type { BadgeLocation, BadgeLocations, LocationMap } from './location.types';
 import type { Matcher } from './matcher.types';
 import type { BaseBadgeStyleOrFn, FullBadgeStyle, FullBadgeStyleFn } from './style.types';
 import type { HashEntry } from 'storybook/internal/manager-api';
 
-// TODO: Implement a11y-pass/fail and test-pass/fail autobadges.
-
 /** Available built-in options for autobadges. */
-type AutobadgesOptions = 'a11y-fail' | 'a11y-pass' | 'new' | 'test-fail' | 'test-pass' | 'updated';
+type AutobadgesOptions = (typeof AUTOBADGES)[keyof typeof AUTOBADGES];
 /** Custom function for automatically assigning badges. */
 type AutobadgesFn = (params: AutobadgesFnParameters) => string[];
 /** Parameters for a custom autobadges function. */
