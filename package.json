@@ -76,7 +76,7 @@
     "eslint": "9.13.0",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-react-hooks": "5.1.0-rc-fb9a90fa48-20240614",
-    "globals": "15.11.0",
+    "globals": "15.12.0",
     "jiti": "2.4.0",
     "npm-run-all2": "7.0.1",
     "prettier": "3.3.3",
