@@ -43,8 +43,6 @@ type Badge = {
    * Set to `false` to display the whole string.
    */
   displayContentOnly?: boolean;
-  /** String to use as a delimiter when matching badge name. */
-  // delimiter?: string; // TODO: Needed?
   /** The locations that the badge should display. */
   locations?: BadgeLocations;
   /**

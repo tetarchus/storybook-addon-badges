@@ -18,7 +18,7 @@ const PARAM_CONFIG_KEY = 'badgesConfig';
 const PARAM_BADGES_KEY = 'badges';
 /** Parameter that allows assigning a unique ID to a storybook. */
 const PARAM_STORYBOOK_ID = 'id';
-
+/** Default ID in local storage for the storybook if one is not provided. */
 const DEFAULT_STORYBOOK_ID = 'default';
 
 /** Places in the UI that a badge can appear. */
@@ -36,16 +36,8 @@ const BADGE = {
   DEPRECATED: 'deprecated',
   EXPERIMENTAL: 'experimental',
   NEEDS_REVISION: 'needs-revision',
-  // NEW: 'new',
   OBSOLETE: 'obsolete',
   STABLE: 'stable',
-  // UPDATED: 'updated',
-  // // TODO: SORT
-  // A11Y_CHECK: 'a11y-check',
-  // A11Y_FAIL: 'a11y-fail',
-  // A11Y_PASS: 'a11y-pass',
-  // TEST_PASS: 'test-pass',
-  // TEST_FAIL: 'test-fail',
 } as const;
 
 export {

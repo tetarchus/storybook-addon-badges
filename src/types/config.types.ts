@@ -41,10 +41,9 @@ type BadgesConfig = {
 
   /** The standard delimiter for badges - used to separate the badge ID from content. */
   delimiter: string;
-  // TODO: Check how this is working...
   /**
    * Whether to display the content part of the badge only. If `false` the output text
-   * will include the badgeId.
+   * will include the badgeId. Can be overridden on a per-badge basis.
    */
   displayContentOnly: boolean;
   /**
@@ -64,9 +63,6 @@ type BadgesConfig = {
    * - A map of {@link BadgeLocation}s and what separators to display in that location.
    */
   separators: Separators | Record<BadgeLocation, Separators>;
-  // TODO: Still needed?
-  /** Whether to show the `clear` button in the Toolbar. Resets the autobadge state. */
-  showClearButton: boolean;
   /**
    * The number of badges to display in the sidebar. If `all` will display all
    * badges that have `sidebar` defined as a location. If set to a number, will
@@ -74,7 +70,6 @@ type BadgesConfig = {
    * badge's `priority`.
    */
   sidebarDisplayBadges: number | 'all';
-  // TODO: Check this is implemented
   /** Whether to fall back to the default badge if there is no badge defined in the map/matcher. */
   useBadgeFallback: boolean;
   /** Whether to generate badges from tags. */
