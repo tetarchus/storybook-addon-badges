@@ -17,6 +17,7 @@ const fullConfig: FullConfig = {
   excludeTags: [],
   locations: fullLocationMap,
   matchers: [], // TODO:
+  markAllAsReadOnDocsView: true,
   replaceDefaultBadgeMap: false,
   // TODO: Allow array (to allow for after/before and between combo?)
   separators: {
@@ -24,7 +25,6 @@ const fullConfig: FullConfig = {
     toolbar: 'wrap',
     'toolbar-end': 'before',
   },
-  showClearButton: false,
   sidebarDisplayBadges: 1,
   useBadgeFallback: true,
   useTags: true,

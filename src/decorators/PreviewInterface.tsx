@@ -30,7 +30,6 @@ const PreviewInterface: DecoratorFunction<Renderer> = (StoryFn, context) => {
 
   useEffect(() => {
     const initialiseStories = async () => {
-      console.log('indexing');
       const preview = window.__STORYBOOK_PREVIEW__;
       const store = preview.storyStore;
       const index = store.storyIndex;
@@ -40,9 +39,7 @@ const PreviewInterface: DecoratorFunction<Renderer> = (StoryFn, context) => {
 
       // Work through the stories
       for (const [key, value] of indexEntries) {
-        if (value.type === 'docs') {
-          // console.log('Docs - not indexing currently');
-        } else {
+        if (value.type === 'story') {
           const story = store.loadStory({ storyId: key });
           indexPromises.push(story);
         }

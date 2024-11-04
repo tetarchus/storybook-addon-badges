@@ -55,6 +55,8 @@ type BadgesConfig = {
   locations: Required<BadgeLocations>;
   /** Array of {@link Matcher}s to use when determining badges. */
   matchers: Matcher[];
+  /** Whether to mark all stories as read when selecting their docs page. */
+  markAllAsReadOnDocsView: boolean;
   /** Whether to override the default badge map when defining a custom badge map. */
   replaceDefaultBadgeMap: boolean;
   /**

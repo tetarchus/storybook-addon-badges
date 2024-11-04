@@ -1,5 +1,6 @@
 import { hash as ohash } from 'ohash';
 import {
+  DOCS_RENDERED,
   STORY_CHANGED,
   STORY_INDEX_INVALIDATED,
   STORY_RENDERED,
@@ -72,6 +73,8 @@ class BadgesAddon {
   #hasHadIndexRequest: boolean = false;
   /** Whether indexing has been completed this render-cycle. */
   #hasIndexed: boolean = false;
+  /** Whether the current story is a docs page. */
+  #isDocsPage: boolean;
   /**
    * The ID of the last story decorator to have a successful request. Used
    * to re-emit on index invalidation, without sending to all active decorators.
@@ -99,6 +102,7 @@ class BadgesAddon {
     this.#addonsConfig = addons.getConfig();
     this.#api = api;
     this.#storybookId = this.#assignStorybookId();
+    this.#isDocsPage = mocked ? false : this.#api.getUrlState().viewMode === 'docs';
     this.#currentState = { ...this.#savedState };
     this.#a11yAddon = new A11y(api, this);
     this.#testingAddon = new Testing(api, this);
@@ -549,6 +553,16 @@ class BadgesAddon {
   }
 
   /**
+   * Event handler for the `DOCS_RENDERED` event. Registers the docs page so that
+   * each subsequent `STORY_RENDERED` call is aware that it's on the docs page.
+   */
+  #onDocsRendered(storyId: string): void {
+    this.#isDocsPage = true;
+    if (!this.#autobadges) return;
+    this.#markAsViewed(storyId);
+  }
+
+  /**
    * Event handler for the `INDEX` event. Processes the index/prepared data
    * into the AddonState for storage/comparison.
    * @param param0 The {@link IndexerResult} from the `PreviewInterface`
@@ -615,6 +629,7 @@ class BadgesAddon {
    * is allowed.
    */
   #onStoryChanged(): void {
+    this.#isDocsPage = false;
     this.#hasHadIndexRequest = false;
     this.#hasIndexed = false;
   }
@@ -639,10 +654,10 @@ class BadgesAddon {
     if (!this.#autobadges) return;
 
     this.#a11yAddon.runForStory(storyId);
-    // TODO: This happens on all stories when selecting docs...Do we want that?
-    // TODO: Add config option
-    console.log('Should mark as viewed', storyId);
-    this.#markAsViewed(storyId);
+
+    if (!this.#isDocsPage || (this.addonConfig.markAllAsReadOnDocsView && this.#isDocsPage)) {
+      this.#markAsViewed(storyId);
+    }
   }
 
   /**
@@ -671,6 +686,7 @@ class BadgesAddon {
     this.#addonChannel.on(EVENTS.CHECK_INDEX_REQUIRED, this.#onRequest.bind(this));
 
     // Storybook Events
+    this.#addonChannel.on(DOCS_RENDERED, this.#onDocsRendered.bind(this));
     this.#addonChannel.on(STORY_CHANGED, this.#onStoryChanged.bind(this));
     this.#addonChannel.on(STORY_INDEX_INVALIDATED, this.#onStoryChanged.bind(this));
     this.#addonChannel.on(STORY_RENDERED, this.#onStoryRender.bind(this));
