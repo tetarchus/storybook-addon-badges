@@ -29,6 +29,13 @@ const eslintConfig = [
     },
   },
   {
+    files: ['.husky/install.js', 'preset.js', '.storybook/local-preset.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: globals.node,
+    },
+  },
+  {
     name: 'overrides',
     rules: {
       '@typescript-eslint/no-empty-object-type': [
