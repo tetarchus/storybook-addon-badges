@@ -62,4 +62,15 @@ type AddonState = {
 /** The type of the state data. */
 type StateType = 'current' | 'saved';
 
-export type { A11yState, AddonState, IndexerResult, StateType, StoryState, TestState };
+/** Content of internal index. */
+type InternalIndex = IndexEntry & Partial<PreparedStory<Renderer>> & { hash: string };
+
+export type {
+  A11yState,
+  AddonState,
+  IndexerResult,
+  InternalIndex,
+  StateType,
+  StoryState,
+  TestState,
+};

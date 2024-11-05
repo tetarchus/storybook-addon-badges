@@ -32,6 +32,7 @@ const EXTERNAL = {
   VITEST: {
     ADDON_ID: EXTERNAL_ADDONS.VITEST,
     PANEL_ID: `${EXTERNAL_ADDONS.VITEST}/panel`,
+    TEST_PROVIDER: `${EXTERNAL_ADDONS.VITEST}/test-provider`,
   },
 } as const;
 

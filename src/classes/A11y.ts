@@ -26,14 +26,14 @@ class A11y {
   //===================================
   /** Whether `storybook-addon-a11y` is present in this workspace. */
   #active: boolean = false;
-  /** Whether a a11y check is currently being executed. */
-  #running: boolean = false;
   /**
    * The queue of runs to work through. Currently not very useful as can only render the
    * current story. In future we hope to be able to run through a queue to generate a11y
    * badges without having to render the story to the canvas.
    */
   #queue: [string, A11yParameters | undefined][] = [];
+  /** Whether a a11y check is currently being executed. */
+  #running: boolean = false;
 
   //===================================
   //== Constructor
@@ -44,6 +44,9 @@ class A11y {
     this.#badgesAddon = badgesAddon;
   }
 
+  //===================================
+  //== Public Getters/Setters
+  //===================================
   /** Retrieves the current state of the a11y plugin. */
   public get active(): boolean {
     return this.#active;
@@ -52,10 +55,15 @@ class A11y {
   /** Sets the current state of the a11y plugin and processes the queue. */
   public set active(active: boolean) {
     this.#active = active;
-    this.#registerEventHandlers();
-    this.#processQueue();
+    if (active) {
+      this.#registerEventHandlers();
+      this.#processQueue();
+    }
   }
 
+  //===================================
+  //== Public Methods
+  //===================================
   /**
    * Starts a manual run for a specific story.
    *

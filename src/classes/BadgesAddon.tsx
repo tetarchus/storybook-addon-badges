@@ -42,6 +42,7 @@ import type {
   EntryType,
   FullConfig,
   IndexerResult,
+  InternalIndex,
   StateType,
   StoryState,
 } from '@/types';
@@ -81,7 +82,7 @@ class BadgesAddon {
    */
   #lastRequestId: string | null = null;
   /** Stores the computed values from the latest index. */
-  #latestIndex: Array<IndexEntry & Partial<PreparedStory<Renderer>> & { hash: string }> = [];
+  #latestIndex: InternalIndex[] = [];
   /** Whether the legacy warning is being displayed. */
   #legacyWarningVisible: boolean = false;
   /** If running in tests/mocks, prevent certain functionality that cannot currently be mocked. */
@@ -221,6 +222,15 @@ class BadgesAddon {
     );
 
     return filteredBadges;
+  }
+
+  /**
+   * Gets the internal index value for a story.
+   * @param storyId The ID of the story to fetch.
+   * @returns The internal index that has been stored for a story.
+   */
+  public getIndexForStory(storyId: string): InternalIndex | undefined {
+    return this.#latestIndex.find(story => story.id === storyId);
   }
 
   //===================================

@@ -21,6 +21,7 @@ export type {
   A11yState,
   AddonState,
   IndexerResult,
+  InternalIndex,
   StateType,
   StoryState,
   TestState,
