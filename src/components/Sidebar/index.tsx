@@ -6,7 +6,7 @@ import { Badges } from '../Badges';
 import { Label } from './styled';
 
 import type { SidebarProps } from './prop.types';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 const location = BADGE_LOCATION.SIDEBAR;
 
@@ -19,7 +19,7 @@ const AddonSidebar: FC<SidebarProps> = ({ api, 'data-testid': dataTestId, item, 
 
   return (
     <Label data-testid={dataTestId}>
-      {label}
+      {label as ReactNode}
       <Badges
         data-testid={dataTestId ? `${dataTestId}-badges` : undefined}
         entry={item}

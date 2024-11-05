@@ -26,16 +26,24 @@ addons.register(ADDON_ID, api => {
   // Create an addon instance to use in components.
   const state = new BadgesAddon(api);
 
+  const customRender = addons.getConfig().sidebar?.renderLabel;
+
   // Register the sidebar render function.
   addons.setConfig({
     sidebar: {
       renderLabel: (item, api) => (
         <BadgesAddonProvider state={state}>
-          <Sidebar api={api} item={item} />
+          <Sidebar api={api} item={item} renderLabel={customRender} />
         </BadgesAddonProvider>
       ),
     },
   });
+  const addonsConfigPost = addons.getConfig();
+  console.log(
+    'addonsConfigPost',
+    addonsConfigPost,
+    addonsConfigPost.sidebar?.renderLabel?.toString() ?? 'HUH',
+  );
 
   // Register the toolbar addons.
   addons.add(ADDON_ID, {

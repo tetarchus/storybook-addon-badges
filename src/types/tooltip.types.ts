@@ -1,9 +1,9 @@
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps } from 'react';
 import type { TooltipMessage } from 'storybook/internal/components';
-import type { API, HashEntry } from 'storybook/internal/manager-api';
+import type { HashEntry } from 'storybook/internal/manager-api';
 
 /** Custom `renderLabel` function. */
-type RenderLabelFn = (item: HashEntry | undefined, api: API | undefined) => ReactNode;
+type RenderLabelFn = ((item: HashEntry, api: unknown) => unknown) | undefined;
 /** Props to pass to the TooltipMessage component from storybook. */
 type TooltipMessageProps = Omit<ComponentProps<typeof TooltipMessage>, 'children'>;
 /** Badge tooltip configuration for a badge. */
