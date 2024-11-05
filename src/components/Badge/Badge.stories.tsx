@@ -47,68 +47,118 @@ const meta = {
 
 type Story = StoryObj<typeof meta>;
 
-const Beta: Story = {
+const Default: Story = {
   args: {
-    badgeId: BADGE.BETA,
+    badgeId: BADGE.DEFAULT,
     baseStyle: 'default',
   },
 };
 
-const Default: Story = {
+const A11yCheck: Story = {
   args: {
-    ...Beta.args,
-    badgeId: BADGE.DEFAULT,
+    ...Default.args,
+    badgeId: BADGE.A11Y_CHECK,
+  },
+};
+
+const A11yFail: Story = {
+  args: {
+    ...Default.args,
+    badgeId: BADGE.A11Y_FAIL,
+  },
+};
+
+const A11yPass: Story = {
+  args: {
+    ...Default.args,
+    badgeId: BADGE.A11Y_PASS,
+  },
+};
+
+const Beta: Story = {
+  args: {
+    ...Default.args,
+    badgeId: BADGE.BETA,
   },
 };
 
 const Deprecated: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.DEPRECATED,
   },
 };
 
 const Experimental: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.EXPERIMENTAL,
   },
 };
 
 const NeedsRevision: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.NEEDS_REVISION,
   },
 };
 
 const New: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.NEW,
   },
 };
 
 const Obsolete: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.OBSOLETE,
   },
 };
 
 const Stable: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.STABLE,
+  },
+};
+
+const TestFail: Story = {
+  args: {
+    ...Default.args,
+    badgeId: BADGE.TEST_FAIL,
+  },
+};
+
+const TestPass: Story = {
+  args: {
+    ...Default.args,
+    badgeId: BADGE.TEST_PASS,
   },
 };
 
 const Updated: Story = {
   args: {
-    ...Beta.args,
+    ...Default.args,
     badgeId: BADGE.UPDATED,
   },
 };
 
 export default meta;
-export { Beta, Default, Deprecated, Experimental, NeedsRevision, New, Obsolete, Stable, Updated };
+export {
+  A11yCheck,
+  A11yFail,
+  A11yPass,
+  Beta,
+  Default,
+  Deprecated,
+  Experimental,
+  NeedsRevision,
+  New,
+  Obsolete,
+  Stable,
+  TestFail,
+  TestPass,
+  Updated,
+};
