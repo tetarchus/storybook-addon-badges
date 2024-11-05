@@ -52,6 +52,7 @@ const api: API = {
   getParameters: getParametersMock,
   getData: () => storyEntry,
   getCurrentStoryData: () => storyEntry,
+  getCurrentVersion: () => ({ version: '8.0.0' }),
 };
 
 export { api, mockedTheme, mockedThemeVars, mockInitialValues };

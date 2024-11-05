@@ -20,8 +20,10 @@ const viteConfig = defineConfig({
     name: 'storybook-addon-badges',
     browser: {
       provider: 'playwright',
-      enabled: true,
+      enabled:
+        process.argv[1]?.endsWith('./storybook') || process.env.SBAB_BROWSER_TESTS === 'true',
       name: 'chromium',
+      headless: true,
     },
     coverage: {
       all: true,
