@@ -41,8 +41,6 @@ type Badge = {
    * Set to `false` to display the whole string.
    */
   displayContentOnly?: boolean;
-  /** Delimiter to use for the badge. */
-  delimiter?: string;
   /** The locations that the badge should display. */
   locations?: BadgeLocations;
   /**
@@ -62,6 +60,8 @@ type Badge = {
 
 /** Fully resolved badge configuration. */
 type FullBadgeConfig = Required<Omit<Badge, 'location' | 'style' | 'styles' | 'tooltip'>> & {
+  /** Delimiter used to match the badge. */
+  delimiter: string;
   /** Normalized locations map. */
   locations: Required<LocationMap<true>>;
   /** Function to return the full badge style. */

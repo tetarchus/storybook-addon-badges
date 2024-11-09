@@ -418,9 +418,6 @@ class BadgesAddon {
                 ...(matcher.delimiter != null ? { delimiter: matcher.delimiter } : {}),
               },
               content: badge,
-              // (displayContentOverride ?? config.displayContentOnly ?? displayContentOnly)
-              //   ? content || badgeId
-              //   : badge,
             };
           }
         }
@@ -437,7 +434,6 @@ class BadgesAddon {
           badgeId,
           config,
           content: badge,
-          //(config.displayContentOnly ?? displayContentOnly) ? content || badgeId : badge,
         };
       })
       .filter(badge => badge != null)
