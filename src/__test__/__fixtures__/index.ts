@@ -4,6 +4,7 @@ export {
   basicBadgeConfig,
   fullBadgeConfig,
   secondaryBadgeConfig,
+  versionBadge,
 } from './badge';
 export { basicBadgeMap, testingBadgeMap } from './badgeMap';
 export { fullConfig, fullConfigStyleFn, resolvedDefaultConfig } from './config';

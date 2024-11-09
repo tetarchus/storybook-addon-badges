@@ -39,6 +39,7 @@ import type {
   AddonState,
   BadgeDefinition,
   BadgeLocation,
+  BadgeMap,
   BadgesConfig,
   EntryType,
   FullConfig,
@@ -137,7 +138,9 @@ class BadgesAddon {
 
   /** Get the fully resolved config for the addon. */
   public get addonConfig(): FullConfig {
-    const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | undefined>(PARAM_CONFIG_KEY);
+    const legacyConfig = this.#api.getCurrentParameter<BadgesConfig | BadgeMap | undefined>(
+      PARAM_CONFIG_KEY,
+    );
     const legacyBadges =
       this.#api.getCurrentParameter<string[] | undefined>(PARAM_BADGES_KEY) ?? [];
 
@@ -384,7 +387,7 @@ class BadgesAddon {
    */
   #filterBadges(badges: string[], location: BadgeLocation, type: EntryType): BadgeDefinition[] {
     const addonConfig = this.addonConfig;
-    const { delimiter, displayContentOnly, locations, matchers, useBadgeFallback } = addonConfig;
+    const { delimiter, locations, matchers, useBadgeFallback } = addonConfig;
 
     return badges
       .filter((badge, idx, arr) => {
@@ -398,7 +401,7 @@ class BadgesAddon {
         for (const matcher of matchers) {
           const matched = matchBadge(badge, matcher, delimiter);
           if (matched) {
-            const { badgeId: parsedId, content } = getBadgePartsInternal(
+            const { badgeId: parsedId } = getBadgePartsInternal(
               badge,
               matcher.delimiter ?? delimiter,
             );
@@ -407,8 +410,17 @@ class BadgesAddon {
 
             return {
               badgeId,
-              config,
-              content: (displayContentOverride ?? displayContentOnly) ? content || badgeId : badge,
+              config: {
+                ...config,
+                ...(displayContentOverride != null
+                  ? { displayContentOnly: displayContentOverride }
+                  : {}),
+                ...(matcher.delimiter != null ? { delimiter: matcher.delimiter } : {}),
+              },
+              content: badge,
+              // (displayContentOverride ?? config.displayContentOnly ?? displayContentOnly)
+              //   ? content || badgeId
+              //   : badge,
             };
           }
         }
@@ -419,11 +431,13 @@ class BadgesAddon {
           return null;
         }
 
-        const { badgeId, content } = getBadgePartsInternal(badge, delimiter);
+        const { badgeId } = getBadgePartsInternal(badge, delimiter);
+        const config = getFullBadgeConfig(badgeId, addonConfig);
         return {
           badgeId,
-          config: getFullBadgeConfig(badgeId, addonConfig),
-          content: displayContentOnly ? content || badgeId : badge,
+          config,
+          content: badge,
+          //(config.displayContentOnly ?? displayContentOnly) ? content || badgeId : badge,
         };
       })
       .filter(badge => badge != null)

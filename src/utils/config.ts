@@ -3,7 +3,8 @@ import { defaultConfig, defaultLocations } from '@/config';
 import { getBaseStyle } from './style';
 import { normalizeLocations } from './locations';
 
-import type { BadgesConfig, FullConfig } from '@/types';
+import type { BadgeMap, BadgesConfig, FullConfig } from '@/types';
+import { isBadgeMap } from './isBadgeMap';
 
 /**
  * Generates the full configuration for the addon.
@@ -12,30 +13,40 @@ import type { BadgesConfig, FullConfig } from '@/types';
  * normalized.
  */
 const getFullConfig = (
-  ...configs: Array<Partial<BadgesConfig> | FullConfig | undefined>
+  ...configs: Array<Partial<BadgesConfig> | BadgeMap | FullConfig | undefined>
 ): FullConfig => {
-  const combinedConfigs = configs.reduce(
-    (config, current) => ({
-      autobadges: config?.autobadges ?? current?.autobadges,
-      badgeMap:
-        (config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap)
-          ? (config?.badgeMap ?? current?.badgeMap)
-          : { ...config?.badgeMap, ...current?.badgeMap },
-      baseStyle: config?.baseStyle ?? current?.baseStyle,
-      delimiter: config?.delimiter ?? current?.delimiter,
-      displayContentOnly: config?.displayContentOnly ?? current?.displayContentOnly,
-      excludeTags: config?.excludeTags ?? current?.excludeTags,
-      locations: config?.locations ?? current?.locations,
-      matchers: config?.matchers ?? current?.matchers,
-      markAllAsReadOnDocsView: config?.markAllAsReadOnDocsView ?? current?.markAllAsReadOnDocsView,
-      replaceDefaultBadgeMap: config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap,
-      separators: config?.separators ?? current?.separators,
-      sidebarDisplayBadges: config?.sidebarDisplayBadges ?? current?.sidebarDisplayBadges,
-      useBadgeFallback: config?.useBadgeFallback ?? current?.useBadgeFallback,
-      useTags: config?.useTags ?? current?.useTags,
-      warnOnLegacyConfig: config?.warnOnLegacyConfig ?? current?.warnOnLegacyConfig,
-    }),
-    {} as { [K in keyof BadgesConfig]: BadgesConfig[K] | undefined },
+  const combinedConfigs = configs.reduce<Partial<BadgesConfig>>(
+    (config, current) =>
+      isBadgeMap(current)
+        ? {
+            ...config,
+            badgeMap: config?.replaceDefaultBadgeMap
+              ? current
+              : { ...config?.badgeMap, ...current },
+          }
+        : {
+            autobadges: config?.autobadges ?? current?.autobadges,
+            badgeMap:
+              (config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap)
+                ? (config?.badgeMap ?? current?.badgeMap)
+                : { ...config?.badgeMap, ...current?.badgeMap },
+            baseStyle: config?.baseStyle ?? current?.baseStyle,
+            delimiter: config?.delimiter ?? current?.delimiter,
+            displayContentOnly: config?.displayContentOnly ?? current?.displayContentOnly,
+            excludeTags: config?.excludeTags ?? current?.excludeTags,
+            locations: config?.locations ?? current?.locations,
+            matchers: config?.matchers ?? current?.matchers,
+            markAllAsReadOnDocsView:
+              config?.markAllAsReadOnDocsView ?? current?.markAllAsReadOnDocsView,
+            replaceDefaultBadgeMap:
+              config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap,
+            separators: config?.separators ?? current?.separators,
+            sidebarDisplayBadges: config?.sidebarDisplayBadges ?? current?.sidebarDisplayBadges,
+            useBadgeFallback: config?.useBadgeFallback ?? current?.useBadgeFallback,
+            useTags: config?.useTags ?? current?.useTags,
+            warnOnLegacyConfig: config?.warnOnLegacyConfig ?? current?.warnOnLegacyConfig,
+          },
+    {},
   );
 
   const replaceDefaultBadgeMap =

@@ -10,11 +10,18 @@ import type { Badge, BadgeFnParameters, FullBadgeConfig } from '@/types';
 /** Example full badge config for use in tests. */
 const fullBadgeConfig: FullBadgeConfig = {
   displayContentOnly: false,
+  delimiter: DELIMITER,
   locations: fullLocationMap,
   priority: 1,
   style: () => fullStyle,
   title: ({ content }) => content,
   tooltip: 'Basic Tooltip',
+};
+
+/** Example badge config for displaying a version number. */
+const versionBadge: FullBadgeConfig = {
+  ...fullBadgeConfig,
+  title: ({ content }) => `v${content}`,
 };
 
 /** Example simple badge config for use in tests. */
@@ -31,10 +38,11 @@ const secondaryBadgeConfig: Badge = {
 
 /** Example badge function parameters to pass into tested badge functions. */
 const badgeFnParameters: BadgeFnParameters = {
-  badgeId: 'Example',
-  content: 'Example Badge',
+  badgeId: 'example',
+  content: 'example-badge',
   entry: storyEntry,
   getBadgeParts: getBadgeParts(DELIMITER),
+  rawContent: 'example:example-badge',
 };
 
-export { badgeFnParameters, basicBadgeConfig, fullBadgeConfig, secondaryBadgeConfig };
+export { badgeFnParameters, basicBadgeConfig, fullBadgeConfig, secondaryBadgeConfig, versionBadge };

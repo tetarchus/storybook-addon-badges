@@ -169,7 +169,7 @@ describe('Badge Utils', () => {
       });
       expect(typeof fullBadgeConfig.title).toBe('function');
       expect((fullBadgeConfig.title as BadgeTitleFn)(badgeFnParameters)).toStrictEqual(
-        'Example Badge',
+        'example-badge',
       );
     });
 

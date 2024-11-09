@@ -6,7 +6,7 @@ import type { Badge, BadgeMap } from '@/types';
 const defaultBadgeMap = {
   [BADGE.A11Y_CHECK]: {
     title: '⚠︎ A11y',
-    styles: {
+    style: {
       backgroundColor: '#FFEFD2',
       borderColor: '#66460D',
       color: '#66460D',
@@ -14,7 +14,7 @@ const defaultBadgeMap = {
   },
   [BADGE.A11Y_FAIL]: {
     title: '✖︎ A11y',
-    styles: {
+    style: {
       backgroundColor: '#F9DADA',
       borderColor: '#7D2828',
       color: '#7D2828',
@@ -22,7 +22,7 @@ const defaultBadgeMap = {
   },
   [BADGE.A11Y_PASS]: {
     title: '✔︎ A11y',
-    styles: {
+    style: {
       backgroundColor: '#DCF2EA',
       borderColor: '#317159',
       color: '#317159',
@@ -30,7 +30,7 @@ const defaultBadgeMap = {
   },
   [BADGE.BETA]: {
     title: 'Beta',
-    styles: {
+    style: {
       backgroundColor: '#D6E0FF',
       borderColor: '#2952CC',
       color: '#2952CC',
@@ -41,7 +41,7 @@ const defaultBadgeMap = {
   },
   [BADGE.DEPRECATED]: {
     title: 'Deprecated',
-    styles: {
+    style: {
       backgroundColor: '#F8E3DA',
       borderColor: '#85462B',
       color: '#85462B',
@@ -49,7 +49,7 @@ const defaultBadgeMap = {
   },
   [BADGE.EXPERIMENTAL]: {
     title: 'Experimental',
-    styles: {
+    style: {
       backgroundColor: '#E7E4F9',
       borderColor: '#6E62B6',
       color: '#6E62B6',
@@ -57,7 +57,7 @@ const defaultBadgeMap = {
   },
   [BADGE.NEEDS_REVISION]: {
     title: 'Needs Revision',
-    styles: {
+    style: {
       backgroundColor: '#FFEFD2',
       borderColor: '#66460D',
       color: '#66460D',
@@ -67,14 +67,14 @@ const defaultBadgeMap = {
     locations: ['sidebar', 'toolbar'],
     title: 'New',
     priority: 1,
-    styles: {
+    style: {
       backgroundColor: '#00FF00',
       color: '#000000',
     },
   },
   [BADGE.OBSOLETE]: {
     title: 'Obsolete',
-    styles: {
+    style: {
       backgroundColor: '#F9DADA',
       borderColor: '#7D2828',
       color: '#7D2828',
@@ -82,7 +82,7 @@ const defaultBadgeMap = {
   },
   [BADGE.STABLE]: {
     title: 'Stable',
-    styles: {
+    style: {
       backgroundColor: '#DCF2EA',
       borderColor: '#317159',
       color: '#317159',
@@ -90,7 +90,7 @@ const defaultBadgeMap = {
   },
   [BADGE.TEST_FAIL]: {
     title: '✖︎ Tests',
-    styles: {
+    style: {
       backgroundColor: '#F9DADA',
       borderColor: '#7D2828',
       color: '#7D2828',
@@ -98,7 +98,7 @@ const defaultBadgeMap = {
   },
   [BADGE.TEST_PASS]: {
     title: '✔︎ Tests',
-    styles: {
+    style: {
       backgroundColor: '#DCF2EA',
       borderColor: '#317159',
       color: '#317159',
@@ -106,7 +106,7 @@ const defaultBadgeMap = {
   },
   [BADGE.TEST_TODO]: {
     title: 'Skipped Tests',
-    styles: {
+    style: {
       backgroundColor: '#FFEFD2',
       borderColor: '#66460D',
       color: '#66460D',
@@ -116,7 +116,7 @@ const defaultBadgeMap = {
     locations: ['sidebar', 'toolbar'],
     priority: 2,
     title: 'Updated',
-    styles: {
+    style: {
       backgroundColor: '#DCF2EA',
       borderColor: '#317159',
       color: '#317159',

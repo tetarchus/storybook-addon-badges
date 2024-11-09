@@ -94,6 +94,7 @@ const getFullBadgeConfig = (
 
   return {
     displayContentOnly: baseConfig.displayContentOnly ?? config.displayContentOnly,
+    delimiter: baseConfig.delimiter ?? config.delimiter,
     locations: normalizeLocations(baseConfig.locations, config.locations, config.locations),
     priority: baseConfig.priority ?? 99,
     style,

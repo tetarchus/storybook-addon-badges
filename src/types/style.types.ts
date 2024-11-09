@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react';
 import type { BadgeFnParameters } from './badge.types';
+import type { baseStyles } from '@/config';
 
 /** Built-in badge styles. */
-type BadgeStyleBase = 'default' | 'github';
+type BadgeStyleBase = (typeof baseStyles)[number]; //'default' | 'github' | 'shield';
 
 /** Alias for a non-null value of a style property. */
 type StyleValue<Key extends keyof CSSProperties> = NonNullable<CSSProperties[Key]>;

@@ -1,5 +1,7 @@
 import type { BadgeStyle } from '@/types';
 
+const baseStyles = ['default', 'github'] as const;
+
 /** The default base style for badges. */
 const defaultBadgeStyle: Required<BadgeStyle> = {
   backgroundColor: '#EDEFF5',
@@ -27,4 +29,4 @@ const githubBadgeStyle: Required<BadgeStyle> = {
   textTransform: 'lowercase',
 };
 
-export { defaultBadgeStyle, githubBadgeStyle };
+export { baseStyles, defaultBadgeStyle, githubBadgeStyle };

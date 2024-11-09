@@ -30,6 +30,8 @@ type BadgeFnParameters = {
   entry: HashEntry;
   /** Function for getting both parts of the badge (pre and post delimiter). */
   getBadgeParts: ReturnType<typeof getBadgeParts>;
+  /** The content of the tags/badges array before splitting. */
+  rawContent: string;
 };
 
 /** A basic badge definition/configuration object. */
@@ -39,6 +41,8 @@ type Badge = {
    * Set to `false` to display the whole string.
    */
   displayContentOnly?: boolean;
+  /** Delimiter to use for the badge. */
+  delimiter?: string;
   /** The locations that the badge should display. */
   locations?: BadgeLocations;
   /**

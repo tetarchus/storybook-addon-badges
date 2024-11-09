@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useGlobals } from 'storybook/internal/manager-api';
 
 import { useAddonConfig } from '@/hooks';
-import { getBadgeContent, getBadgeParts, getBadgeId } from '@/utils';
+import { getBadgeParts, getBadgePartsInternal } from '@/utils';
 
 import { BadgeTooltip } from '../BadgeTooltip';
 import { StyledBadge } from './styled';
@@ -18,7 +18,7 @@ import type { FC } from 'react';
 const Badge: FC<BadgeProps> = ({
   badgeId,
   config,
-  content,
+  content: rawContent,
   'data-testid': dataTestId,
   delimiter,
   entry,
@@ -27,18 +27,18 @@ const Badge: FC<BadgeProps> = ({
   const [{ theme }] = useGlobals();
 
   const { baseStyle } = useAddonConfig();
+  const { content } = getBadgePartsInternal(rawContent, config.delimiter);
 
   /** Parameters passed into dynamic functions. */
   const badgeFnParams: BadgeFnParameters = useMemo(
     () => ({
       entry,
-      content,
+      content: config.displayContentOnly ? (content ?? badgeId) : rawContent,
       badgeId,
-      getBadgeContent: getBadgeContent(delimiter),
       getBadgeParts: getBadgeParts(delimiter),
-      getBadgeId: getBadgeId(delimiter),
+      rawContent,
     }),
-    [badgeId, content, delimiter, entry],
+    [badgeId, config.displayContentOnly, content, delimiter, entry, rawContent],
   );
 
   /** Calculated text content of the badge. */
