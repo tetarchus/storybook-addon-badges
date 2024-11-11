@@ -208,14 +208,8 @@ class BadgesAddon {
         location,
         entry.type,
       );
-      console.log('All badges', allBadges, entry.type, location);
+
       return allBadges;
-      // return componentBadges.reduce<BadgeDefinition[]>((acc, current) => {
-      //   if (acc.every(({ badgeId }) => badgeId !== current.badgeId)) {
-      //     acc.push(current);
-      //   }
-      //   return acc;
-      // }, []);
     }
 
     const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];

@@ -1,13 +1,9 @@
 import satisfies from 'semver/functions/satisfies';
 import coerce from 'semver/functions/coerce';
 import {
-  TESTING_MODULE_CANCEL_TEST_RUN_REQUEST,
-  TESTING_MODULE_CANCEL_TEST_RUN_RESPONSE,
-  TESTING_MODULE_CRASH_REPORT,
   TESTING_MODULE_PROGRESS_REPORT,
   TESTING_MODULE_RUN_ALL_REQUEST,
   TESTING_MODULE_RUN_REQUEST,
-  TESTING_MODULE_WATCH_MODE_REQUEST,
 } from 'storybook/internal/core-events';
 import { addons } from 'storybook/internal/manager-api';
 
@@ -196,16 +192,6 @@ class Testing {
     );
     this.#addonChannel.on(TESTING_MODULE_RUN_REQUEST, this.#onTestingModuleRun.bind(this));
     this.#addonChannel.on(TESTING_MODULE_RUN_ALL_REQUEST, this.#onTestingModuleRunAll.bind(this));
-
-    // TODO: Remove
-    [
-      TESTING_MODULE_CRASH_REPORT,
-      TESTING_MODULE_CANCEL_TEST_RUN_REQUEST,
-      TESTING_MODULE_CANCEL_TEST_RUN_RESPONSE,
-      TESTING_MODULE_WATCH_MODE_REQUEST,
-    ].forEach(event => {
-      this.#addonChannel.on(event, (...args) => console.log(`[EVENT]${event}:`, ...args));
-    });
   }
 }
 
