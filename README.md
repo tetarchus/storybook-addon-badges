@@ -1,24 +1,46 @@
-# Storybook Addon Badges
+<div align='center'>
+  <h1>Storybook Addon Badges</h1>
+  <h4>Add badges to your stories</h4>
+  <!-- Badges -->
+  <div>
+    <a href='https://www.npmjs.com/package/storybook-addon-badges'><img alt='Latest Version' src='https://img.shields.io/npm/v/storybook-addon-badges' /></a>
+    <a href='https://github.com/tetarchus/storybook-addon-badges/issues/'><img alt='Open Issues' src='https://img.shields.io/github/issues/tetarchus/storybook-addon-badges' /></a>
+  </div>
+</div>
 
-> Add badges to your stories
-
-[![npm version](https://badge.fury.io/js/storybook-addon-badges.svg)](https://www.npmjs.com/package/storybook-addon-badges)
-
+<div align='center'>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+</div>
 
 > [!TIP]
 >
 > For more detailed documentation please see the
 > [Docs](https://tetarchus.github.io/storybook-addon-badges).
 
+## Version 3 is out!
+
+Version 3 allows for more customization, as well as
+[autobadges](https://tetarchus.github.io/storybook-addon-badges/configuration/autobadges), and can
+now show
+[sidebar badges](https://tetarchus.github.io/storybook-addon-badges/configuration/locations#sidebar)
+for any story!
+
 ## Installation
 
-First, install the package.
+Install and register the addon with `storybook add`:
 
 ```sh
-npm i storybook-addon-badges
+npx storybook add storybook-addon-badges
+```
+
+Or, install manually:
+
+```sh
+npm i -D storybook-addon-badges
 ```
 
 Then, register it as an addon in `.storybook/main.js`.
@@ -40,65 +62,12 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-You can add badges globally, to a single component, or to an individual story. Simply add an array
-of strings containing the badge text as a parameter to the preview file (for global badges):
+## Adding Badges
 
-```ts
-// .storybook/preview.ts
-// Replace `[your-framework]` with the name of your framework
-import type { Preview } from '@storybook/[your-framework]';
+Adding badges is as simple as adding global, component-level, or story-level tags or parameters.
 
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badges: ['beta'],
-  },
-};
-
-export default preview;
-```
-
-Or at the component/story level:
-
-```ts
-// MyComponent.stories.ts
-// Replace your-framework with the name of your framework
-import type { Meta } from '@storybook/your-framework';
-
-import { MyComponent } from './MyComponent';
-
-const meta = {
-  title: 'Path/To/MyComponent',
-  component: MyComponent,
-  parameters: {
-    badges: ['beta'], // <= Add component badges here
-    //...other parameters
-  },
-} satisfies Meta<typeof MyComponent>;
-
-type Story = StoryObj<typeof meta>;
-
-const Default: Story = {
-  args: {
-    //...component props
-  },
-  parameters: {
-    badges: ['beta'], // <= Add story badges here
-  },
-};
-
-export default meta;
-export { Default };
-```
-
-> [!WARNING]
->
-> Badges can currently only be read from a single set of `parameters`, so story badges overwrite
-> global and component level badges, and component badges overwrite global badges.
-
-For information about adding custom badge styles, tooltips and more, please see the
-[full documentation](https://tetarchus.github.io/storybook-addon-badges)
+For details on the methods available to add badges, please see the
+[documentation](https://tetarchus.github.io/storybook-addon-badges/getting-started/add-badges).
 
 ## Contributors ✨
 
@@ -109,7 +78,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/tetarchus"><img src="https://avatars.githubusercontent.com/u/8436118?v=4?s=100" width="100px;" alt=""/><br /><sub><b>tetarchus</b></sub></a><br /><a href="#infra-tetarchus" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus" title="Code">💻</a> <a href="https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus" title="Documentation">📖</a> <a href="#example-tetarchus" title="Examples">💡</a> <a href="https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus" title="Tests">⚠️</a></td>
+    <td align='center'><a href='https://github.com/tetarchus'><img src='https://avatars.githubusercontent.com/u/8436118?v=4?s=100' width='100px;' alt=''/><br /><sub><b>tetarchus</b></sub></a><br /><a href='#infra-tetarchus' title='Infrastructure (Hosting, Build-Tools, etc)'>🚇</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Code'>💻</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Documentation'>📖</a> <a href='#example-tetarchus' title='Examples'>💡</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Tests'>⚠️</a></td>
   </tr>
 </table>
 
@@ -118,15 +87,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors)
-specification. Contributions of any kind welcome!
-
-## Roadmap
-
-These are some future enhancements that I'd like to include:
-
-- Sidebar badges show even when not selected (Blocked by a potential bug in Storybook)
-- Ability to search for stories based on badge name (Also blocked by the same above bug)
+## Contributing
 
 If there's a feature that you'd like to see, please raise a
-[feature request](https://github.com/tetarchus/storybook-addon-badges/issues/new)
+[feature request](https://github.com/tetarchus/storybook-addon-badges/issues/new?assignees=&labels=needs+triage%2Cfeature+request&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+)
