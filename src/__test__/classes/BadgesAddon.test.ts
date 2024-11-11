@@ -77,7 +77,7 @@ describe('BadgesAddon Class', () => {
   it('returns an array of badges', () => {
     expect.assertions(1);
     const addon = new BadgesAddon(mockedApi, true);
-    const badges = addon.getBadgesForStory(storyEntry, 'sidebar');
+    const badges = addon.getBadgesForEntry(storyEntry, 'sidebar');
     expect(badges).toHaveLength(2);
   });
 

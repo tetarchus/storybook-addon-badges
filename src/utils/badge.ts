@@ -13,7 +13,7 @@ const getBadgePartsInternal = (badgeText: string, delimiter: string): BadgeParts
 
   return {
     badgeId: prefix,
-    content: rest.join(delimiter),
+    content: rest.length > 0 ? rest.join(delimiter) : undefined,
   };
 };
 

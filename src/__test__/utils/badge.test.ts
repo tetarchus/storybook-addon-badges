@@ -24,7 +24,6 @@ import type { BadgeTitleFn } from '@/types';
 const defaultName = 'version:1.0.0';
 const expectedId = 'version';
 const expectedContent = '1.0.0';
-const empty = '';
 const expectedFullId = 'version-1.0.0';
 
 const basicBadgeConfig = {
@@ -58,7 +57,7 @@ describe('Badge Utils', () => {
       expect.assertions(2);
       const { badgeId, content } = getBadgePartsInternal(expectedFullId, DELIMITER);
       expect(badgeId).toBe(expectedFullId);
-      expect(content).toBe(empty);
+      expect(content).toBeUndefined();
     });
   });
 
@@ -86,7 +85,7 @@ describe('Badge Utils', () => {
     it('returns the full badge with no delimiter', () => {
       expect.assertions(1);
       const content = getBadgeContentInternal(expectedFullId, DELIMITER);
-      expect(content).toBe(empty);
+      expect(content).toBeUndefined();
     });
   });
 

@@ -12,12 +12,12 @@ import type {
 } from '@/types';
 
 /** All available types of HashEntry. */
-const entryTypes: EntryType[] = ['component', 'docs', 'group', 'root', 'story'];
+const entryTypes: EntryType[] = ['root', 'group', 'component', 'docs', 'story'];
 /** Types of entry excluded from being displayed in the toolbar (due to not being selectable). */
 const toolbarExcludedTypes = ['component', 'group', 'root'] as const satisfies EntryType[];
 
 /** Available {@link BadgeLocation}s for the sidebar. */
-const sidebarPermittedTypes = entryTypes.filter(type => type !== 'root');
+const sidebarPermittedTypes = entryTypes.filter(type => type);
 /** Available {@link BadgeLocation}s for the toolbar. */
 const toolbarPermittedTypes = entryTypes.filter(type => !arrayIncludes(toolbarExcludedTypes, type));
 

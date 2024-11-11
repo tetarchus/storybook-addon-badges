@@ -85,7 +85,7 @@ type BadgesConfig = {
    */
   sidebarDisplayBadges: number | 'all';
   /** Whether to fall back to the default badge if there is no badge defined in the map/matcher. */
-  useBadgeFallback: boolean;
+  useMatcherBadgeFallback: boolean;
   /** Whether to generate badges from tags. */
   useTags: boolean;
   /**

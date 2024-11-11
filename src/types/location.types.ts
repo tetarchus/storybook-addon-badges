@@ -38,7 +38,7 @@ type LocationOption<T, Strict extends boolean = false> = Strict extends true
  */
 type LocationMap<Strict extends boolean = false> = {
   /** Controls the display of badges in the sidebar. */
-  [BADGE_LOCATION.SIDEBAR]?: LocationOption<Exclude<EntryType, 'root'>, Strict>;
+  [BADGE_LOCATION.SIDEBAR]?: LocationOption<EntryType, Strict>;
   /** Controls the display of badges in the toolbar. */
   [BADGE_LOCATION.TOOLBAR]?: LocationOption<
     Exclude<EntryType, 'root' | 'component' | 'group'>,

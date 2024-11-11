@@ -42,7 +42,8 @@ const getFullConfig = (
               config?.replaceDefaultBadgeMap ?? current?.replaceDefaultBadgeMap,
             separators: config?.separators ?? current?.separators,
             sidebarDisplayBadges: config?.sidebarDisplayBadges ?? current?.sidebarDisplayBadges,
-            useBadgeFallback: config?.useBadgeFallback ?? current?.useBadgeFallback,
+            useMatcherBadgeFallback:
+              config?.useMatcherBadgeFallback ?? current?.useMatcherBadgeFallback,
             useTags: config?.useTags ?? current?.useTags,
             warnOnLegacyConfig: config?.warnOnLegacyConfig ?? current?.warnOnLegacyConfig,
           },
@@ -73,7 +74,8 @@ const getFullConfig = (
     separators: combinedConfigs?.separators ?? defaultConfig.separators,
     sidebarDisplayBadges:
       combinedConfigs?.sidebarDisplayBadges ?? defaultConfig.sidebarDisplayBadges,
-    useBadgeFallback: combinedConfigs?.useBadgeFallback ?? defaultConfig.useBadgeFallback,
+    useMatcherBadgeFallback:
+      combinedConfigs?.useMatcherBadgeFallback ?? defaultConfig.useMatcherBadgeFallback,
     useTags: combinedConfigs?.useTags ?? defaultConfig.useTags,
     warnOnLegacyConfig: combinedConfigs?.warnOnLegacyConfig ?? defaultConfig.warnOnLegacyConfig,
   };

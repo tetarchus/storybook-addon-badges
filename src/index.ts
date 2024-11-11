@@ -1,4 +1,4 @@
-export { defaultBadgeConfig, defaultConfig as defaultBadgesConfig } from '@/config';
+export { defaultBadgeConfig, defaultConfig as defaultBadgesConfig, storybookTags } from '@/config';
 export {
   ADDON_ID,
   ADDON_TITLE,

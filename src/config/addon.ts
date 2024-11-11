@@ -4,6 +4,8 @@ import { defaultBadgeMap } from './badges';
 
 import type { BadgesConfig } from '@/types';
 
+const storybookTags = ['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx'] as const;
+
 /** The default addon configuration. Values not overridden will fall back to this. */
 const defaultConfig: BadgesConfig = {
   autobadges: ['new', 'updated'],
@@ -11,7 +13,7 @@ const defaultConfig: BadgesConfig = {
   baseStyle: 'default',
   delimiter: ':',
   displayContentOnly: true,
-  excludeTags: ['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx'],
+  excludeTags: [...storybookTags],
   locations: ['toolbar'],
   matchers: [],
   markAllAsReadOnDocsView: true,
@@ -22,9 +24,9 @@ const defaultConfig: BadgesConfig = {
     [BADGE_LOCATION.TOOLBAR_END]: 'before',
   },
   sidebarDisplayBadges: 'all',
-  useBadgeFallback: false,
+  useMatcherBadgeFallback: false,
   useTags: false,
   warnOnLegacyConfig: true,
 } satisfies Required<BadgesConfig>;
 
-export { defaultConfig };
+export { defaultConfig, storybookTags };

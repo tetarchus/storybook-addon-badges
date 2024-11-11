@@ -26,7 +26,7 @@ const BadgeWrapper = (props: BadgeWrapperProps) => (
     badgeId={props.badgeId}
     config={getBadgeConfig(props.badgeId, props.baseStyle)}
     data-testid={props['data-testid']}
-    content='Replaced'
+    content={props.badgeId}
     delimiter={DELIMITER}
     entry={storyEntry}
   />

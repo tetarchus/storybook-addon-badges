@@ -60,6 +60,7 @@ const Badge: FC<BadgeProps> = ({
     () => (
       <StyledBadge
         badgeStyle={badgeStyle}
+        data-badgeid={badgeId}
         data-testid={dataTestId}
         hasTooltip={config.tooltip != null}
         uiTheme={theme || uiTheme['base']}
@@ -67,7 +68,7 @@ const Badge: FC<BadgeProps> = ({
         {badgeText}
       </StyledBadge>
     ),
-    [badgeStyle, badgeText, config.tooltip, dataTestId, theme, uiTheme],
+    [badgeId, badgeStyle, badgeText, config.tooltip, dataTestId, theme, uiTheme],
   );
 
   return config.tooltip ? (

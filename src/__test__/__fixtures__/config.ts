@@ -26,7 +26,7 @@ const fullConfig: FullConfig = {
     'toolbar-end': 'before',
   },
   sidebarDisplayBadges: 1,
-  useBadgeFallback: true,
+  useMatcherBadgeFallback: true,
   useTags: true,
   warnOnLegacyConfig: false,
 };

@@ -33,7 +33,7 @@ const Badges: FC<BadgesProps> = ({ 'data-testid': dataTestId, entry, location }:
     if (shouldRerender) {
       setShouldRerender(false);
     }
-    return addon.getBadgesForStory(entry, location);
+    return addon.getBadgesForEntry(entry, location);
   }, [addon, entry, location, shouldRerender]);
 
   /** Configuration value for how to display separators. */

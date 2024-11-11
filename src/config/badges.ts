@@ -68,7 +68,8 @@ const defaultBadgeMap = {
     title: 'New',
     priority: 1,
     style: {
-      backgroundColor: '#00FF00',
+      backgroundColor: '#66BF3C', //'#00FF00',
+      borderColor: '#66BF3C',
       color: '#000000',
     },
   },
@@ -117,9 +118,9 @@ const defaultBadgeMap = {
     priority: 2,
     title: 'Updated',
     style: {
-      backgroundColor: '#DCF2EA',
-      borderColor: '#317159',
-      color: '#317159',
+      backgroundColor: '#00C7AC',
+      borderColor: '#00C7AC',
+      color: '#2C2C2C',
     },
   },
 } satisfies BadgeMap<(typeof BADGE)[keyof typeof BADGE]>;

@@ -21,7 +21,7 @@ describe('Location Utils', () => {
       expect(Object.keys(locations)).toHaveLength(3);
       expect(Object.keys(locations)).toStrictEqual(['sidebar', 'toolbar', 'toolbar-end']);
       expect(locations).toStrictEqual({
-        sidebar: ['component', 'docs', 'group', 'story'],
+        sidebar: ['root', 'group', 'component', 'docs', 'story'],
         toolbar: [],
         'toolbar-end': [],
       });

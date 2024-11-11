@@ -187,28 +187,35 @@ class BadgesAddon {
    * @param location The location to generate badges for.
    * @returns An array of {@link BadgeDefinition}s for the given entry/location.
    */
-  public getBadgesForStory(
+  public getBadgesForEntry(
     entry: HashEntry | undefined,
     location: BadgeLocation,
   ): BadgeDefinition[] {
     if (!entry) return [];
 
-    if (entry.type === 'component') {
+    if (entry.type === 'component' || entry.type === 'group' || entry.type === 'root') {
       const componentBadges: BadgeDefinition[] = [];
       const stories = entry.children;
       for (const story of stories) {
         const indexEntry = this.#latestIndex.find(index => index.id === story);
         componentBadges.push(
-          ...this.getBadgesForStory(indexEntry as unknown as HashEntry | undefined, location),
+          ...this.getBadgesForEntry(indexEntry as unknown as HashEntry | undefined, location),
         );
       }
 
-      return componentBadges.reduce<BadgeDefinition[]>((acc, current) => {
-        if (acc.every(({ badgeId }) => badgeId !== current.badgeId)) {
-          acc.push(current);
-        }
-        return acc;
-      }, []);
+      const allBadges = this.#filterBadges(
+        componentBadges.map(badge => badge.content),
+        location,
+        entry.type,
+      );
+      console.log('All badges', allBadges, entry.type, location);
+      return allBadges;
+      // return componentBadges.reduce<BadgeDefinition[]>((acc, current) => {
+      //   if (acc.every(({ badgeId }) => badgeId !== current.badgeId)) {
+      //     acc.push(current);
+      //   }
+      //   return acc;
+      // }, []);
     }
 
     const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];
@@ -387,7 +394,7 @@ class BadgesAddon {
    */
   #filterBadges(badges: string[], location: BadgeLocation, type: EntryType): BadgeDefinition[] {
     const addonConfig = this.addonConfig;
-    const { delimiter, locations, matchers, useBadgeFallback } = addonConfig;
+    const { delimiter, locations, matchers, useMatcherBadgeFallback } = addonConfig;
 
     return badges
       .filter((badge, idx, arr) => {
@@ -401,11 +408,12 @@ class BadgesAddon {
         for (const matcher of matchers) {
           const matched = matchBadge(badge, matcher, delimiter);
           if (matched) {
+            const { displayContentOnly: displayContentOverride } = matcher;
             const { badgeId: parsedId } = getBadgePartsInternal(
               badge,
               matcher.delimiter ?? delimiter,
             );
-            const { displayContentOnly: displayContentOverride } = matcher;
+
             const { badgeId, config } = getMatcherBadge(matcher, addonConfig, parsedId);
 
             return {
@@ -424,7 +432,7 @@ class BadgesAddon {
 
         // If we get here with no return, either there are no matchers, or none
         // match the found badge ID - check if we should continue searching
-        if (matchers.length > 0 && !useBadgeFallback) {
+        if (matchers.length > 0 && !useMatcherBadgeFallback) {
           return null;
         }
 

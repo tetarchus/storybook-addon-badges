@@ -22,7 +22,7 @@ type Matcher = {
    * - An object containing a badge ID, and a dynamic title function.
    * - An inline {@link Badge} configuration.
    */
-  badge: string | { id: string; title: BadgeTitleFn } | Badge;
+  badge: string | { id: string; title: BadgeTitleFn | string } | Badge;
   /** The delimiter to use when parsing the matched content. */
   delimiter?: string;
   /** Whether to display only the content portion of a badge. */
