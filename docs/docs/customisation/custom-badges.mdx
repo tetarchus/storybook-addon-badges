@@ -4,7 +4,7 @@ title: Custom Badges
 description: Define custom badges
 ---
 
-import { BadgeDefinition } from '@site/src/components';
+import { BadgeDefinition, Links } from '@site/src/components';
 import Admonition from '@theme/Admonition';
 
 Any string that is passed to `tags`/`badges` will display as a badge, and use the
@@ -16,14 +16,14 @@ configuration options.
 
 <BadgeDefinition />
 
-@todo -- remove/reword
+<Admonition title='Using Preview Config/Parameters?' type='tip'>
+Be aware that while `badgesConfig` can be defined at global, component, or story level, the badges
+defined under `badgesMap` will only apply to the `badges` defined 'below' that level. It is
+recommended to define the `badgesConfig` parameter at the global level for all badges to ensure
+consistency.
 
-<Admonition type="tip">
-Using Preview Config/Parameters?
-Be aware that while `badgesConfig` can be defined at global, component, or story level, the badges defined under `badgesMap` will only apply to the `badges` defined 'below' that level. It is recommended to define the `badgesConfig` parameter at the global level for all badges to ensure consistency.
-
-This does not apply when adding the config to the manager config file, as the config is not
-extendable, and all badges should be defined at the global level.
+This does not apply when adding the config to the {Links.StorybookManager} config file, as the
+config is not extendable, and all badges should be defined at the global level.
 
 </Admonition>
 

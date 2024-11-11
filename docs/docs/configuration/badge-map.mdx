@@ -9,6 +9,8 @@ import { BadgeDefinition } from '@site/src/components';
 The `badgeMap` holds all of your badge definitions. It's an object where the keys are badge IDs, and
 the values are a `BadgeConfig` object containing the following properties:
 
+## Badge Config
+
 <BadgeDefinition />
 
 ## Badge Ordering
@@ -16,5 +18,5 @@ the values are a `BadgeConfig` object containing the following properties:
 Badges are ordered by their `priority`, then alphabetically. By default, all badges have a default
 priority of `99` to allow others to be sorted before and after easily.
 
-The `priority` also dictates which badges can show in the [sidebar](./locations.mdx#sidebar-badges)
-along with the value of [`sidebarDisplayBadges`](./locations.mdx#sidebar-badges).
+The `priority` also dictates which badges can show in the [sidebar](./locations.mdx#sidebar) along
+with the value of [`sidebarDisplayBadges`](./locations.mdx#sidebar-display-badges).

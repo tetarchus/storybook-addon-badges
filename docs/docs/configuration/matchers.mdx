@@ -1,5 +1,5 @@
 ---
-position: 7
+sidebar_position: 8
 title: Matchers
 description: Use rules to match to defined badges
 ---
@@ -20,7 +20,7 @@ A `Matcher` contains the following properties:
     - `title`: A [string](../customisation/badge-content.mdx#title) or
       [function](../customisation/badge-content.mdx#title-function) to override the badge's normal
       `title` field when matched by this matcher.
-  - A full [`Badge Config`](@todo)
+  - A full [`BadgeConfig`](./badge-map.mdx#badge-config)
 - `delimiter`: The delimiter to use when matching the `badgeId` and `content` of the string.
 - `displayContentOnly`: Whether the `content` portion of the badge should just be the part after the
   `delimiter`(`true`), or include the `badgeId` (`false`).
@@ -40,10 +40,10 @@ pattern can be:
   - `content`: `string` or `RegExp` to match against the `content` portion of the badge text.
 
 ```ts
-match: "beta", // Will match a badge with the text 'beta',
+match: 'beta', // Will match a badge with the text 'beta',
 match: [/^version/ui], // Will match any badge with text starting 'version'
 match: [{badgeId: 'deprecated'}], // Will match any badge with text before the delimiter matching 'deprecated'
-match: [{content: "1.0.0"}], // Will match any badge with text after the delimiter matching '1.0.0',
+match: [{content: '1.0.0'}], // Will match any badge with text after the delimiter matching '1.0.0',
 match: [{badgeId: /^ver/ui, content: /^1./ui}], // Will match any badge where the id portion starts with 'ver' and the content portion starts with '1.',
 ```
 

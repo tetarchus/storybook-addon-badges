@@ -4,6 +4,7 @@ title: Add Badges
 description: Add badges to your stories
 ---
 
+import { Links } from '@site/src/components';
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -21,20 +22,20 @@ or any other string which will inherit the
 
 The `tags`/`badges` options take an array of badge IDs as strings, which relate to keys in the
 [`badgeMap`](../configuration/badge-map.mdx). The badge ID decides which badge is displayed (and can
-define its style, content and more - see [customising badges](../customisation)).
+define its style, content and more - see [customising badges](../customisation/custom-badges.mdx)).
 
 Badges can be added globally, to all of a component's stories, or to an individual story. The way
 that badges are [inherited](#badge-inheritance), depends on how they're defined.
 
 ## Badge Levels
 
-<Tabs groupId="using" queryString="using">
-  <TabItem default label="Using Tags" value="tags">
+<Tabs groupId='using' queryString='using'>
+  <TabItem default label='Using Tags' value='tags'>
     ### Adding Global Tags
 
-    Global tags, that apply to all components and stories unless [overridden](#tag-inheritance), can be set in your Storybook [`preview`](https://storybook.js.org/docs/configure#configure-story-rendering) config:
+    Global tags, that apply to all components and stories unless [overridden](#tag-inheritance), can be set in your Storybook {Links.StorybookPreview} config:
 
-    ```ts title=".storybook/preview.ts"
+    ```ts title='.storybook/preview.ts'
     // Replace [your-renderer] with the renderer you are using (e.g., react, vue3)
     import { Preview } from '@storybook/[your-renderer]';
 
@@ -50,7 +51,7 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
 
     Component tags apply to all stories for a component, and are defined in the [`meta`](https://storybook.js.org/docs/get-started/whats-a-story) for that component:
 
-    ```ts title="MyComponent.stories.ts"
+    ```ts title='MyComponent.stories.ts'
     // Replace [your-framework] with the name of your framework
     import type { Meta } from '@storybook/[your-framework]';
 
@@ -59,7 +60,7 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
     const meta = {
       title: 'Path/To/MyComponent',
       component: MyComponent,
-      tags: ["deprecated"] // 👈 Component tags go here
+      tags: ['deprecated'] // 👈 Component tags go here
     } satisfies Meta<typeof MyComponent>;
 
     type Story = StoryObj<typeof meta>;
@@ -67,13 +68,13 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
     export default meta;
     ```
 
-    Component tags will be merged with global tags, unless [overridden](#overriding-tags).
+    Component tags will be merged with global tags, unless [overridden](#tag-inheritance).
 
     ### Adding Story Tags
 
     Story tags apply to a single story, and are defined in that story's object:
 
-    ```ts title="MyComponent.stories.ts"
+    ```ts title='MyComponent.stories.ts'
     //...meta and other stories
 
     const Default: Story = {
@@ -87,19 +88,19 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
     ```
 
   </TabItem>
-  <TabItem default label="Using Parameters" value="badges">
+  <TabItem default label='Using Parameters' value='badges'>
 
-    You can define badges, and the addon configuration using [parameters](https://storybook.js.org/docs/api/parameters).
+    You can define badges, and the addon configuration using {Links.StorybookParameters}.
 
     This is the original method for defining badges for your stories, and allows you to define badges without using tags. This may be useful if you're already using tags for something else and don't want to add [exclusions](../configuration/use-tags.mdx) for tags all your tags. As the `badges` parameter is only used for this addon, there is no potential conflict.
 
     ### Adding Badges Globally
 
-    <Tabs groupId="config" queryString="config">
-      <TabItem default label="Manager Config" value="manager">
-        To add badges to all stories, you can define a `badges` key in your [`manager`](https://storybook.js.org/docs/configure/user-interface/features-and-behavior) config. This will allow these badges to apply to all components/stories, regardless of whether they have their own defined.
+    <Tabs groupId='config' queryString='config'>
+      <TabItem default label='Manager Config' value='manager'>
+        To add badges to all stories, you can define a `badges` key in your {Links.StorybookManager} config. This will allow these badges to apply to all components/stories, regardless of whether they have their own defined.
 
-        ```ts title=".storybook/manager.ts"
+        ```ts title='.storybook/manager.ts'
         import { addons } from '@storybook/addons';
 
         addons.setConfig({
@@ -108,15 +109,15 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
         })
         ```
       </TabItem>
-      <TabItem label="Preview Config" value="preview">
-        You can use the `preview` configuration file, and set the `badges` parameter.
+      <TabItem label='Preview Config' value='preview'>
+        You can use the {Links.StorybookPreview} configuration file, and set the `badges` parameter.
 
         <Admonition type='danger'>
         `storybook-addon-badges` can only read from a single set of parameters at a time (this is a limitation of Storybook). As such, when you set badges on a component/story level, it'll override any other badges defined.
         </Admonition>
 
 
-        ```ts title=".storybook/preview.ts"
+        ```ts title='.storybook/preview.ts'
         // Replace `[your-framework]` with the name of your framework
         import type { Preview } from '@storybook/[your-framework]';
 
@@ -131,7 +132,7 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
         export default preview;
         ```
 
-        <Admonition type="tip">
+        <Admonition type='tip'>
           You can pass an empty array into the parameters for individual stories to prevent global badges defined using a `preview` config from showing.
         </Admonition>
       </TabItem>
@@ -141,7 +142,7 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
 
     To add badges to all of a component's stories, add the `badges` parameter to the `meta` default export of a story file:
 
-    ```ts title="MyComponent.stories.ts"
+    ```ts title='MyComponent.stories.ts'
     // Replace your-framework with the name of your framework
     import type { Meta } from '@storybook/your-framework';
 
@@ -165,7 +166,7 @@ that badges are [inherited](#badge-inheritance), depends on how they're defined.
 
     To add badges just for an individual story, add the `badges` parameter to that story's `parameters`:
 
-    ```ts title="MyComponent.stories.ts"
+    ```ts title='MyComponent.stories.ts'
     //...meta from above snippet
 
     const Default: Story = {
@@ -194,7 +195,7 @@ global, or component-level tag to apply to a story.
 To remove a tag defined higher up in the chain, you can prefix it with `!`. This tells Storybook to
 remove that tag for items below in the inheritance chain.
 
-```ts title="MyComponent.stories.ts"
+```ts title='MyComponent.stories.ts'
 //...meta and other stories
 
 const Default: Story = {
@@ -242,10 +243,10 @@ const meta = {
 };
 ```
 
-The only exception to this is if you define `global` badges in the `manager` file, in which case
-they are available to all components/stories even if they have their own `badges` parameter. If you
-wish to override a global badge defined in this way, you can use the same method as
-[overriding tags](#tag-inheritance).
+The only exception to this is if you define `global` badges in the {Links.StorybookManager} file, in
+which case they are available to all components/stories even if they have their own `badges`
+parameter. If you wish to override a global badge defined in this way, you can use the same method
+as [overriding tags](#tag-inheritance).
 
 ```ts
 // manager.ts

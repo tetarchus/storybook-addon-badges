@@ -4,6 +4,7 @@ title: Addon
 description: How to configure `storybook-addon-badges`
 ---
 
+import { Links } from '@site/src/components';
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -11,11 +12,11 @@ import TabItem from '@theme/TabItem';
 While `storybook-addon-badges` can be used out of the box, some of the most powerful features are
 opt-in, to ensure that they don't conflict with how _you_ use Storybook.
 
-You can configure using the [manager](@todo) file (recommended), or the [preview](@todo) file in
-your `.storybook/` configuration folder.
+You can configure using the {Links.StorybookManager} file (recommended), or the
+{Links.StorybookPreview} file in your `.storybook/` configuration folder.
 
-<Tabs groupId="config" queryString="config">
-  <TabItem default label="Manager Config" value="manager">
+<Tabs groupId='config' queryString='config'>
+  <TabItem default label='Manager Config' value='manager'>
     Configuring via the manager configuration file is the recommended method as it ensures that all options are available, and allows you to pass functions to certain configuration items.
 
     To set the addon configuration, pass in your config options under the `badgeConfig` key of the object passed to `addons.setConfig`:
@@ -33,12 +34,12 @@ your `.storybook/` configuration folder.
     ```
 
   </TabItem>
-  <TabItem default label="Preview Config" value="preview">
-    As Storybook serializes the [parameters](@todo), any non-serializable values (such as functions/dates) are lost. Due to this, configuring in the preview config file isn't recommended for most users, but is available for backwards compatability.
+  <TabItem default label='Preview Config' value='preview'>
+    As Storybook serializes the {Links.StorybookParameters}, any non-serializable values (such as functions/dates) are lost. Due to this, configuring in the preview config file isn't recommended for most users, but is available for backwards compatability.
 
-    To set the addon configuration, pass in your config options under the `badgesConfig` key of the preview [`parameters`](@todo):
+    To set the addon configuration, pass in your config options under the `badgesConfig` key of the preview {Links.StorybookParameters}:
 
-    ```ts title=".storybook/preview.ts"
+    ```ts title='.storybook/preview.ts'
     // Replace `[your-framework]` with the name of your framework
     import type { Preview } from '@storybook/[your-framework]';
 
@@ -56,13 +57,6 @@ your `.storybook/` configuration folder.
     export default preview;
     ```
 
-    <Admonition type="info">
-      <a name="warn-on-legacy-config" />
-      As using `parameters` to configure `storybook-addon-badges`, you may see a warning pop up the first time you load a Storybook. This will only be shown once (per user, as it uses `localStorage`), and serves a reminder to migrate to the more powerful manager-based configuration if you've just upgraded.
-
-      If, however, you have a reason to keep using parameters, and want to remove this warning from ever showing on published Storybooks, you can pass in `warnOnLegacyConfig: false` to the {Links.Addon} and this will prevent the warning from showing.
-    </Admonition>
-
   </TabItem>
 </Tabs>
 
@@ -71,20 +65,31 @@ your `.storybook/` configuration folder.
 Below are the various configuration options available and what they do. For more information on a
 particular option, click the option's name in the table below.
 
-| Option                                                       | Description                                                                                                                                 | Default                                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [autobadges](./autobadges.mdx)                               | Allows you to automatically add badges to a story based on triggers.                                                                        | `['new', 'updated']`                                               |
-| [badgeMap](./badge-map.mdx)                                  | Define the badges available to display.                                                                                                     | See [pre-defined badges](../getting-started/predefined-badges.mdx) |
-| [baseStyle](./base-style.mdx)                                | The style that badges use by default. Any values not defined will fall back to this.                                                        | See [base style](./base-style.mdx)                                 |
-| [delimiter](./badge-content.mdx)                             | The string used to separate a badge's ID from its content.                                                                                  | `':'`                                                              |
-| [displayContentOnly](./badge-content.mdx)                    | Whether to display just the `content` part of a badge. Can be overridden for each badge.                                                    | `false`                                                            |
-| [excludeTags](./use-tags.mdx#excluding-tags)                 | List of tags to prevent from generating badges.                                                                                             | `['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx']`    |
-| [locations](./locations.mdx)                                 | Default locations for badges to display.                                                                                                    | `['toolbar']`                                                      |
-| [matchers](./matchers.mdx)                                   | Allows for complex logic and badge mapping.                                                                                                 | `[]`                                                               |
-| [markAllAsReadOnDocsView](./autobadges.mdx)                  | When using `autobadges` for `new` and `updated`, whether to remove the badge from all stories for a component when its docs page is viewed. | `true`                                                             |
-| [replaceDefaultBadgeMap](../customisation/custom-badges.mdx) | Allows a custom badge map to completely override the built-in badges, rather than extend.                                                   | `false`                                                            |
-| [separators](./locations.mdx#separators)                     | How to display separators in the different locations.                                                                                       |                                                                    |
-| [sidebarDisplayBadges](./locations.mdx#sidebar-badges)       | The number of badges to display on the sidebar to prevent it getting cluttered.                                                             | `all`                                                              |
-| [useBadgeFallback](./matchers.mdx)                           | When using matchers, whether to fallback to default badge mapping if no matchers match.                                                     | `false`                                                            |
-| [useTags](./use-tags.mdx)                                    | Whether to generate badges from tags.                                                                                                       | `false`                                                            |
-| [warnOnLegacyConfig](#warn-on-legacy-config)                 | Whether to display the warning when using 'legacy' configuration.                                                                           | `true`                                                             |
+| Option                                                               | Description                                                                                                                                 | Default                                                            |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [autobadges](./autobadges.mdx)                                       | Allows you to automatically add badges to a story based on triggers.                                                                        | `['new', 'updated']`                                               |
+| [badgeMap](./badge-map.mdx)                                          | Define the badges available to display.                                                                                                     | See [pre-defined badges](../getting-started/predefined-badges.mdx) |
+| [baseStyle](./base-style.mdx)                                        | The style that badges use by default. Any values not defined will fall back to this.                                                        | See [base style](./base-style.mdx)                                 |
+| [delimiter](./badge-content.mdx#delimited-badges)                    | The string used to separate a badge's ID from its content.                                                                                  | `':'`                                                              |
+| [displayContentOnly](./badge-content.mdx#display-content-only)       | Whether to display just the `content` part of a badge. Can be overridden for each badge.                                                    | `false`                                                            |
+| [excludeTags](./use-tags.mdx#excluding-tags)                         | List of tags to prevent from generating badges.                                                                                             | `['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx']`    |
+| [locations](./locations.mdx)                                         | Default locations for badges to display.                                                                                                    | `['toolbar']`                                                      |
+| [matchers](./matchers.mdx)                                           | Allows for complex logic and badge mapping.                                                                                                 | `[]`                                                               |
+| [markAllAsReadOnDocsView](./autobadges.mdx#additional-options)       | When using `autobadges` for `new` and `updated`, whether to remove the badge from all stories for a component when its docs page is viewed. | `true`                                                             |
+| [replaceDefaultBadgeMap](../customisation/custom-badges.mdx)         | Allows a custom badge map to completely override the built-in badges, rather than extend.                                                   | `false`                                                            |
+| [separators](./locations.mdx#separators)                             | How to display separators in the different locations.                                                                                       |                                                                    |
+| [sidebarDisplayBadges](./locations.mdx#sidebar-display-badges)       | The number of badges to display on the sidebar to prevent it getting cluttered.                                                             | `all`                                                              |
+| [useMatcherBadgeFallback](./matchers.mdx#use-matcher-badge-fallback) | When using matchers, whether to fallback to default badge mapping if no matchers match.                                                     | `false`                                                            |
+| [useTags](./use-tags.mdx)                                            | Whether to generate badges from tags.                                                                                                       | `false`                                                            |
+| [warnOnLegacyConfig](#warn-on-legacy-config)                         | Whether to display the warning when using 'legacy' configuration.                                                                           | `true`                                                             |
+
+## Warn On Legacy Config
+
+<Admonition type='info'>
+  As using `parameters` to configure `storybook-addon-badges` is considered legacy, you may see a warning pop up the first time you load a Storybook. This will only be shown once (per user, as it uses `localStorage`), and serves a reminder to migrate to the more powerful manager-based configuration if you've just upgraded.
+
+If, however, you have a reason to keep using parameters, and want to remove this warning from ever
+showing on published Storybooks, you can pass in `warnOnLegacyConfig: false` to the {Links.Addon}
+and this will prevent the warning from showing.
+
+</Admonition>

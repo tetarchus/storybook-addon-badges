@@ -1,5 +1,5 @@
 ---
-position: 7
+sidebar_position: 7
 title: Locations
 description: UI Locations for badges to show
 ---
@@ -13,6 +13,16 @@ in any, or all of these locations, or even be dependent on the type of entry (e.
 
 The `sidebar` displays the names of your components and stories. It's also the only place that some
 [entry types](#entry-types) are visible (`root`, `component`, and `group`).
+
+### Sidebar Display Badges
+
+As space is limited in the sidebar, it is suggested that only a limited number of badges have it
+available as a location.
+
+By default, all badges assigned to the `sidebar` location will be displayed, however if you'd prefer
+that only _some_ are displayed, you can set the `sidebarDisplayBadges` property in the {Links.Addon}
+to the number of badges to display next to an entry. This property also accepts the value `'all'`
+(the default) which shows all badges assigned the `sidebar` location.
 
 ## Toolbar
 
@@ -52,9 +62,10 @@ locations: {
 
 ### Badge Config
 
-The `locations` key of a [`Badge Config`](@todo) overrides the default settings for that badge. This
-accepts the same options as the addon, and will apply for that specific badge only. If the string
-array option is passed, the types of component that will display this badge will be based on the
+The `locations` key of a [`BadgeConfig`](./badge-map.mdx#badge-config) overrides the default
+settings for that badge. This accepts the same options as the addon, and will apply for that
+specific badge only. If the string array option is passed, the types of component that will display
+this badge will be based on the
 
 ## Separators
 

@@ -38,14 +38,15 @@ content: '1.0.0'
 ```
 
 The `badgeId` portion is then used to lookup the badge's definition in the {Links.BadgeMap}. The
-`content` part is then passed in to any [`BadgeFunction`](@todo), or displayed in a badge without a
-`title` definition.
+`content` part is then passed in to any [`BadgeFunction`](./badge-functions.mdx), or displayed in a
+badge without a `title` definition.
 
 ### Display Content Only
 
-The `displayContentOnly` setting from the {Links.Addon}, [`BadgeConfig`](@todo), or
-[`matcher`](./matchers) controls whether the `content` passed into [`BadgeFunction`](@todo)s
-contains just the `content` portion, or the whole badge string.
+The `displayContentOnly` setting from the {Links.Addon},
+[`BadgeConfig`](./badge-map.mdx#badge-config), or [`matcher`](./matchers.mdx) controls whether the
+`content` passed into [`BadgeFunction`](./badge-functions.mdx)s contains just the `content` portion,
+or the whole badge string.
 
 In most cases, you won't need to touch this, unless you'd prefer that the badge displays the whole
 string passed to `tags`/`badges` when using delimiters.

@@ -19,7 +19,7 @@ const BadgeDefinition = () => (
       </tr>
       <tr>
         <td>
-          <CodeLink href='/configuration/badge-locations'>locations</CodeLink>
+          <CodeLink href='/configuration/locations'>locations</CodeLink>
         </td>
         <td>Override the locations that this badge can appear in.</td>
         <td>defaults to the value from {Links.Addon}</td>
@@ -49,7 +49,7 @@ const BadgeDefinition = () => (
         </td>
         <td>
           The text to display on the badge. Can be a string, or a{' '}
-          <Link to='@todo'>badge function</Link>
+          <Link to='/configuration/badge-functions'>badge function</Link>
         </td>
         <td>
           defaults to the <CodeLink href='/customisation/badge-content'>content</CodeLink> portion
