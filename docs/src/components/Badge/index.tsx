@@ -1,20 +1,21 @@
-import { getBadgeConfig, getBadgesConfig } from '@/utils';
+import { getFullBadgeConfig, getFullConfig } from '@/utils';
 
 import type { BadgeProps } from './prop.types';
 import type { FC } from 'react';
 
 /** Displays an example badge in the documentation. */
-const Badge: FC<BadgeProps> = ({ badge, baseStyle = 'default' }: BadgeProps) => {
-  const badgeConfig = getBadgeConfig(badge, getBadgesConfig({ baseStyle }));
+const Badge: FC<BadgeProps> = ({ badge, baseStyle = 'default', content }: BadgeProps) => {
+  const badgeConfig = getFullBadgeConfig(badge, getFullConfig({ baseStyle }));
 
   return (
     <div
       style={{
-        ...badgeConfig.styles,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ...(badgeConfig.style({} as any) as any),
         display: 'inline',
       }}
     >
-      {badgeConfig.title}
+      {content ?? (badgeConfig.title as string)}
     </div>
   );
 };

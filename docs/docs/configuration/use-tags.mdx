@@ -1,0 +1,40 @@
+---
+sidebar_position: 6
+title: Using Tags
+description: Use Storybook's built-in feature
+---
+
+import { Links } from '@site/src/components';
+
+Storybook has a `tags` feature that has some overlap with badges, and allows you to define/use
+badges that relate to things _other_ than just badges. See the Storybook page on [tags](@todo) for
+more information on the built-in tags, use cases and more.
+
+## Use Tags
+
+From v3, tags are now enabled by default. If you'd prefer to revert to the v2 behavior and _not_ use
+tags, you can pass `false` to the `useTags` option in your {Links.Addon}.
+
+## Excluding Tags
+
+If you'd like to prevent any tags that are created from showing as badges, you can use the
+`excludeTags` option in the `badgesConfig`. By default, the tags that Storybook uses internally are
+excluded (`['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx']`) as they are rarely useful
+to display as badges and control the behavior of Storybook.
+
+```ts
+excludeTags: ['beta'],
+```
+
+If you supply your own value to `excludeTags` it will overwrite the default (as you may _want_ to
+include some/all of these as badges). If you'd like to extend, you can use the `storybookTags`
+export to spread into your custom array:
+
+```ts
+import { storybookTags } from 'storybook-addon-badges';
+
+// In addons.setConfig/parameters
+badgesConfig: {
+  excludeTags: [...storybookTags, 'beta'];
+}
+```

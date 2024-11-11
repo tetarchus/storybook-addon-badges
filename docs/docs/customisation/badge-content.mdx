@@ -1,0 +1,47 @@
+---
+sidebar_position: 3
+title: Badge Content
+description: Customise the displayed text
+---
+
+import { Badge, BadgeFunction, Links } from '@site/src/components';
+
+The text displayed for a badge is controlled by its `title` field.
+
+This accepts either a string to display, or a function that returns a string.
+
+## Title
+
+```ts
+badgeMap: {
+  MyCustomBadge: {
+    title: 'Custom';
+  }
+}
+```
+
+Will result in <Badge content="Custom"/>
+
+## Title Function
+
+The `title` of a `BadgeConfig` also accept a function which must return a string.
+
+<BadgeFunction />
+
+```ts
+badgeMap: {
+  MyCustomBadge: {
+    title: ({ entry }) => (entry.type === 'docs' ? 'Custom Docs' : 'Custom Story');
+  }
+}
+```
+
+Will result in <Badge content="Custom Docs"/> when the badge is displayed on a
+[Docs Page](https://storybook.js.org/docs/writing-docs), and <Badge content="Custom Story"/> when
+dispayed on a story.
+
+## Default Behavior
+
+By default, if a badge does not contain a `title` field, it will return its inferred content. This
+will either be the whole string passed to the `tags`/`badges` array, or a portion of that string if
+using [delimiters](../configuration/badge-content.mdx).

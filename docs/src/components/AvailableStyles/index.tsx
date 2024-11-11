@@ -1,0 +1,145 @@
+import { Color } from '../Color';
+
+const AvailableStyles = () => (
+  <table>
+    <thead>
+      <td>Property</td>
+      <td>
+        Value in <code>default</code>
+      </td>
+      <td>
+        Value in <code>github</code>
+      </td>
+    </thead>
+    <tbody>
+      <tr>
+        <td>backgroundColor</td>
+        <td>
+          <Color color='#EDEFF5' />
+        </td>
+        <td>
+          <Color color='#EDEFF5' />
+        </td>
+      </tr>
+      <tr>
+        <td>borderColor</td>
+        <td>
+          <Color color='#474D66' />
+        </td>
+        <td>
+          <Color color='#474D66' />
+        </td>
+      </tr>
+      <tr>
+        <td>borderRadius</td>
+        <td>
+          <code>3px</code>
+        </td>
+        <td>
+          <code>10px</code>
+        </td>
+      </tr>
+      <tr>
+        <td>borderStyle</td>
+        <td>
+          <code>solid</code>
+        </td>
+        <td>
+          <code>solid</code>
+        </td>
+      </tr>
+      <tr>
+        <td>borderWidth</td>
+        <td>
+          <code>1px</code>
+        </td>
+        <td>
+          <code>1px</code>
+        </td>
+      </tr>
+      <tr>
+        <td>boxShadow</td>
+        <td>
+          <code>none</code>
+        </td>
+        <td>
+          <code>none</code>
+        </td>
+      </tr>
+      <tr>
+        <td>color</td>
+        <td>
+          <Color color='#474D66' />
+        </td>
+        <td>
+          <Color color='#474D66' />
+        </td>
+      </tr>
+      <tr>
+        <td>fontFamily</td>
+        <td>
+          <code>inherit</code>
+        </td>
+        <td>
+          <code>inherit</code>
+        </td>
+      </tr>
+      <tr>
+        <td>fontSize</td>
+        <td>
+          <code>0.625rem</code>
+        </td>
+        <td>
+          <code>0.75rem</code>
+        </td>
+      </tr>
+      <tr>
+        <td>fontWeight</td>
+        <td>
+          <code>bold</code>
+        </td>
+        <td>
+          <code>bold</code>
+        </td>
+      </tr>
+      <tr>
+        <td>lineHeight</td>
+        <td>
+          <code>1</code>
+        </td>
+        <td>
+          <code>1</code>
+        </td>
+      </tr>
+      <tr>
+        <td>paddingBlock</td>
+        <td>
+          <code>2px</code>
+        </td>
+        <td>
+          <code>2px</code>
+        </td>
+      </tr>
+      <tr>
+        <td>paddingInline</td>
+        <td>
+          <code>5px</code>
+        </td>
+        <td>
+          <code>8px</code>
+        </td>
+      </tr>
+      <tr>
+        <td>textTransform</td>
+        <td>
+          <code>uppercase</code>
+        </td>
+        <td>
+          <code>lowercase</code>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+);
+
+export { AvailableStyles };

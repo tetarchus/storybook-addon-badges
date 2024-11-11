@@ -1,0 +1,107 @@
+---
+position: 7
+title: Locations
+description: UI Locations for badges to show
+---
+
+import { Links } from '@site/src/components';
+
+There are several locations in the Storybook UI that badges can appear. You can have badges display
+in any, or all of these locations, or even be dependent on the type of entry (e.g: docs vs story).
+
+## Sidebar
+
+The `sidebar` displays the names of your components and stories. It's also the only place that some
+[entry types](#entry-types) are visible (`root`, `component`, and `group`).
+
+## Toolbar
+
+The `toolbar` is the primary location that badges appear. It is located above `docs` and `story`
+entries.
+
+## Toolbar End
+
+The `toolbar-end` is an additional location on the right end of the main `toolbar`. Badges
+positioned here are usually to the right of the `full screen` button.
+
+## Locations Option
+
+### Addon
+
+The `locations` key of the {Links.Addon} controls the default locations that badges can appear.
+
+It can be:
+
+- a simple array of location names to display all badges without an override in those locations:
+
+```ts
+locations: ['sidebar', 'toolbar'],
+```
+
+- a mapping object where the keys are location names, and the values are a single
+  [entry type](#entry-types) name, an array of [entry types](#entry-types) that are available for
+  that location, or a boolean to enable/disable for all entry types:
+
+```ts
+locations: {
+  sidebar: 'component', // All entry types except `root` can be set
+  toolbar: true,
+  'toolbar-end': ['docs'],
+}
+```
+
+### Badge Config
+
+The `locations` key of a [`Badge Config`](@todo) overrides the default settings for that badge. This
+accepts the same options as the addon, and will apply for that specific badge only. If the string
+array option is passed, the types of component that will display this badge will be based on the
+
+## Separators
+
+You can control how separators appear in any part of the UI. They can be used to separate the badges
+from other parts of the UI, and be used in-between badges if preferred.
+
+The available options for displaying separators are:
+
+- `after`: A separator is added after all badges, to separate the badges from the content after
+  them.
+- `before`: A separator is added before all badges, to separate the badges from the content before
+  them.
+- `wrap`: Separators display before and after badges.
+- `between`: Separators are added between badges, but not at either end.
+- `all`: Separators are added before, after and between all badges.
+- `none`: No separators are added.
+
+Separators can be controlled on a per-location basis, or a single setting for all locations.
+
+```ts
+separators: 'wrap',
+// or
+separators: {
+  sidebar: 'none',
+  toolbar: 'before',
+  'toolbar-end': 'before',
+}
+```
+
+## Entry Types
+
+Storybook has a concept of `entries` which relate to the type of content an item in the sidebar
+contains.
+
+The entry types are:
+
+- `root`: Root entries are essentially categories in the sidebar. They contain `components` and
+  `groups` and are not selectable. This entry type is only visible in the `sidebar` and cannot
+  display badges anywhere else.
+- `group`: Group entries appear as folders in the sidebar by default (unless you've heavily modified
+  your UI). They are a method of sub-categorisation and are not directly selectable as clicking a
+  group will open the group). This entry type is only visible in the `sidebar` and cannot display
+  badges anywhere else.
+- `component`: Component entries contain the `docs` and `story` entries relating to a component.
+  They are not directly selectable, and clicking a `component` will open its first `docs`/`story`
+  entry. This entry type is only visible in the `sidebar` and cannot display badges anywhere else.
+- `docs`: Docs entries contain the documentation for a component. They can be auto-generated with
+  the `autodocs` tag, or written manually. This entry type can have badges in any location.
+- `story`: Story entries contain the actual stories for a component. This entry type can have badges
+  in any location.

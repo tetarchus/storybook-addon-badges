@@ -1,32 +1,41 @@
 ---
 sidebar_position: 3
 title: Pre-defined Badges
+description: The built-in badges available by default
 ---
 
 import { Badge, BADGE } from '@site/src/components';
+import Admonition from '@theme/Admonition';
 
-# Pre-defined Badges
+There are a number of pre-defined badges that come with `storybook-addon-badges`. These come styled
+out of the box, but you can be further [customise](../customisation/badge-style.mdx) the style, or
+[add your own badges](../customisation/custom-badges.mdx).
 
-There are a number of pre-defined badges that come with `storybook-addon-badges`.
+| Badge ID       |          'default' Base Style          |                   'github' Base Style                    |
+| :------------- | :------------------------------------: | :------------------------------------------------------: |
+| default        |    <Badge badge={BADGE.DEFAULT} />     |    <Badge badge={BADGE.DEFAULT} baseStyle="github" />    |
+| a11y_check     |   <Badge badge={BADGE.A11Y_CHECK} />   |  <Badge badge={BADGE.A11Y_CHECK} baseStyle="github" />   |
+| a11y_fail      |   <Badge badge={BADGE.A11Y_FAIL} />    |   <Badge badge={BADGE.A11Y_FAIL} baseStyle="github" />   |
+| a11y_pass      |   <Badge badge={BADGE.A11Y_PASS} />    |   <Badge badge={BADGE.A11Y_PASS} baseStyle="github" />   |
+| beta           |      <Badge badge={BADGE.BETA} />      |      <Badge badge={BADGE.BETA} baseStyle="github"/>      |
+| deprecated     |   <Badge badge={BADGE.DEPRECATED} />   |   <Badge badge={BADGE.DEPRECATED} baseStyle="github"/>   |
+| experimental   |  <Badge badge={BADGE.EXPERIMENTAL} />  |  <Badge badge={BADGE.EXPERIMENTAL} baseStyle="github"/>  |
+| needs_revision | <Badge badge={BADGE.NEEDS_REVISION} /> | <Badge badge={BADGE.NEEDS_REVISION} baseStyle="github"/> |
+| new            |      <Badge badge={BADGE.NEW} />       |      <Badge badge={BADGE.NEW} baseStyle="github"/>       |
+| obsolete       |    <Badge badge={BADGE.OBSOLETE} />    |    <Badge badge={BADGE.OBSOLETE} baseStyle="github"/>    |
+| stable         |     <Badge badge={BADGE.STABLE} />     |     <Badge badge={BADGE.STABLE} baseStyle="github"/>     |
+| updated        |    <Badge badge={BADGE.UPDATED} />     |    <Badge badge={BADGE.UPDATED} baseStyle="github"/>     |
 
-- default <Badge badge={BADGE.DEFAULT} />
-- beta <Badge badge={BADGE.BETA} />
-- stable <Badge badge={BADGE.STABLE} />
-- needs revision <Badge badge={BADGE.NEEDS_REVISION} />
-- obsolete <Badge badge={BADGE.OBSOLETE} />
-- experimental <Badge badge={BADGE.EXPERIMENTAL} />
-- deprecated <Badge badge={BADGE.DEPRECATED} />
-
-:::tip
-`storybook-addon-badges` exports a `BADGE` utility mapping that contains the names of all pre-defined badges and allows for autocomplete with typescript.
+<Admonition type="info">
+`storybook-addon-badges` exports a `BADGE` utility mapping that contains the names of all
+pre-defined badges and allows for autocomplete with typescript.
 
 ```ts
 import { BADGE } from 'storybook-addon-badges';
 
 const Default: Story = {
-  parameters: {
-    badges: [BADGE.BETA]
-  }
-}
+  tags: [BADGE.BETA],
+};
 ```
-:::
+
+</Admonition>

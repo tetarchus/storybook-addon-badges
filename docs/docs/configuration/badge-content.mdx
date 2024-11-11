@@ -1,0 +1,51 @@
+---
+sidebar_position: 5
+title: Badge Content
+description: Controlling the display value of badges
+---
+
+import { Links } from '@site/src/components';
+
+The standard way to specify badges is using a string in the `tags`/`badges` array:
+
+```ts
+tags: ['beta'],
+// or
+tags: [BADGE.BETA], // using the BADGE utility map
+```
+
+When used in this way, the value in the array (`'beta'` in the above example) is used to lookup the
+definition in the {Links.BadgeMap}. If it finds a definition, it will use that to determine the
+appearance of the badge, its content, and where it appears.
+
+## Delimited Badges
+
+Badges can also use a `delimiter` to split the badge up into its ID (used to lookup the definition
+in the `badgeMap`), and its content (the text that is displayed on the badge).
+
+The default delimiter is `':'`, but this can be overridden in:
+
+- The {Links.BadgeMap} to apply to all badges unless overridden
+- A [matcher](./matchers.mdx) to apply to badges found by the matcher
+
+```ts
+// With the default delimiter (':'), this badge:
+tags: ['version:1.0.0']
+
+// Would be turned into:
+badgeId: 'version',
+content: '1.0.0'
+```
+
+The `badgeId` portion is then used to lookup the badge's definition in the {Links.BadgeMap}. The
+`content` part is then passed in to any [`BadgeFunction`](@todo), or displayed in a badge without a
+`title` definition.
+
+### Display Content Only
+
+The `displayContentOnly` setting from the {Links.Addon}, [`BadgeConfig`](@todo), or
+[`matcher`](./matchers) controls whether the `content` passed into [`BadgeFunction`](@todo)s
+contains just the `content` portion, or the whole badge string.
+
+In most cases, you won't need to touch this, unless you'd prefer that the badge displays the whole
+string passed to `tags`/`badges` when using delimiters.

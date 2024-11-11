@@ -1,6 +1,7 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 title: Badge Locations
+description: UI Locations that a badge can appear
 ---
 
 Badges can appear in multiple locations within the Storybook UI. Current available locations are:
@@ -9,57 +10,5 @@ Badges can appear in multiple locations within the Storybook UI. Current availab
 - `toolbar-end` - Display badges at the end of the toolbar, to the right of the full-screen control.
 - `sidebar` - Display badges in the sidebar next to the stories they apply to.
 
-A badge definition can define multiple locations for a badge, and the default locations for all badges to inherit can also be defined in the addon configuration.
-
-## Default locations configuration
-
-To set the locations that apply to all badges, define them in the addon configuration parameter (`badgesConfig`) under `locations`. If a badge definition doesn't define its own `locations`, these will be used instead.
-By default, all badges will show in the `toolbar` area only.
-
-```ts title=".storybook/preview.ts"
-import type { Preview } from '@storybook/[your-framework]';
-import type { NewBadgesConfig } from 'storybook-addon-badges';
-
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badgesConfig: {
-     locations: ['toolbar'],
-      // ...other addon config parameters
-    } satisfies NewBadgesConfig
-  }
-}
-
-export default preview;
-```
-
-If a specific badge needs to override the defaults, you can define `locations` in its configuration object. Note that for badges with no explicit config object, they will use the `default` value.
-
-## Badge-specific locations configuration
-
-To set a specific badge's location, define it under the `locations` key of its config.
-
-```ts title=".storybook/preview.ts"
-import type { Preview } from '@storybook/[your-framework]';
-import type { NewBadgesConfig } from 'storybook-addon-badges';
-
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badgesConfig: {
-     badgeMap: {
-      MyCustomBadge: {
-        locations: ['sidebar'],
-        title: "Custom"
-      }
-     },
-     locations: ['toolbar'],
-      // ...other addon config parameters
-    } satisfies NewBadgesConfig
-  }
-}
-
-export default preview;
-```
+A badge definition can define multiple `locations` for a badge, and the default `locations` for all
+badges to inherit can also be defined in the addon configuration.

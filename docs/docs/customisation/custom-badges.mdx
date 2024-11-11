@@ -1,0 +1,48 @@
+---
+sidebar_position: 1
+title: Custom Badges
+description: Define custom badges
+---
+
+import { BadgeDefinition } from '@site/src/components';
+import Admonition from '@theme/Admonition';
+
+Any string that is passed to `tags`/`badges` will display as a badge, and use the
+[`baseStyle`](../configuration/base-style.mdx) by default. To prevent all badges looking the same,
+you can define your own custom badges, each with their own look.
+
+To add a custom badge, it needs to be defined under the [`badgeMap`](../configuration/badge-map.mdx)
+configuration options.
+
+<BadgeDefinition />
+
+@todo -- remove/reword
+
+<Admonition type="tip">
+Using Preview Config/Parameters?
+Be aware that while `badgesConfig` can be defined at global, component, or story level, the badges defined under `badgesMap` will only apply to the `badges` defined 'below' that level. It is recommended to define the `badgesConfig` parameter at the global level for all badges to ensure consistency.
+
+This does not apply when adding the config to the manager config file, as the config is not
+extendable, and all badges should be defined at the global level.
+
+</Admonition>
+
+## Using the `BADGE` map
+
+`storybook-addon-badges` provides a `BADGE` export that allows using a pre-defined map of the badge
+names to ensure only defined badges are used, and provide completion with typescript.
+
+To allow extending the default `BADGE`, as well as usage within `js` files this is just a simple
+object mapping a key to a string.
+
+To provide your own map, you can either create your own object, or extend the existing one to make
+use of the pre-defined badges.
+
+```ts
+import { BADGE } from 'storybook-addon-badges';
+
+const BADGES = {
+  ...BADGE,
+  MY_CUSTOM_BADGE: 'MyCustomBadge',
+};
+```
