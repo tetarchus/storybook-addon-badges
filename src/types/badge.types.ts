@@ -1,7 +1,7 @@
 import type { BadgeLocations, LocationMap } from './location.types';
 import type { BadgeStyleOrFn, FullBadgeStyleFn } from './style.types';
 import type { TooltipConfig } from './tooltip.types';
-import type { getBadgeContent, getBadgeParts, getBadgeId } from '@/utils';
+import type { getBadgeParts } from '@/utils';
 import type { HashEntry } from 'storybook/internal/manager-api';
 
 /** Function for dynamically creating the badge content. */
@@ -28,12 +28,8 @@ type BadgeFnParameters = {
   content: string;
   /** The {@link HashEntry} item from Storybook that the badge relates to. */
   entry: HashEntry;
-  /** Function for getting just the 'content' of the badge (post-delimiter). */
-  getBadgeContent: ReturnType<typeof getBadgeContent>;
   /** Function for getting both parts of the badge (pre and post delimiter). */
   getBadgeParts: ReturnType<typeof getBadgeParts>;
-  /** Function for getting just the 'badgeId' of the badge (pre-delimiter). */
-  getBadgeId: ReturnType<typeof getBadgeId>;
 };
 
 /** A basic badge definition/configuration object. */

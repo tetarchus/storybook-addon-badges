@@ -35,6 +35,7 @@ import { Testing } from './Testing';
 
 import type {
   A11yState,
+  A11yStatus,
   AddonState,
   BadgeDefinition,
   BadgeLocation,
@@ -337,18 +338,16 @@ class BadgesAddon {
    * @param entry The {@link HashEntry} to check.
    * @returns A boolean indicating whether the `entry` meets the criteria.
    */
-  #checkA11yState(state: 'check' | 'fail' | 'pass', entry: HashEntry): boolean {
+  #checkA11yState(entry: HashEntry): A11yStatus {
     const entryState = this.#getStateForEntry(entry, 'saved');
 
-    switch (state) {
-      case 'check':
-        return (entryState?.a11y?.incomplete ?? 0) > 0;
-      case 'fail':
-        return (entryState?.a11y?.violations ?? 0) > 0;
-      case 'pass':
-        return (entryState?.a11y?.passes ?? 0) > 0;
-      // No  default -- exhaustive
-    }
+    return (entryState?.a11y?.violations ?? 0) > 0
+      ? 'fail'
+      : (entryState?.a11y?.incomplete ?? 0) > 0
+        ? 'incomplete'
+        : (entryState?.a11y?.passes ?? 0) > 0
+          ? 'pass'
+          : null;
   }
 
   /**
@@ -468,13 +467,16 @@ class BadgesAddon {
       if (autobadgeOptions.includes(BADGE.UPDATED) && this.#isUpdated(entry)) {
         auto.push(BADGE.UPDATED);
       }
-      if (autobadgeOptions.includes(BADGE.A11Y_CHECK) && this.#checkA11yState('check', entry)) {
+      if (
+        autobadgeOptions.includes(BADGE.A11Y_CHECK) &&
+        this.#checkA11yState(entry) === 'incomplete'
+      ) {
         auto.push(BADGE.A11Y_CHECK);
       }
-      if (autobadgeOptions.includes(BADGE.A11Y_FAIL) && this.#checkA11yState('fail', entry)) {
+      if (autobadgeOptions.includes(BADGE.A11Y_FAIL) && this.#checkA11yState(entry) === 'fail') {
         auto.push(BADGE.A11Y_FAIL);
       }
-      if (autobadgeOptions.includes(BADGE.A11Y_PASS) && this.#checkA11yState('pass', entry)) {
+      if (autobadgeOptions.includes(BADGE.A11Y_PASS) && this.#checkA11yState(entry) === 'pass') {
         auto.push(BADGE.A11Y_PASS);
       }
       if (autobadgeOptions.includes(BADGE.TEST_FAIL) && this.#checkTestState('fail', entry)) {
@@ -489,7 +491,12 @@ class BadgesAddon {
 
       return auto;
     } else if (typeof autobadges === 'function') {
-      return autobadges({ entry, isNew: this.#isNew(entry), isUpdated: this.#isUpdated(entry) });
+      return autobadges({
+        a11yStatus: this.#checkA11yState(entry),
+        entry,
+        isNew: this.#isNew(entry),
+        isUpdated: this.#isUpdated(entry),
+      });
     }
     return [];
   }

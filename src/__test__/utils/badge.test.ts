@@ -28,7 +28,7 @@ const empty = '';
 const expectedFullId = 'version-1.0.0';
 
 const basicBadgeConfig = {
-  displayContentOnly: false,
+  displayContentOnly: true,
   locations: {
     sidebar: ['component', 'story'],
     toolbar: ['story'],

@@ -38,12 +38,6 @@ addons.register(ADDON_ID, api => {
       ),
     },
   });
-  const addonsConfigPost = addons.getConfig();
-  console.log(
-    'addonsConfigPost',
-    addonsConfigPost,
-    addonsConfigPost.sidebar?.renderLabel?.toString() ?? 'HUH',
-  );
 
   // Register the toolbar addons.
   addons.add(ADDON_ID, {

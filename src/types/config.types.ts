@@ -5,12 +5,23 @@ import type { Matcher } from './matcher.types';
 import type { BaseBadgeStyleOrFn, FullBadgeStyle, FullBadgeStyleFn } from './style.types';
 import type { HashEntry } from 'storybook/internal/manager-api';
 
+/** Status of A11y checks. */
+type A11yStatus = 'fail' | 'incomplete' | 'pass' | null;
 /** Available built-in options for autobadges. */
 type AutobadgesOptions = (typeof AUTOBADGES)[keyof typeof AUTOBADGES];
 /** Custom function for automatically assigning badges. */
 type AutobadgesFn = (params: AutobadgesFnParameters) => string[];
 /** Parameters for a custom autobadges function. */
-type AutobadgesFnParameters = { entry: HashEntry; isNew: boolean; isUpdated: boolean };
+type AutobadgesFnParameters = {
+  /** The status of a11y checks for the story. */
+  a11yStatus: A11yStatus;
+  /** The entry data for the story. */
+  entry: HashEntry;
+  /** Whether the story is new since the last view. */
+  isNew: boolean;
+  /** Whether the story has been updated since the last view. */
+  isUpdated: boolean;
+};
 /** Map of badge configurations to their IDs. */
 type BadgeMap<Keys extends string = string> = Record<Keys, Badge>;
 /** Available positions for the separators in the sidebar/toolbar. */
@@ -44,6 +55,7 @@ type BadgesConfig = {
   /**
    * Whether to display the content part of the badge only. If `false` the output text
    * will include the badgeId. Can be overridden on a per-badge basis.
+   * @default true
    */
   displayContentOnly: boolean;
   /**
@@ -94,6 +106,7 @@ type FullConfig = Required<Omit<BadgesConfig, 'baseStyle' | 'locations'>> & {
 };
 
 export type {
+  A11yStatus,
   AutobadgesFn,
   AutobadgesFnParameters,
   BadgesConfig,

@@ -10,7 +10,7 @@ const defaultConfig: BadgesConfig = {
   badgeMap: defaultBadgeMap,
   baseStyle: 'default',
   delimiter: ':',
-  displayContentOnly: false,
+  displayContentOnly: true,
   excludeTags: ['autodocs', 'dev', 'test', 'attached-mdx', 'unattached-mdx'],
   locations: ['toolbar'],
   matchers: [],

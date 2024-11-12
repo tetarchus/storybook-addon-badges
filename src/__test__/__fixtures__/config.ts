@@ -13,7 +13,7 @@ const fullConfig: FullConfig = {
   badgeMap: testingBadgeMap,
   baseStyle: fullStyle,
   delimiter: DELIMITER,
-  displayContentOnly: false,
+  displayContentOnly: true,
   excludeTags: [],
   locations: fullLocationMap,
   matchers: [], // TODO:

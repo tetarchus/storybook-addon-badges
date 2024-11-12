@@ -1,4 +1,4 @@
-import { getBadgeContent, getBadgeId, getBadgeParts } from '@/utils';
+import { getBadgeParts } from '@/utils';
 
 import { fullLocationMap } from './location';
 import { DELIMITER } from './shared';
@@ -26,7 +26,7 @@ const basicBadgeConfig: Badge = {
 /** Example secondary badge config for use in tests. */
 const secondaryBadgeConfig: Badge = {
   style: { backgroundColor: '#C7AC00' },
-  title: ({ content, getBadgeContent }) => `custom${getBadgeContent(content)}`,
+  title: ({ content, getBadgeParts }) => `custom${getBadgeParts(content).content}`,
 };
 
 /** Example badge function parameters to pass into tested badge functions. */
@@ -34,8 +34,6 @@ const badgeFnParameters: BadgeFnParameters = {
   badgeId: 'Example',
   content: 'Example Badge',
   entry: storyEntry,
-  getBadgeContent: getBadgeContent(DELIMITER),
-  getBadgeId: getBadgeId(DELIMITER),
   getBadgeParts: getBadgeParts(DELIMITER),
 };
 
