@@ -24,7 +24,7 @@ const defaultConfig: BadgesConfig = {
   sidebarDisplayBadges: 'all',
   useBadgeFallback: false,
   useTags: false,
-  warnOnLegacy: true,
+  warnOnLegacyConfig: true,
 } satisfies Required<BadgesConfig>;
 
 export { defaultConfig };

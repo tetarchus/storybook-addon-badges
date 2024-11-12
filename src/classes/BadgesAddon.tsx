@@ -711,7 +711,7 @@ class BadgesAddon {
     if (
       !this.#mocked &&
       !this.#legacyWarningVisible &&
-      config.warnOnLegacy &&
+      config.warnOnLegacyConfig &&
       !this.#savedState.legacyWarningShown
     ) {
       this.#legacyWarningVisible = true;

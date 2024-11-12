@@ -33,7 +33,7 @@ const getFullConfig = (
       sidebarDisplayBadges: config?.sidebarDisplayBadges ?? current?.sidebarDisplayBadges,
       useBadgeFallback: config?.useBadgeFallback ?? current?.useBadgeFallback,
       useTags: config?.useTags ?? current?.useTags,
-      warnOnLegacy: config?.warnOnLegacy ?? current?.warnOnLegacy,
+      warnOnLegacyConfig: config?.warnOnLegacyConfig ?? current?.warnOnLegacyConfig,
     }),
     {} as { [K in keyof BadgesConfig]: BadgesConfig[K] | undefined },
   );
@@ -64,7 +64,7 @@ const getFullConfig = (
       combinedConfigs?.sidebarDisplayBadges ?? defaultConfig.sidebarDisplayBadges,
     useBadgeFallback: combinedConfigs?.useBadgeFallback ?? defaultConfig.useBadgeFallback,
     useTags: combinedConfigs?.useTags ?? defaultConfig.useTags,
-    warnOnLegacy: combinedConfigs?.warnOnLegacy ?? defaultConfig.warnOnLegacy,
+    warnOnLegacyConfig: combinedConfigs?.warnOnLegacyConfig ?? defaultConfig.warnOnLegacyConfig,
   };
 
   return fullConfig;

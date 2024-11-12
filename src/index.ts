@@ -11,9 +11,10 @@ export {
 } from '@/constants';
 
 export type {
+  AutobadgesFnParameters,
   Badge as BadgeConfig,
   BadgeLocation,
-  BadgeMap as BadgesMap,
+  BadgeMap,
   BadgesConfig,
   TooltipConfig,
   TooltipMessageProps,

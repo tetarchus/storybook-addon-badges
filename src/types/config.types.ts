@@ -81,7 +81,7 @@ type BadgesConfig = {
    * Although the warning will only show once in most cases, this will prevent the
    * warning from displaying at all and can be useful for deployed storybooks.
    */
-  warnOnLegacy: boolean;
+  warnOnLegacyConfig: boolean;
 };
 
 /** The fully resolved Addon configuration, including fallback values. */

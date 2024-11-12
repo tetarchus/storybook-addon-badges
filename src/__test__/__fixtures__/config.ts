@@ -28,7 +28,7 @@ const fullConfig: FullConfig = {
   sidebarDisplayBadges: 1,
   useBadgeFallback: true,
   useTags: true,
-  warnOnLegacy: false,
+  warnOnLegacyConfig: false,
 };
 
 /** Expected resolved value for the defaultConfig. */

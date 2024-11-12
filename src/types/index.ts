@@ -7,7 +7,7 @@ export type {
   BadgeTitleFn,
   FullBadgeConfig,
 } from './badge.types';
-export type { BadgeMap, BadgesConfig, FullConfig } from './config.types';
+export type { AutobadgesFnParameters, BadgeMap, BadgesConfig, FullConfig } from './config.types';
 export type {
   BadgeLocation,
   BadgeLocations,
