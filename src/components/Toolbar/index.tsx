@@ -27,7 +27,9 @@ const AddonToolbar: FC<ToolbarProps> = ({
   useEffect(() => {
     if (addonState && !end && !addonState.a11yActive) {
       const hasA11yAddon = sbState.addons?.[EXTERNAL.A11Y.ADDON_ID] != null;
+      const hasTestAddon = sbState.addons?.[EXTERNAL.VITEST.ADDON_ID] != null;
       if (hasA11yAddon) addonState.a11yActive = true;
+      if (hasTestAddon) addonState.testActive = true;
     }
   }, [addonState, end, sbState.addons]);
 

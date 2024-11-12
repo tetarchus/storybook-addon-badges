@@ -35,6 +35,7 @@ const eslintConfig = [
         'error',
         { allowInterfaces: 'with-single-extends' },
       ],
+      '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
       'capitalized-comments': [
         'warn',
         'always',

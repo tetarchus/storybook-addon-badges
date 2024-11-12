@@ -9,4 +9,4 @@ type TooltipMessageProps = Omit<ComponentProps<typeof TooltipMessage>, 'children
 /** Badge tooltip configuration for a badge. */
 type TooltipConfig = TooltipMessageProps | string;
 
-export type { RenderLabelFn, TooltipConfig };
+export type { RenderLabelFn, TooltipConfig, TooltipMessageProps };

@@ -5,9 +5,9 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
     '@storybook/addon-a11y',
     '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
     '@storybook/addon-jest',
     '@storybook/addon-links',
+    '@storybook/experimental-addon-test',
     './local-preset.js',
   ],
   framework: {

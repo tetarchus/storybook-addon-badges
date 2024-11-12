@@ -35,4 +35,4 @@ export type {
   StyleProp,
 } from './style.types';
 export type { TestResult } from './test.types';
-export type { RenderLabelFn, TooltipConfig } from './tooltip.types';
+export type { RenderLabelFn, TooltipConfig, TooltipMessageProps } from './tooltip.types';
