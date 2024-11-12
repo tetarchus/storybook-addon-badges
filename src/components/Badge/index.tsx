@@ -1,23 +1,73 @@
+import { useTheme } from '@storybook/theming';
 import { useMemo } from 'react';
+import { useGlobals } from 'storybook/internal/manager-api';
 
-import { BadgeTooltipWrapper } from '@/components/BadgeTooltipWrapper';
+import { useAddonConfig } from '@/hooks';
+import { getBadgeContent, getBadgeParts, getBadgeId } from '@/utils';
 
+import { BadgeTooltip } from '../BadgeTooltip';
 import { StyledBadge } from './styled';
 
 import type { BadgeProps } from './prop.types';
+import type { BadgeFnParameters } from '@/types';
 import type { FC } from 'react';
 
 /**
- * A single badge component.
+ * A single badge component to convey simple information at a glance.
  */
-const Badge: FC<BadgeProps> = ({ badge }: BadgeProps) => {
-  const Component = useMemo(() => <StyledBadge config={badge}>{badge.title}</StyledBadge>, [badge]);
+const Badge: FC<BadgeProps> = ({ badgeId, config, content, delimiter, entry }: BadgeProps) => {
+  const uiTheme = useTheme();
+  const [{ theme }] = useGlobals();
 
-  return badge.tooltip ? (
-    <BadgeTooltipWrapper tooltip={badge.tooltip}>{Component}</BadgeTooltipWrapper>
+  const { baseStyle } = useAddonConfig();
+
+  /** Parameters passed into dynamic functions. */
+  const badgeFnParams: BadgeFnParameters = useMemo(
+    () => ({
+      entry,
+      content,
+      badgeId,
+      getBadgeContent: getBadgeContent(delimiter),
+      getBadgeParts: getBadgeParts(delimiter),
+      getBadgeId: getBadgeId(delimiter),
+    }),
+    [badgeId, content, delimiter, entry],
+  );
+
+  /** Calculated text content of the badge. */
+  const badgeText = useMemo(() => {
+    if (typeof config.title === 'string') {
+      return config.title;
+    }
+    return config.title(badgeFnParams);
+  }, [badgeFnParams, config]);
+
+  /** Calculated style for the badge. */
+  const badgeStyle = useMemo(() => {
+    const style = typeof config.style === 'function' ? config.style(badgeFnParams) : config.style;
+    return { ...baseStyle, ...style };
+  }, [badgeFnParams, baseStyle, config]);
+
+  /** Main badge content - to display on its own, or wrapped with a tooltip. */
+  const Component = useMemo(
+    () => (
+      <StyledBadge
+        badgeStyle={badgeStyle}
+        hasTooltip={config.tooltip != null}
+        uiTheme={theme || uiTheme['base']}
+      >
+        {badgeText}
+      </StyledBadge>
+    ),
+    [badgeStyle, badgeText, config.tooltip, theme, uiTheme],
+  );
+
+  return config.tooltip ? (
+    <BadgeTooltip tooltip={config.tooltip}>{Component}</BadgeTooltip>
   ) : (
     Component
   );
 };
 
 export { Badge };
+export type { BadgeProps } from './prop.types';

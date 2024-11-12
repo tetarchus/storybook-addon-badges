@@ -1,31 +1,34 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { useStorybookApi, useStorybookState } from 'storybook/internal/manager-api';
 
-import { BADGE_LOCATION } from '@/constants';
-import { useBadgesConfig, useStoryBadges } from '@/hooks';
+import { BADGE_LOCATION, EXTERNAL } from '@/constants';
+import { useAddon } from '@/hooks';
 
 import { Badges } from '../Badges';
 
+import type { ToolbarProps } from './prop.types';
 import type { FC } from 'react';
 
-const LOCATION = BADGE_LOCATION.TOOLBAR;
+const AddonToolbar: FC<ToolbarProps> = ({ end = false }: ToolbarProps) => {
+  const location = end ? BADGE_LOCATION.TOOLBAR_END : BADGE_LOCATION.TOOLBAR;
 
-/**
- * Renders badges in the toolbar.
- */
-const AddonToolbar: FC = () => {
-  const badgesConfig = useBadgesConfig();
-  const storyBadges = useStoryBadges(badgesConfig);
+  const api = useStorybookApi();
+  const addonState = useAddon();
+  const sbState = useStorybookState();
 
-  const badges = storyBadges
-    .map(badge => badgesConfig.getBadgeConfig(badge))
-    .filter(badge => !badge.location || badge.location?.includes(LOCATION));
+  const entry = api.getCurrentStoryData();
 
-  return badges.length ? <Badges badges={badges} location={LOCATION} /> : null;
+  useEffect(() => {
+    if (addonState && !end && !addonState.a11yActive) {
+      const hasA11yAddon = sbState.addons?.[EXTERNAL.A11Y.ADDON_ID] != null;
+      if (hasA11yAddon) addonState.a11yActive = true;
+    }
+  }, [addonState, end, sbState.addons]);
+
+  return <Badges entry={entry} location={location} />;
 };
 
-/**
- * Renders badges in the toolbar.
- */
 const Toolbar = memo(AddonToolbar);
 
 export { Toolbar };
+export type { ToolbarProps } from './prop.types';

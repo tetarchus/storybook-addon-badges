@@ -21,11 +21,22 @@ const eslintConfig = [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  pluginReact.configs.flat['jsx-runtime'],
+  pluginReact.configs.flat?.['jsx-runtime'],
   {
     plugins: { 'react-hooks': pluginReactHooks },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
+    },
+  },
+  {
+    rules: {
+      'capitalized-comments': [
+        'warn',
+        'always',
+        { ignoreConsecutiveComments: true, ignoreInlineComments: false },
+      ],
+      'no-console': ['warn', { allow: ['error', 'info', 'warn'] }],
+      'no-warning-comments': 'warn',
     },
   },
 ];

@@ -22,6 +22,7 @@
       "require": "./dist/index.cjs"
     },
     "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
     "./package.json": "./package.json"
   },
   "files": [
@@ -49,17 +50,24 @@
     "validate": "run-p tsc lint \"test -- --no-watch\""
   },
   "dependencies": {
-    "@storybook/icons": "1.2.12"
+    "@storybook/icons": "1.2.12",
+    "@tetarchus/utils": "0.1.11",
+    "ohash": "1.1.4"
   },
   "devDependencies": {
     "@auto-it/all-contributors": "11.3.0",
     "@auto-it/conventional-commits": "11.3.0",
     "@auto-it/first-time-contributor": "11.3.0",
+    "@chromatic-com/storybook": "3.2.2",
     "@eslint/js": "9.14.0",
+    "@storybook/addon-a11y": "8.4.1",
     "@storybook/addon-essentials": "8.4.2",
     "@storybook/addon-interactions": "8.4.2",
+    "@storybook/addon-jest": "8.4.1",
     "@storybook/addon-links": "8.4.2",
     "@storybook/blocks": "8.4.2",
+    "@storybook/manager-api": "8.4.1",
+    "@storybook/preview-api": "8.4.1",
     "@storybook/react": "8.4.2",
     "@storybook/react-vite": "8.4.2",
     "@storybook/test": "8.4.2",
@@ -70,12 +78,12 @@
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "@vitejs/plugin-react": "4.3.3",
-    "auto": "11.3.0",
+    "auto": "11.2.1",
     "boxen": "8.0.1",
     "dedent": "1.5.3",
     "eslint": "9.14.0",
     "eslint-plugin-react": "7.37.2",
-    "eslint-plugin-react-hooks": "5.1.0-rc-fb9a90fa48-20240614",
+    "eslint-plugin-react-hooks": "5.0.0",
     "globals": "15.12.0",
     "jiti": "2.4.0",
     "npm-run-all2": "7.0.1",
@@ -96,7 +104,7 @@
     "zx": "8.2.2"
   },
   "peerDependencies": {
-    "storybook": "^8.0.0"
+    "storybook": "8.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -106,7 +114,10 @@
       "src/index.ts"
     ],
     "managerEntries": [
-      "src/manager.ts"
+      "src/manager.tsx"
+    ],
+    "previewEntries": [
+      "src/preview.ts"
     ]
   },
   "overrides": {

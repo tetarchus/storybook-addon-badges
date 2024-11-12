@@ -17,7 +17,7 @@ type BundlerConfig = {
 };
 
 export default defineConfig(async options => {
-  // reading the three types of entries from package.json, which has the following structure:
+  // Reading the three types of entries from package.json, which has the following structure:
   // {
   //  ...
   //   "bundler": {
@@ -47,7 +47,7 @@ export default defineConfig(async options => {
 
   const configs: Options[] = [];
 
-  // export entries are entries meant to be manually imported by the user
+  // Export entries are entries meant to be manually imported by the user
   // they are not meant to be loaded by the manager or preview
   // they'll be usable in both node and browser environments, depending on which features and modules they depend on
   if (exportEntries.length) {
@@ -64,7 +64,7 @@ export default defineConfig(async options => {
     });
   }
 
-  // manager entries are entries meant to be loaded into the manager UI
+  // Manager entries are entries meant to be loaded into the manager UI
   // they'll have manager-specific packages externalized and they won't be usable in node
   // they won't have types generated for them as they're usually loaded automatically by Storybook
   if (managerEntries.length) {
@@ -78,7 +78,7 @@ export default defineConfig(async options => {
     });
   }
 
-  // preview entries are entries meant to be loaded into the preview iframe
+  // Preview entries are entries meant to be loaded into the preview iframe
   // they'll have preview-specific packages externalized and they won't be usable in node
   // they'll have types generated for them so they can be imported when setting up Portable Stories
   if (previewEntries.length) {
@@ -95,7 +95,7 @@ export default defineConfig(async options => {
     });
   }
 
-  // node entries are entries meant to be used in node-only
+  // Node entries are entries meant to be used in node-only
   // this is useful for presets, which are loaded by Storybook when setting up configurations
   // they won't have types generated for them as they're usually loaded automatically by Storybook
   if (nodeEntries.length) {
