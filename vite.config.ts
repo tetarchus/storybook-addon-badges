@@ -4,24 +4,27 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
+const isStorybook = process.argv[1]?.endsWith('./storybook');
+const coverage = 80;
+
 // https://vitejs.dev/config/
 const viteConfig = defineConfig({
   plugins: [
     tsconfigPaths(),
     react(),
     storybookTest(),
-    nodePolyfills({
-      globals: { Buffer: false, global: false, process: false },
-      include: ['events'],
-      protocolImports: true,
-    }),
+    !isStorybook &&
+      nodePolyfills({
+        globals: { Buffer: false, global: false, process: false },
+        include: ['events'],
+        protocolImports: true,
+      }),
   ],
   test: {
     name: 'storybook-addon-badges',
     browser: {
       provider: 'playwright',
-      enabled:
-        process.argv[1]?.endsWith('./storybook') || process.env.SBAB_BROWSER_TESTS === 'true',
+      enabled: isStorybook || process.env.SBAB_BROWSER_TESTS === 'true',
       name: 'chromium',
       headless: true,
     },
@@ -30,6 +33,7 @@ const viteConfig = defineConfig({
       allowExternal: true,
       enabled: true,
       exclude: [
+        '.husky',
         '.storybook',
         '.vscode',
         '*.config.{ts,js}',
@@ -50,15 +54,15 @@ const viteConfig = defineConfig({
       reportOnFailure: true,
       reportsDirectory: 'coverage',
       thresholds: {
-        branches: 80,
-        functions: 80,
-        lines: 80,
-        statements: 80,
+        branches: coverage,
+        functions: coverage,
+        lines: coverage,
+        statements: coverage,
       },
     },
     environment: 'jsdom',
     globals: false,
-    exclude: ['coverage', 'dist', '.vscode', 'node_modules', './test/results.json'],
+    exclude: ['coverage', 'dist', '.husky', '.vscode', 'node_modules', './test/results.json'],
     include: ['src/**/*.test.{js,jsx,ts,tsx}'],
     outputFile: { json: './test/results.json' },
     reporters: ['default', 'json'],

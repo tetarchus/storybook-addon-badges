@@ -53,6 +53,7 @@ export default defineConfig(async options => {
   if (exportEntries.length) {
     configs.push({
       ...commonConfig,
+      name: 'exports',
       entry: exportEntries,
       dts: {
         resolve: true,
@@ -70,6 +71,7 @@ export default defineConfig(async options => {
   if (managerEntries.length) {
     configs.push({
       ...commonConfig,
+      name: 'manager',
       entry: managerEntries,
       format: ['esm'],
       target: BROWSER_TARGET,
@@ -84,6 +86,7 @@ export default defineConfig(async options => {
   if (previewEntries.length) {
     configs.push({
       ...commonConfig,
+      name: 'preview',
       entry: previewEntries,
       dts: {
         resolve: true,
@@ -101,6 +104,7 @@ export default defineConfig(async options => {
   if (nodeEntries.length) {
     configs.push({
       ...commonConfig,
+      name: 'node',
       entry: nodeEntries,
       format: ['cjs'],
       target: NODE_TARGET,

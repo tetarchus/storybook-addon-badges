@@ -2,6 +2,7 @@ import { addons, types } from 'storybook/internal/manager-api';
 
 import { BadgesAddon } from '@/classes';
 import { Sidebar, Toolbar } from '@/components';
+import { defaultConfig } from '@/config';
 import {
   ADDON_ID,
   ADDON_TITLE,
@@ -13,7 +14,6 @@ import {
   TOOL_ID,
 } from '@/constants';
 import { BadgesAddonProvider } from '@/contexts';
-import { defaultConfig } from './config';
 
 // Register default config values.
 addons.setConfig({

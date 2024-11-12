@@ -213,7 +213,7 @@ class BadgesAddon {
     }
 
     const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];
-    const storyData = this.#api.getData(entry.id) ?? entry;
+    const storyData = this.#latestIndex.find(index => index.id === entry.id) ?? entry;
 
     const autobadges = this.#getAutoBadges(storyData);
     const parameterBadges = this.#api.getCurrentParameter<string[]>(PARAM_BADGES_KEY) ?? [];

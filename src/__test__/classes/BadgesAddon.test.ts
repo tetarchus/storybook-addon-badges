@@ -81,6 +81,16 @@ describe('BadgesAddon Class', () => {
     expect(badges).toHaveLength(2);
   });
 
+  it('returns badges for children', () => {
+    expect.assertions(1);
+    const addon = new BadgesAddon(mockedApi, true);
+    const badges = addon.getBadgesForEntry(
+      { ...storyEntry, type: 'component', children: ['example-story--primary'] },
+      'sidebar',
+    );
+    expect(badges).toHaveLength(0);
+  });
+
   it('adds a11y state to storage', () => {
     expect.assertions(3);
     // Initialize local storage with a value
@@ -130,5 +140,11 @@ describe('BadgesAddon Class', () => {
         },
       }),
     );
+  });
+
+  it('gets the index of a story item', () => {
+    expect.assertions(1);
+    const addon = new BadgesAddon(mockedApi, true);
+    expect(addon.getIndexForStory(storyEntry.id)).toBe(undefined);
   });
 });

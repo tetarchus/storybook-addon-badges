@@ -15,7 +15,7 @@ const styleKeys = Object.keys(defaultBadgeStyle);
  */
 const isTooltipDefinition = (config: unknown): config is TooltipConfig => {
   if (typeof config === 'string') return true;
-  if (typeof config === 'object' && config != null) {
+  if (typeof config === 'object' && !Array.isArray(config) && config != null) {
     const hasKeys = Object.keys(config).length > 0;
     const hasDesc = 'desc' in config;
     const hasTitle = 'title' in config;
@@ -37,7 +37,7 @@ const isValidStyles = (obj: unknown): obj is RequiredDeep<BadgeStyle> => {
   if (typeof obj === 'function') return true;
   // Otherwise check whether it has style keys
   if (typeof obj === 'object' && obj != null) {
-    if (Object.keys(obj).length > 0) return true;
+    if (Object.keys(obj).length === 0) return true;
 
     for (const key of styleKeys) {
       if (
@@ -79,13 +79,14 @@ const isBadgeConfig = (config: unknown): config is Badge => {
   const hasValidTooltip = 'tooltip' in config && isTooltipDefinition(config.tooltip);
 
   return (
-    !hasKeys ||
-    hasValidStyles ||
-    hasValidTitle ||
-    hasValidTooltip ||
-    hasPriority ||
-    (keyLength === 1 && hasDisplayContentOnly) ||
-    (keyLength === 1 && hasLocations)
+    !Array.isArray(config) &&
+    (!hasKeys ||
+      hasValidStyles ||
+      hasValidTitle ||
+      hasValidTooltip ||
+      hasPriority ||
+      (keyLength === 1 && hasDisplayContentOnly) ||
+      (keyLength === 1 && hasLocations))
   );
 };
 

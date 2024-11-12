@@ -22,7 +22,11 @@ const StorybookManagerMock: Decorator = StoryFn => {
       value={
         {
           api,
-          state: { docsOptions: {}, theme: mockedThemeVars },
+          state: {
+            addons: { 'storybook/a11y': { incomplete: [], passes: [], violations: [] } },
+            docsOptions: {},
+            theme: mockedThemeVars,
+          } as unknown as State,
         } as { api: API; state: State }
       }
     >

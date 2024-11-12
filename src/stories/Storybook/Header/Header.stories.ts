@@ -20,7 +20,7 @@ const LoggedIn: Story = {
   },
 };
 
-const LoggedOut: Story = {};
+const LoggedOut: Story = { tags: ['deprecated'] };
 
 export default meta;
 export { LoggedIn, LoggedOut };

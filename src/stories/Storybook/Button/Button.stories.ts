@@ -15,12 +15,14 @@ const Primary: Story = {
     primary: true,
     label: 'Button',
   },
+  tags: ['beta'],
 };
 
 const Secondary: Story = {
   args: {
     label: 'Button',
   },
+  tags: ['deprecated'],
 };
 
 const Large: Story = {

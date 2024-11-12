@@ -118,7 +118,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "storybook": "8.4.2",
-    "tsup": "8.3.5",
+    "tsup": "8.3.0",
     "type-fest": "4.26.1",
     "typescript": "5.6.3",
     "typescript-eslint": "8.14.0",
@@ -137,13 +137,13 @@
   },
   "bundler": {
     "exportEntries": [
-      "src/index.ts"
+      "./src/index.ts"
     ],
     "managerEntries": [
-      "src/manager.tsx"
+      "./src/manager.tsx"
     ],
     "previewEntries": [
-      "src/preview.ts"
+      "./src/preview.ts"
     ]
   },
   "overrides": {
@@ -162,6 +162,6 @@
       "preact",
       "react-native"
     ],
-    "icon": "https://raw.githubusercontent.com/tetarchus/storybook-addon-badges/main/.github/images/icon.svg"
+    "icon": "https://raw.githubusercontent.com/tetarchus/storybook-addon-badges/main/.github/images/storybook-addon-badges.png"
   }
 }
