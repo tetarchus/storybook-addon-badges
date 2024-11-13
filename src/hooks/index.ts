@@ -1,3 +1,2 @@
-export { useBadgeConfig } from './useBadgeConfig';
-export { useBadgesConfig } from './useBadgesConfig';
-export { useStoryBadges } from './useStoryBadges';
+export { useAddon } from './useAddon';
+export { useAddonConfig } from './useAddonConfig';

@@ -8,7 +8,7 @@ import { resolve } from 'path';
 const config: Config = {
   title: 'Badges - A Storybook that adds badges to your stories.',
   tagline: 'Dinosaurs are cool',
-  favicon: 'img/icon.svg',
+  favicon: 'img/storybook-addon-badges.png',
 
   url: 'https://tetarchus.github.io',
   baseUrl: '/storybook-addon-badges/',
@@ -62,7 +62,7 @@ const config: Config = {
       title: 'Storybook Addon Badges',
       logo: {
         alt: 'Badges Logo',
-        src: 'img/icon.svg',
+        src: 'img/storybook-addon-badges.png',
       },
       items: [
         {

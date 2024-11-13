@@ -1,0 +1,1 @@
+export { BadgesAddon } from './BadgesAddon';

@@ -1,83 +1,254 @@
 ---
 sidebar_position: 2
 title: Add Badges
+description: Add badges to your stories
 ---
 
-# Add Badges
+import { Links } from '@site/src/components';
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-Adding badges is done using the [`parameters`](https://storybook.js.org/docs/api/parameters) feature of Storybook.
+Badges can be added either via a custom parameter, or by leveraging Storybook's
+[`tags`](https://storybook.js.org/docs/writing-stories/tags).
 
-You can add badges to all stories globally, to a component, or to an individual story.
+In either case, `storybook-addon-badges` can display badges for any of the
+[pre-defined badges](./predefined-badges.mdx), [custom badges](../customisation/custom-badges.mdx),
+or any other string which will inherit the
+[default styles](../customisation/badge-style.mdx#available-style-properties) if not found in the
+[`badgeMap`](../configuration/badge-map.mdx).
 
-The `badges` parameter accepts an array of strings relating to badge names. The may be any of the [pre-defined badges](./predefined-badges.mdx), [custom badges](../customisation/create-custom-badges.mdx), or any string which will inherit the [default styles](../customisation/adding-styles.mdx#available-style-properties) if not defined.
+## Adding Badges
 
-:::danger
-`storybook-addon-badges` can currently only read from a single set of parameters, As such, when you set badges on an individual story level, it'll override any other badges defined.
-:::
+The `tags`/`badges` options take an array of badge IDs as strings, which relate to keys in the
+[`badgeMap`](../configuration/badge-map.mdx). The badge ID decides which badge is displayed (and can
+define its style, content and more - see [customising badges](../customisation/custom-badges.mdx)).
 
-## Adding Badges Globally
+Badges can be added globally, to all of a component's stories, or to an individual story. The way
+that badges are [inherited](#badge-inheritance), depends on how they're defined.
 
-To add badges to all stories that don't have their own badges applied, add the `badges` parameter to your `preview` file (this may be called `preview.js`, `preview.jsx`, `preview.ts` or `preview.tsx`).
+## Badge Levels
 
-```ts title=".storybook/preview.ts"
-// Replace `[your-framework]` with the name of your framework
-import type { Preview } from '@storybook/[your-framework]';
+<Tabs groupId='using' queryString='using'>
+  <TabItem default label='Using Tags' value='tags'>
+    ### Adding Global Tags
 
-const preview: Preview = {
-  //...other preview config
-  parameters: {
-    //...other parameters
-    badges: ['beta']
-  }
-}
+    Global tags, that apply to all components and stories unless [overridden](#tag-inheritance), can be set in your Storybook {Links.StorybookPreview} config:
 
-export default preview;
-```
+    ```ts title='.storybook/preview.ts'
+    // Replace [your-renderer] with the renderer you are using (e.g., react, vue3)
+    import { Preview } from '@storybook/[your-renderer]';
 
-:::tip
-You can pass an empty array into the parameters for individual stories to prevent global badges from showing.
-:::
+    const preview: Preview = {
+      // ...other preview config
+      tags: ['autodocs'], // 👈 Global tags go here
+    }
+    ```
 
-## Adding Badges to a Component
+    You may already have an `autodocs` tag present here depending on your configuration. This is ignored by `storybook-addon-badges` by default (as displaying it as a badge is unlikely to be useful). [Ignored tags](../configuration/use-tags.mdx) can be defined in your configuration.
 
-To add badges to all of a component's stories, add the `badges` parameter to the `meta` default export of a story file:
+    ### Adding Component Tags
 
-```ts title="MyComponent.stories.ts"
-// Replace your-framework with the name of your framework
-import type { Meta } from '@storybook/your-framework';
- 
-import { MyComponent } from './MyComponent';
- 
-const meta = {
-  title: 'Path/To/MyComponent',
-  component: MyComponent,
-  parameters: { 
-    badges: ['beta'],
-    //...other parameters
-  },
-} satisfies Meta<typeof MyComponent>;
+    Component tags apply to all stories for a component, and are defined in the [`meta`](https://storybook.js.org/docs/get-started/whats-a-story) for that component:
 
-type Story = StoryObj<typeof meta>;
- 
-export default meta;
-```
+    ```ts title='MyComponent.stories.ts'
+    // Replace [your-framework] with the name of your framework
+    import type { Meta } from '@storybook/[your-framework]';
+
+    import { MyComponent } from './MyComponent';
+
+    const meta = {
+      title: 'Path/To/MyComponent',
+      component: MyComponent,
+      tags: ['deprecated'] // 👈 Component tags go here
+    } satisfies Meta<typeof MyComponent>;
+
+    type Story = StoryObj<typeof meta>;
+
+    export default meta;
+    ```
+
+    Component tags will be merged with global tags, unless [overridden](#tag-inheritance).
+
+    ### Adding Story Tags
+
+    Story tags apply to a single story, and are defined in that story's object:
+
+    ```ts title='MyComponent.stories.ts'
+    //...meta and other stories
+
+    const Default: Story = {
+      args: {
+        //...component props
+      },
+      tags: ['beta'] // 👈 Component tags go here
+    }
+
+    export { Default };
+    ```
+
+  </TabItem>
+  <TabItem default label='Using Parameters' value='badges'>
+
+    You can define badges, and the addon configuration using {Links.StorybookParameters}.
+
+    This is the original method for defining badges for your stories, and allows you to define badges without using tags. This may be useful if you're already using tags for something else and don't want to add [exclusions](../configuration/use-tags.mdx) for tags all your tags. As the `badges` parameter is only used for this addon, there is no potential conflict.
+
+    ### Adding Badges Globally
+
+    <Tabs groupId='config' queryString='config'>
+      <TabItem default label='Manager Config' value='manager'>
+        To add badges to all stories, you can define a `badges` key in your {Links.StorybookManager} config. This will allow these badges to apply to all components/stories, regardless of whether they have their own defined.
+
+        ```ts title='.storybook/manager.ts'
+        import { addons } from '@storybook/addons';
+
+        addons.setConfig({
+          // ...rest of config
+          badges: ['version:1.0.0'],
+        })
+        ```
+      </TabItem>
+      <TabItem label='Preview Config' value='preview'>
+        You can use the {Links.StorybookPreview} configuration file, and set the `badges` parameter.
+
+        <Admonition type='danger'>
+        `storybook-addon-badges` can only read from a single set of parameters at a time (this is a limitation of Storybook). As such, when you set badges on a component/story level, it'll override any other badges defined.
+        </Admonition>
 
 
-## Adding Badges to an individual story
+        ```ts title='.storybook/preview.ts'
+        // Replace `[your-framework]` with the name of your framework
+        import type { Preview } from '@storybook/[your-framework]';
 
-To add badges just for an individual story, add the `badges` parameter to that story's `parameters`:
+        const preview: Preview = {
+          //...other preview config
+          parameters: {
+            //...other parameters
+            badges: ['beta']
+          }
+        }
 
-```ts title="MyComponent.stories.ts"
-//...meta from above snippet
+        export default preview;
+        ```
+
+        <Admonition type='tip'>
+          You can pass an empty array into the parameters for individual stories to prevent global badges defined using a `preview` config from showing.
+        </Admonition>
+      </TabItem>
+    </Tabs>
+
+    ### Adding Badges to a Component
+
+    To add badges to all of a component's stories, add the `badges` parameter to the `meta` default export of a story file:
+
+    ```ts title='MyComponent.stories.ts'
+    // Replace your-framework with the name of your framework
+    import type { Meta } from '@storybook/your-framework';
+
+    import { MyComponent } from './MyComponent';
+
+    const meta = {
+      title: 'Path/To/MyComponent',
+      component: MyComponent,
+      parameters: {
+        badges: ['beta'],
+        //...other parameters
+      },
+    } satisfies Meta<typeof MyComponent>;
+
+    type Story = StoryObj<typeof meta>;
+
+    export default meta;
+    ```
+
+    ### Adding Badges to an individual story
+
+    To add badges just for an individual story, add the `badges` parameter to that story's `parameters`:
+
+    ```ts title='MyComponent.stories.ts'
+    //...meta from above snippet
+
+    const Default: Story = {
+      args: {
+        //...component props
+      },
+      parameters: {
+        badges: ['beta']
+      }
+    }
+
+    export { Default };
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Badge Inheritance
+
+### Tag Inheritance
+
+Tags benefit from a proper inheritance system, where global tags are inherited by all components,
+and component tags are inherited by that component's stories. Sometimes however, you may not want a
+global, or component-level tag to apply to a story.
+
+To remove a tag defined higher up in the chain, you can prefix it with `!`. This tells Storybook to
+remove that tag for items below in the inheritance chain.
+
+```ts title='MyComponent.stories.ts'
+//...meta and other stories
 
 const Default: Story = {
   args: {
     //...component props
   },
-  parameters: {
-    badges: ['beta']
-  }
-}
+  tags: ['!deprecated'], // 👈 Will remove the `deprecated` tag inherited from the component.
+};
+```
 
-export { Default };
+### Parameter Inheritance
+
+Overriding parameters is a little more complex due to how
+[parameter inheritance](https://storybook.js.org/docs/writing-stories/parameters#rules-of-parameter-inheritance)
+works in Storybook.
+
+With parameters, the keys of the parameters objects are merged, so if you define a `badges` key
+further down the inheritance chain, it will overwrite all badges above it. Due to this, if purely
+using `parameters`, you will need to redefine any badges for a component/story if it has its own
+`badges` parameter.
+
+```ts
+// preview.ts
+const Preview = {
+  parameters: {
+    badges: ['beta'], // 👈 This will be inherited by any component/story which
+  }, // doesn't have it's own `badges` parameter.
+};
+
+// MyComponent.stories.ts
+// This component will inherit the global badges
+const meta = {
+  component: MyComponent,
+  title: 'Atoms/My Component',
+};
+
+// MyOtherComponent.stories.ts
+// This component will not the global badges as it defines its own badges
+const meta = {
+  component: MyComponent,
+  title: 'Atoms/My Component',
+  parameters: {
+    badges: ['deprecated'],
+  },
+};
+```
+
+The only exception to this is if you define `global` badges in the {Links.StorybookManager} file, in
+which case they are available to all components/stories even if they have their own `badges`
+parameter. If you wish to override a global badge defined in this way, you can use the same method
+as [overriding tags](#tag-inheritance).
+
+```ts
+// manager.ts
+addons.setConfig({ badges: ['beta'] }); // 👈 These will still be inherited by all components/stories
 ```

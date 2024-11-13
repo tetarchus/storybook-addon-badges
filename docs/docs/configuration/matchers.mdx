@@ -1,0 +1,65 @@
+---
+sidebar_position: 8
+title: Matchers
+description: Use rules to match to defined badges
+---
+
+import { Links } from '@site/src/components';
+
+Matchers give another option to pick badges based on text in the `tags`/`badges` array. It can offer
+additional mapping from multiple `tags` into a single badge.
+
+## Matcher
+
+A `Matcher` contains the following properties:
+
+- `badge`: This can be defined in several ways:
+  - A `badgeId` string that relates to a key in the {Links.BadgeMap}
+  - An object containing:
+    - `id`: The `badgeId` string that relates to a key in the {Links.BadgeMap}
+    - `title`: A [string](../customisation/badge-content.mdx#title) or
+      [function](../customisation/badge-content.mdx#title-function) to override the badge's normal
+      `title` field when matched by this matcher.
+  - A full [`BadgeConfig`](./badge-map.mdx#badge-config)
+- `delimiter`: The delimiter to use when matching the `badgeId` and `content` of the string.
+- `displayContentOnly`: Whether the `content` portion of the badge should just be the part after the
+  `delimiter`(`true`), or include the `badgeId` (`false`).
+- `locations`: The [locations](./locations.mdx) that the badge can appear.
+- `match`: [Patterns](#patterns) to match. This can be a single pattern or an array of patterns.
+  Arrays must match _ALL_ of the patterns to be considered a match.
+
+## Patterns
+
+A pattern is used to check whether a matcher is applied to a badge from the `tags`/`badges` array. A
+pattern can be:
+
+- A `string` which must match the badge text exactly to be applied.
+- A `RegExp` which must match the badge text to be applied.
+- An object containing one, or both of:
+  - `badgeId`: `string` or `RegExp` to match against the `badgeId` portion of the badge text.
+  - `content`: `string` or `RegExp` to match against the `content` portion of the badge text.
+
+```ts
+match: 'beta', // Will match a badge with the text 'beta',
+match: [/^version/ui], // Will match any badge with text starting 'version'
+match: [{badgeId: 'deprecated'}], // Will match any badge with text before the delimiter matching 'deprecated'
+match: [{content: '1.0.0'}], // Will match any badge with text after the delimiter matching '1.0.0',
+match: [{badgeId: /^ver/ui, content: /^1./ui}], // Will match any badge where the id portion starts with 'ver' and the content portion starts with '1.',
+```
+
+## Usage
+
+Matchers allow you to define a single badge type in the {Links.BadgeMap}, and then map several
+different entries in the `tags`/`badges` array to that definition. This can be useful if you're
+using `tags` for something else, but want similar badges to display.
+
+## Use Matcher Badge Fallback
+
+By default, if matchers are defined and none match a badge string, no badge will be displayed as it
+won't fall back to the standard functionality. This allows you to only display defined badges,
+rather than falling back to displaying a default badge for those that are not defined. It also means
+that standard functionality of matching strings to their badge IDs will not work without defining a
+matcher.
+
+If you'd prefer that in the case of no matches, it fell back to the standard functionality, you can
+pass `useMatcherBadgeFallback: true` to the {Links.Addon}.

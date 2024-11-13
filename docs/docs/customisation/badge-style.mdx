@@ -1,0 +1,64 @@
+---
+sidebar_position: 2
+title: Badge Style
+description: Style your badges
+---
+
+import { AvailableStyles, BadgeFunction, Links } from '@site/src/components';
+
+Badges will inherit the {Links.BaseStyle} by default, so any badges that either don't have an entry
+in the {Links.BadgeMap}, or that don't define a `style` key in their definition, will have the same
+look.
+
+To define a custom style for each badge, so that they are easy to tell apart, pass in a `BadgeStyle`
+object to its configuration in the {Links.BadgeMap}. This can be a partial style, and any values not
+provided will fall back to the {Links.baseStyle} values.
+
+The `style` property accepts either an inline [`BadgeStyle`](../getting-started/exports.mdx) object,
+or a function that returns a [`BadgeStyle`](../getting-started/exports.mdx).
+
+## Inline Style
+
+An inline style object can contain any of the [available properties](#available-style-properties).
+Any that are not provided will fall back to the values from {Links.BaseStyle}.
+
+```ts
+badgeMap: {
+  MyCustomBadge: {
+    title: 'My Custom Badge',
+    styles: {
+      backgroundColor: '#00C7AC',
+      borderColor: 'red',
+      color: '#FFFFFF'
+    }
+  }
+},
+```
+
+## Style Function
+
+A style function accepts a `BadgeFnParameters` object as its only parameter and returns a
+[`BadgeStyle`](#available-style-properties). This can be used to adjust the style based on
+information about the story it's being added to:
+
+<BadgeFunction />
+
+```ts
+badgeMap: {
+  MyCustomBadge: {
+    title: 'My Custom Badge',
+    styles: ({ entry }) => ({ backgroundColor: entry.type === 'story' ? '#00C7AC' : '#FFFFFF'});
+  }
+},
+```
+
+## Available Style Properties
+
+The `BadgeStyle` object is a limited subset of CSS properties, if there are any you need simply
+raise a
+[feature request](https://github.com/tetarchus/storybook-addon-badges/issues/new?assignees=&labels=needs+triage%2Cfeature+request&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+).
+
+The available properties (and their values in the
+[built-in styles](../configuration/base-style.mdx)) are:
+
+<AvailableStyles />

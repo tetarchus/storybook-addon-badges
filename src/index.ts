@@ -1,4 +1,4 @@
-export { defaultBadgeConfig, defaultBadgesConfig } from '@/config';
+export { storybookTags } from '@/config';
 export {
   ADDON_ID,
   ADDON_TITLE,
@@ -11,10 +11,11 @@ export {
 } from '@/constants';
 
 export type {
-  BadgeConfig,
+  AutobadgesFnParameters,
+  Badge as BadgeConfig,
   BadgeLocation,
-  BadgesMap,
-  NewBadgesConfig as BadgesConfig,
+  BadgeMap,
+  BadgesConfig,
   TooltipConfig,
   TooltipMessageProps,
 } from '@/types';

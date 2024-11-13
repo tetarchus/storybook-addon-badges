@@ -1,19 +1,22 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
-    '@storybook/addon-links',
+    '@chromatic-com/storybook',
+    '@storybook/addon-a11y',
     '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    '@storybook/addon-jest',
+    '@storybook/addon-links',
+    '@storybook/experimental-addon-test',
     './local-preset.js',
   ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
-  docs: {
-    autodocs: 'tag',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
 };
 
