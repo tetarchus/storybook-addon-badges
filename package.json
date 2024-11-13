@@ -96,7 +96,7 @@
     "@vitest/browser": "2.1.4",
     "@vitest/coverage-v8": "2.1.4",
     "@vitest/ui": "2.1.4",
-    "auto": "11.2.1",
+    "auto": "11.3.0",
     "boxen": "8.0.1",
     "chromatic": "11.16.5",
     "commitizen": "4.3.1",
