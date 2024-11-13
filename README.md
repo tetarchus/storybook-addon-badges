@@ -5,6 +5,10 @@
   <div>
     <a href='https://www.npmjs.com/package/storybook-addon-badges'><img alt='Latest Version' src='https://img.shields.io/npm/v/storybook-addon-badges' /></a>
     <a href='https://github.com/tetarchus/storybook-addon-badges/issues/'><img alt='Open Issues' src='https://img.shields.io/github/issues/tetarchus/storybook-addon-badges' /></a>
+    <a href="https://github.com/tetarchus/storybook-addon-badges/actions/workflows/github-code-scanning/codeql"><img src="https://github.com/tetarchus/storybook-addon-badges/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main" alt="CodeQL status" /></a>
+    <a href="https://codecov.io/gh/tetarchus/storybook-addon-badges" > 
+ <img src="https://codecov.io/gh/tetarchus/storybook-addon-badges/graph/badge.svg?token=AWMAJ5U7B5"/> 
+ </a>
   </div>
 </div>
 
@@ -27,7 +31,7 @@ Version 3 allows for more customization, as well as
 [autobadges](https://tetarchus.github.io/storybook-addon-badges/configuration/autobadges), and can
 now show
 [sidebar badges](https://tetarchus.github.io/storybook-addon-badges/configuration/locations#sidebar)
-for any story!
+for any story, using `tags` or a custom `badges` parameter.
 
 ## Installation
 
