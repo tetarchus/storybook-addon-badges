@@ -69,7 +69,6 @@
     "@commitlint/types": "19.5.0",
     "@eslint/js": "9.14.0",
     "@prettier/plugin-xml": "3.4.1",
-    "@semantic-release/changelog": "6.0.3",
     "@storybook/addon-a11y": "8.4.2",
     "@storybook/addon-essentials": "8.4.2",
     "@storybook/addon-jest": "8.4.2",
