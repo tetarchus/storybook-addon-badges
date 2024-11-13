@@ -130,7 +130,7 @@
     "zx": "8.2.2"
   },
   "peerDependencies": {
-    "storybook": "8.0.0"
+    "storybook": "8.4.2"
   },
   "publishConfig": {
     "access": "public"
