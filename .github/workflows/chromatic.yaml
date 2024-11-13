@@ -1,4 +1,4 @@
-name: Release Storybook Addon
+name: Publish Chromatic Storybook
 
 on:
   push:
@@ -11,10 +11,6 @@ jobs:
       issues: write
 
     runs-on: ubuntu-latest
-    if:
-      "!contains(github.event.head_commit.message, 'ci skip') &&
-      !contains(github.event.head_commit.message, 'skip ci')"
-      # TODO: Check labels?
     steps:
       - uses: actions/checkout@v4
 
@@ -29,9 +25,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm run release
+      - name: Build Addon
+        run: npm run build
+
+      - name: Run Chromatic
+        uses: chromaui/action@v11
+        with:
+          onlyChanged: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
