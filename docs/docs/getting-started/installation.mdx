@@ -1,33 +1,54 @@
 ---
 sidebar_position: 1
 title: Installation
+description: Add `storybook-addon-badges` to Storybook
 ---
 
-# Installation
+import Link from '@docusaurus/Link';
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-You can get up and running with **Badges** with a few simple steps:
+<Tabs>
+  <TabItem default label='Automatic Installation' value='auto' >
+    You can install the addon and add it to your active addons automatically using storybook's [`storybook add`](https://storybook.js.org/docs/api/cli-options#add) option. This will install the addon in a single step:
 
-## Install the addon
+    ```bash npm2yarn
+      npx storybook add storybook-addon-badges
+    ```
 
-```bash npm2yarn
-  npm i -D storybook-addon-badges
-```
+  </TabItem>
+  <TabItem label='Manual Installation' value='manual' >
+        
+    If you'd prefer to install the addon manually, it's a quick, two-step, process:
 
-## Add to your storybook config
+    ### Install the addon
 
-```js title=".storybook/main.ts"
-// Replace [your-framework] with the framework you are using (e.g., react-webpack5, vue3-vite)
-import type { StorybookConfig } from '@storybook/[your-framework]';
+    ```bash npm2yarn
+      npm i -D storybook-addon-badges
+    ```
 
-const config: StorybookConfig = {
-  // ...rest of config
-  addons: [
-    '@storybook/addon-essentials'
-    'storybook-addon-badges', // 👈 register the addon here
-  ],
-};
+    ### Add to your storybook config
 
-export default config;
-```
+    ```js title='.storybook/main.ts'
+    // Replace [your-framework] with the framework you are using (e.g., react-webpack5, vue3-vite)
+    import type { StorybookConfig } from '@storybook/[your-framework]';
 
-By default, no badges will show, so be sure to [add some badges](./add-badges.mdx)!
+    const config: StorybookConfig = {
+      // ...rest of config
+      addons: [
+        '@storybook/addon-essentials'
+        'storybook-addon-badges', // 👈 Register the addon here
+      ],
+    };
+
+    export default config;
+    ```
+
+  </TabItem>
+</Tabs>
+
+<Admonition type='info'>
+  Add Badges By default, no badges will show, so be sure to{' '}
+  <Link to='/getting-started/add-badges'>add some badges</Link>!
+</Admonition>

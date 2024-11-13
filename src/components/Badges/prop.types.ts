@@ -1,17 +1,20 @@
-import type { BadgeLocation, FullBadgeConfig } from '@/types';
+import type { BadgeLocation } from '@/types';
+import type { HashEntry } from 'storybook/internal/manager-api';
 
-/** Props for the BadgesWrapper. */
+/** Props for the styled wrapper component. */
 type BadgesWrapperProps = {
-  /** Where the component is being rendered. */
+  /** The location that the badges are being displayed. */
   location: BadgeLocation;
 };
 
 /** Props for the Badges component. */
 type BadgesProps = {
-  /** The array of badges to display. */
-  badges: FullBadgeConfig[];
-  /** Where the component is being rendered. */
-  location?: BadgeLocation;
+  /** ID to use for tests. */
+  'data-testid'?: string | undefined;
+  /** The {@link HashEntry} item from Storybook that the badges relate to. */
+  entry: HashEntry;
+  /** The location of the badges. */
+  location: BadgeLocation;
 };
 
 export type { BadgesProps, BadgesWrapperProps };

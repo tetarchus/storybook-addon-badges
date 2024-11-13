@@ -1,13 +1,36 @@
-import { SidebarLabel } from './SidebarLabel';
+import { memo, useMemo } from 'react';
 
-import type { API_HashEntry, API_SidebarOptions } from '@storybook/types';
-import type { API } from 'storybook/internal/manager-api';
+import { BADGE_LOCATION } from '@/constants';
+
+import { Badges } from '../Badges';
+import { Label } from './styled';
+
+import type { SidebarProps } from './prop.types';
+import type { FC, ReactNode } from 'react';
+
+const location = BADGE_LOCATION.SIDEBAR;
 
 /**
- * Config object to pass to Storybook's sidebar configuration.
+ * Display component for rendering labels in the Sidebar alongside badges.
  */
-const sidebar: API_SidebarOptions = {
-  renderLabel: (item: API_HashEntry, api: API) => <SidebarLabel api={api} item={item} />,
+const AddonSidebar: FC<SidebarProps> = ({ api, 'data-testid': dataTestId, item, renderLabel }) => {
+  /** The text portion of the label - allowing for custom renderLabel from the user. */
+  const label = useMemo(() => renderLabel?.(item, api) ?? item.name, [api, item, renderLabel]);
+
+  return (
+    <Label data-testid={dataTestId}>
+      {label as ReactNode}
+      <Badges
+        data-testid={dataTestId ? `${dataTestId}-badges` : undefined}
+        entry={item}
+        location={location}
+      />
+    </Label>
+  );
 };
 
-export { sidebar };
+/** Memoised component for rendering labels in the Sidebar alongside badges. */
+const Sidebar = memo(AddonSidebar);
+
+export { Sidebar };
+export type { SidebarProps } from './prop.types';

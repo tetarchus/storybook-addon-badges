@@ -1,0 +1,15 @@
+diff --git a/node_modules/vitest-axe/dist/index.js b/node_modules/vitest-axe/dist/index.js
+index 007c33b..533063a 100644
+--- a/node_modules/vitest-axe/dist/index.js
++++ b/node_modules/vitest-axe/dist/index.js
+@@ -5,9 +5,7 @@ import {
+ 
+ // src/axe.ts
+ import { merge } from "lodash-es";
+-import { createRequire } from "module";
+-var require2 = createRequire(import.meta.url);
+-var axeCore = require2("axe-core");
++import axeCore from 'axe-core';
+ var { configure, run } = axeCore;
+ var AXE_RULES_COLOR = axeCore.getRules(["cat.color"]);
+ function mount(html) {

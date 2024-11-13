@@ -1,0 +1,102 @@
+---
+sidebar_position: 2
+title: Autobadges
+description: Automatically add badges to your stories
+---
+
+import { AutobadgeFunction, ParameterWarning } from '@site/src/components';
+import Admonition from '@theme/Admonition';
+
+Autobadges are a feature that allows for adding badges that don't need to be defined in advance for
+a story.
+
+## Options
+
+The `autobadges` configuration option accepts either an array of
+[built-in autobadges](#array-config), or a function that returns an array of strings which should be
+badges to add to a story.
+
+<ParameterWarning />
+
+### Array Config
+
+To use the built-in autobadges, pass an array of the built-in autobadge names below to the
+`autobadges` config option:
+
+```ts title='.storybook/manager.ts'
+import { addons } from '@storybook/addons';
+
+addons.setConfig({
+  // ...rest of config
+  badgesConfig: {
+    autobadges: ['new', 'a11y-fail']
+  };
+})
+```
+
+There are several autobadges that can be defined by default:
+
+- `new` - Assigned when a new story has been added since the last time you loaded the Storybook.
+- `updated` - Assigned when a story has had args/parameter changes since the last time you loaded
+  the Storybook.
+- `a11y-fail` - When using `storybook-addon-a11y`, this will be added for stories that have a11y
+  violations.
+- `a11y-pass` - When using `storybook-addon-a11y`, this will be added for stories that pass a11y
+  checks with no violations.
+- `a11y-check` - When using `storybook-addon-a11y`, this will be added for stories that have
+  'incomplete' checks from the a11y addon, allowing you to review.
+
+<Admonition type='note'>
+  `storybook-addon-a11y` is currently having some changes made to incorporate with the experimental
+  testing addon. At the moment, the autobadges relating to `a11y` checks can only be generated when
+  you select a story (they will then persist until the next time that story is selected).
+</Admonition>
+
+### Function Config
+
+A function can also be used to configure your own custom autobadges.
+
+<AutobadgeFunction />
+
+`isNew`, `isUpdated` and `a11yStatus` allow you to include logic to apply those built-in badges in
+your custom logic (as a custom function replaces that array).
+
+The `autobadges` function can return an array of any badge IDs (not just the built-in ones), so you
+can define custom badges and use the function to assign any of them based on information about the
+story.
+
+#### Example
+
+```ts
+autobadges: (params: AutobadgesFnParameters) => {
+  const badges: string[] = [];
+
+  // Incorporate logic for built-in autobadges (optional)
+  if (params.isNew) badges.push(BADGE.NEW);
+  if (params.isUpdated) badges.push(BADGE.UPDATED);
+  if (params.a11yStatus === 'pass') badges.push(BADGE.A11Y_PASS);
+  if (params.a11yStatus === 'fail') badges.push(BADGE.A11Y_FAIL);
+  if (params.a11yStatus === 'incomplete') badges.push(BADGE.A11Y_CHECK);
+
+  // Add custom logic based on information about the story.
+  if (params.entry.id.includes('input')) badges.push('form-input');
+
+  return badges;
+};
+```
+
+### Disabing Autobadges
+
+If you don't want to use autobadges, you can pass `false` to the `autobadges` config item. This will
+disable autobadges entirely.
+
+### Additional Options
+
+Autobadges offer some additional configuration options to tweak settings to your liking.
+
+- `markAllAsReadOnDocsView`: (default `true`) Clicking on a component with a docs page will usually
+  select the docs page. As this usually loads all stories on the docs page (at least if using
+  [`autodocs`](https://storybook.js.org/docs/writing-docs/autodocs#set-up-automated-documentation)),
+  all stories will be loaded and any `new`/`updated` badges will be removed (as those stories have
+  now been 'read'). To disable this behavior, and require manually selecting a story to clear the
+  badge, you can pass false to this option.

@@ -1,7 +1,10 @@
-dist/
-node_modules/
-storybook-static/
-build-storybook.log
 .DS_Store
 .env
 .vscode
+build-storybook.log
+coverage
+dist/
+node_modules/
+storybook-static/
+test/results.json
+chromatic.config.json

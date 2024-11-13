@@ -1,31 +1,43 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { useStorybookApi, useStorybookState } from 'storybook/internal/manager-api';
 
-import { BADGE_LOCATION } from '@/constants';
-import { useBadgesConfig, useStoryBadges } from '@/hooks';
+import { BADGE_LOCATION, EXTERNAL } from '@/constants';
+import { useAddon } from '@/hooks';
 
 import { Badges } from '../Badges';
 
+import type { ToolbarProps } from './prop.types';
 import type { FC } from 'react';
 
-const LOCATION = BADGE_LOCATION.TOOLBAR;
-
 /**
- * Renders badges in the toolbar.
+ * Component for displaying badges in one of two locations in the Storybook toolbar.
  */
-const AddonToolbar: FC = () => {
-  const badgesConfig = useBadgesConfig();
-  const storyBadges = useStoryBadges(badgesConfig);
+const AddonToolbar: FC<ToolbarProps> = ({
+  'data-testid': dataTestId,
+  end = false,
+}: ToolbarProps) => {
+  const location = end ? BADGE_LOCATION.TOOLBAR_END : BADGE_LOCATION.TOOLBAR;
 
-  const badges = storyBadges
-    .map(badge => badgesConfig.getBadgeConfig(badge))
-    .filter(badge => !badge.location || badge.location?.includes(LOCATION));
+  const api = useStorybookApi();
+  const addonState = useAddon();
+  const sbState = useStorybookState();
 
-  return badges.length ? <Badges badges={badges} location={LOCATION} /> : null;
+  const entry = api.getCurrentStoryData();
+
+  useEffect(() => {
+    if (addonState && !end && !addonState.a11yActive) {
+      const hasA11yAddon = sbState.addons?.[EXTERNAL.A11Y.ADDON_ID] != null;
+      const hasTestAddon = sbState.addons?.[EXTERNAL.VITEST.ADDON_ID] != null;
+      if (hasA11yAddon) addonState.a11yActive = true;
+      if (hasTestAddon) addonState.testActive = true;
+    }
+  }, [addonState, end, sbState.addons]);
+
+  return <Badges data-testid={dataTestId} entry={entry} location={location} />;
 };
 
-/**
- * Renders badges in the toolbar.
- */
+/** Memoized toolbar display component. */
 const Toolbar = memo(AddonToolbar);
 
 export { Toolbar };
+export type { ToolbarProps } from './prop.types';

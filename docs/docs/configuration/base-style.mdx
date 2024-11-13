@@ -1,0 +1,55 @@
+---
+sidebar_position: 4
+title: Base Style
+description: Default badge styling
+---
+
+import { AvailableStyles, BadgeFunction, Links } from '@site/src/components';
+
+The `baseStyle` property of the {Links.Addon} provides both the style for badges without an entry in
+the {Links.BadgeMap}, and the fallback style for properties that aren't defined in badge configs.
+
+In this way, it helps keep the styles consistent as you can define a `baseStyle`, and then just
+change colours of each badge (although you can also have drastically different styles for each badge
+if you wish!).
+
+## Base Style Name
+
+`storybook-addon-badges` offers `default` and `github` base styles by default. The `baseStyle`
+option accepts either of these as basic string values if you wish to just use the built-in styles
+with no changes (in fact for `default` you don't need to provide any value).
+
+```ts
+baseStyle: 'github',
+```
+
+## Extended Base Style
+
+Alternatively you can pass in your own base style that extends one of the above. In this case,
+`baseStyle` expects an object containing _some_ of the
+[available styles](#available-style-properties). It also requires a `base` property which is a
+string containing the name of a built-in style (`default` or `github`).
+
+```ts
+baseStyle: {
+  base: 'github',
+  borderRadius: '1px'
+}
+```
+
+## Full Style
+
+If you prefer to completely customise your `baseStyle`, you can provide an object containing _all_
+of the [available properties](#available-style-properties). In this case, the `base` key is not
+required, as all properties will have been overridden.
+
+## Function
+
+`baseStyle` also accepts a function that returns any of the above values (base style string,
+extended base style, or a full style).
+
+<BadgeFunction />
+
+## Available Style Properties
+
+<AvailableStyles />
