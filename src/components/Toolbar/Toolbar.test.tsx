@@ -33,5 +33,13 @@ describe('Toolbar Component', () => {
       expect(sidebar).toBeInTheDocument();
       expect(screen.getAllByTestId(`${testId}-badge`)).toHaveLength(Object.keys(BADGE).length);
     });
+
+    it("doesn't display the toolbar end by default", () => {
+      expect.assertions(1);
+
+      render(<Base data-testid={testId} end />);
+      const sidebar = screen.queryByTestId(testId);
+      expect(sidebar).not.toBeInTheDocument();
+    });
   });
 });

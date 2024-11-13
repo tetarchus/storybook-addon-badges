@@ -9,7 +9,7 @@ import type { FullConfig } from '@/types';
 
 /** Example full addon config for use in tests. */
 const fullConfig: FullConfig = {
-  autobadges: ['new'], // TODO: Another with the function
+  autobadges: ['new', 'a11y-check'], // TODO: Another with the function
   badgeMap: testingBadgeMap,
   baseStyle: fullStyle,
   delimiter: DELIMITER,

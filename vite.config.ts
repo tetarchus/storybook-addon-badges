@@ -37,6 +37,7 @@ const viteConfig = defineConfig({
         '.storybook',
         '.vscode',
         '*.config.{ts,js}',
+        '**/*.stories.{ts,tsx}',
         '**/*.types.ts',
         '**/types/*.ts',
         'dist',
