@@ -103,6 +103,10 @@ const config: Config = {
               label: 'Storybook Addons',
               href: 'https://storybook.js.org/addons/storybook-addon-badges',
             },
+            {
+              label: 'Addon Storybook - Chromatic',
+              href: 'https://main--67257b0b5ed50f00618a2c1d.chromatic.com/',
+            },
           ],
         },
       ],

@@ -11,12 +11,6 @@ const releaseConfig = {
       },
     ],
     '@semantic-release/release-notes-generator',
-    [
-      '@semantic-release/changelog',
-      {
-        changelogFile: 'CHANGELOG.md',
-      },
-    ],
     '@semantic-release/github',
     '@semantic-release/npm',
   ],
