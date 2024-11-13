@@ -12,14 +12,6 @@
   </div>
 </div>
 
-<div align='center'>
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-</div>
-
 > [!TIP]
 >
 > For more detailed documentation please see the
@@ -72,24 +64,6 @@ Adding badges is as simple as adding global, component-level, or story-level tag
 
 For details on the methods available to add badges, please see the
 [documentation](https://tetarchus.github.io/storybook-addon-badges/getting-started/add-badges).
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align='center'><a href='https://github.com/tetarchus'><img src='https://avatars.githubusercontent.com/u/8436118?v=4?s=100' width='100px;' alt=''/><br /><sub><b>tetarchus</b></sub></a><br /><a href='#infra-tetarchus' title='Infrastructure (Hosting, Build-Tools, etc)'>🚇</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Code'>💻</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Documentation'>📖</a> <a href='#example-tetarchus' title='Examples'>💡</a> <a href='https://github.com/tetarchus/storybook-addon-badges/commits?author=tetarchus' title='Tests'>⚠️</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Contributing
 
