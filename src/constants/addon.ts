@@ -17,7 +17,7 @@ const PARAM_CONFIG_KEY = 'badgesConfig';
 /** The parameters key containing the badges that apply to a story. */
 const PARAM_BADGES_KEY = 'badges';
 /** Parameter that allows assigning a unique ID to a storybook. */
-const PARAM_STORYBOOK_ID = 'id';
+const PARAM_STORYBOOK_ID = 'storybookId';
 /** Default ID in local storage for the storybook if one is not provided. */
 const DEFAULT_STORYBOOK_ID = 'default';
 

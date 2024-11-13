@@ -10,6 +10,11 @@ import Admonition from '@theme/Admonition';
 Autobadges are a feature that allows for adding badges that don't need to be defined in advance for
 a story.
 
+<Admonition type='info'>
+  If you frequently run multiple Storybooks locally, please see [Running Multiple
+  Storybooks](./running-multiple-storybooks) below.
+</Admonition>
+
 ## Options
 
 The `autobadges` configuration option accepts either an array of
@@ -100,3 +105,22 @@ Autobadges offer some additional configuration options to tweak settings to your
   all stories will be loaded and any `new`/`updated` badges will be removed (as those stories have
   now been 'read'). To disable this behavior, and require manually selecting a story to clear the
   badge, you can pass false to this option.
+
+## Running Multiple Storybooks
+
+Due to how this addon works with autobadges, running multiple storybooks on the same URL (e.g:
+`localhost` in development) may mean that the `new`/`updated` badges display when switching between
+them.
+
+You can get around this by providing an `storybookId` in your manager config:
+
+```ts title='.storybook/manager.ts'
+import { addons } from '@storybook/addons';
+
+addons.setConfig({
+  storybookId: 'my-storybook',
+});
+```
+
+This will ensure that the data is saved against a unique key (otherwise all storybooks will be saved
+against the default key, and can then conflict with each other).
