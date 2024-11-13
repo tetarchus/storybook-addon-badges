@@ -5,8 +5,10 @@ const releaseConfig = {
       '@semantic-release/commit-analyzer',
       {
         releaseRules: [
+          { type: 'chore', release: 'patch' },
           { type: 'feat', release: 'minor' },
           { type: 'fix', release: 'patch' },
+          { type: 'refactor', release: 'patch' },
         ],
       },
     ],
