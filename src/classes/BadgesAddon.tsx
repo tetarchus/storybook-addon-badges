@@ -215,9 +215,9 @@ class BadgesAddon {
     const globalBadges = this.#addonsConfig[PARAM_BADGES_KEY] ?? [];
     const storyData = this.#latestIndex.find(index => index.id === entry.id) ?? entry;
 
-    const autobadges = this.#getAutoBadges(storyData);
+    const autobadges = this.#getAutoBadges(storyData as HashEntry);
     const parameterBadges = this.#api.getCurrentParameter<string[]>(PARAM_BADGES_KEY) ?? [];
-    const storyTags = this.#getTags(storyData);
+    const storyTags = this.#getTags(storyData as HashEntry);
     const { type } = storyData;
 
     const filteredBadges = this.#filterBadges(
