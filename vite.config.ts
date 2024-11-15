@@ -46,6 +46,7 @@ const viteConfig = defineConfig({
         'preset.js',
         'preview.js',
         'scripts',
+        'storybook-static',
         'src/stories',
         '**/__test__',
       ],
